@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Major Compass
 
-## Getting Started
+## Project Links
 
-First, run the development server:
+- **YouTube Walkthrough:** coming soon...
+- **Figma Design:** coming soon...
+- **Live Demo:** coming soon...
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Major Compass** is a web-based AI-powered platform designed to assist high school graduates in choosing a suitable university major. Selecting a college major is a critical and often challenging decision, and this system aims to reduce confusion and uncertainty by providing personalized, data-driven guidance.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The platform analyzes user inputs such as academic interests, GPA, strengths, and future career goals, then combines rule-based logic with AI-assisted conversational guidance to recommend appropriate college majors. An intelligent chatbot powered by the OpenAI API allows users to interactively explore options and receive tailored explanations and breakdowns.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Key Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- AI-powered chatbot for personalized major recommendations
+- Interactive quiz to determine the most suitable majors based on user input and AI analitics
+- Search and sort functionality for exploring available majors
+- Detailed knowledge base for each major, including Required skill, Career prospects and more
+- User authentication with sign up and sign in with email comfirmation and Google account sign up
+- User profiles with the ability to bookmark and save majors
+- Full customization for User profiles like user avatar, info and more
+- Full support for both Arabic and English languages
+- Responsive UI with smooth animations and transitions
+- Real-time notifications and feedback using React Hot Toasts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Screen Shots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+coming soon...
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Technologies Used
+
+- **Frontend Framework:** Next.js
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **Authentication:** NextAuth
+- **Backend & Database:** Supabase
+- **AI Integration:** OpenAI API
+- **UI Utilities:** React Markdown, React Hot Toast, Lucide Icons
+
+---
+
+## Project Structure
+
+coming soon...
+
+---
+
+## System Architecture and Workflow
+
+1. Users register or log in to the platform.
+2. Users complete an interactive quiz providing:
+   - Academic interests
+   - GPA and academic performance
+   - Career goals and preferences
+3. The system processes the input.
+4. The processed data is sent to the AI engine for analysis and explanation.
+5. The AI returns a structured breakdown of suitable university majors.
+6. Users can:
+   - Explore detailed major descriptions
+   - Interact with the chatbot for follow-up questions
+   - Bookmark preferred majors for later review
+   - Chat with a full chat bot about anything
+
+---
+
+## Running the Project Locally
+
+This project is configured to run using the provided Supabase backend configuration.
+
+### Steps
+
+coming soon...
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
