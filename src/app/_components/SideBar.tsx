@@ -19,8 +19,8 @@ const linksClasses =
 
 const sidebarLinks = [
   {
-    label: "All Majors",
-    href: "/majors",
+    label: "Home",
+    href: "/home",
     Icon: Home,
   },
   {

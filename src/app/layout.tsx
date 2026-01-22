@@ -3,6 +3,8 @@ import "@/app/_styles/globals.css";
 import { Header } from "./_components/Header";
 import { Sidebar } from "./_components/SideBar";
 import { SidebarProvider } from "./_context/SideBarContext";
+import AnimatedMain from "./_components/AnimateMain";
+import { Footer } from "./_components/Footer";
 
 export const metadata: Metadata = {
   title: "Major Compass",
@@ -16,11 +18,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="min-h-screen bg-gray-50">
         <SidebarProvider>
           <Header />
-          <Sidebar />
-          {children}
+
+          <div className="flex">
+            <Sidebar />
+            <AnimatedMain>{children}</AnimatedMain>
+          </div>
+
+          <Footer />
         </SidebarProvider>
       </body>
     </html>
