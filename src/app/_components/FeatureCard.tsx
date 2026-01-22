@@ -1,27 +1,30 @@
+import { LucideIcon } from "lucide-react";
+
 interface FeatureCardProps {
-  emoji: string;
+  icon: LucideIcon;
   title: string;
   description: string;
-  gradientFrom: string;
-  gradientTo: string;
-  borderColor: string;
+  iconBgColor: string;
+  iconColor: string;
 }
 
+// Feature Card Component
 function FeatureCard({
-  emoji,
+  icon: Icon,
   title,
   description,
-  gradientFrom,
-  gradientTo,
-  borderColor,
+  iconBgColor,
+  iconColor,
 }: FeatureCardProps) {
   return (
-    <div
-      className={`bg-linear-to-br ${gradientFrom} ${gradientTo} rounded-xl p-6 border ${borderColor}`}
-    >
-      <div className="text-3xl mb-3">{emoji}</div>
-      <h3 className="text-lg mb-2">{title}</h3>
-      <p className="text-sm text-gray-700">{description}</p>
+    <div className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
+      <div
+        className={`w-12 h-12 ${iconBgColor} rounded-lg flex items-center justify-center mb-4`}
+      >
+        <Icon className={`w-6 h-6 ${iconColor}`} />
+      </div>
+      <h3 className="text-xl mb-2">{title}</h3>
+      <p className="text-gray-600">{description}</p>
     </div>
   );
 }

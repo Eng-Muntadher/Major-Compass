@@ -25,7 +25,7 @@ const sidebarLinks = [
   },
   {
     label: "Tips & Advice",
-    href: "/tips",
+    href: "/tips-and-advice",
     Icon: Lightbulb,
   },
   {

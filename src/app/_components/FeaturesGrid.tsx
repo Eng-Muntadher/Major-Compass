@@ -1,4 +1,4 @@
-import FeatureCard from "./FeatureCard";
+import AboutFeatureCard from "./AboutFeatureCard";
 
 // Static data
 const features = [
@@ -44,7 +44,7 @@ function FeaturesGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
       {features.map((feature, index) => (
-        <FeatureCard key={index} {...feature} />
+        <AboutFeatureCard key={index} {...feature} />
       ))}
     </div>
   );

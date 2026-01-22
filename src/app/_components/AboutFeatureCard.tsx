@@ -7,7 +7,7 @@ interface FeatureCardProps {
   borderColor: string;
 }
 
-function FeatureCard({
+function AboutFeatureCard({
   emoji,
   title,
   description,
@@ -26,4 +26,4 @@ function FeatureCard({
   );
 }
 
-export default FeatureCard;
+export default AboutFeatureCard;
