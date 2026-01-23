@@ -25,7 +25,7 @@ function InfoSection({
           <Icon className={`w-6 h-6 ${iconColor}`} />
         </div>
         <div>
-          <h2 className="text-2xl mb-3">{title}</h2>
+          <h2 className="text-2xl mb-3 font-semibold">{title}</h2>
           {children}
         </div>
       </div>
