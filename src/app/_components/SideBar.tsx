@@ -35,7 +35,7 @@ const sidebarLinks = [
   },
   {
     label: "Compare Majors",
-    href: "/compare",
+    href: "/compare-majors",
     Icon: ArrowLeftRight,
   },
   {
