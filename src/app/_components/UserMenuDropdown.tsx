@@ -1,17 +1,12 @@
 import { motion } from "framer-motion";
 import { User, LogOut } from "lucide-react";
 import { dropdownMenu } from "../_styles/animations";
+import Link from "next/link";
 
 interface UserMenuDropdownProps {
   userName: string;
-  onProfileClick: () => void;
-  onSignOut: () => void;
 }
-export function UserMenuDropdown({
-  userName,
-  onProfileClick,
-  onSignOut,
-}: UserMenuDropdownProps) {
+export function UserMenuDropdown({ userName }: UserMenuDropdownProps) {
   return (
     <motion.div
       {...dropdownMenu}
@@ -21,17 +16,14 @@ export function UserMenuDropdown({
         <p className="text-sm text-gray-500">Signed In As</p>
         <p className="truncate">{userName}</p>
       </div>
-      <button
-        onClick={onProfileClick}
+      <Link
+        href="/profile"
         className="w-full px-4 py-2 text-left hover:bg-gray-50 transition-colors flex items-center gap-2"
       >
         <User className="w-4 h-4" />
         Profile
-      </button>
-      <button
-        onClick={onSignOut}
-        className="w-full px-4 py-2 text-left hover:bg-gray-50 transition-colors flex items-center gap-2 text-red-600"
-      >
+      </Link>
+      <button className="w-full px-4 py-2 text-left hover:bg-gray-50 transition-colors flex items-center gap-2 text-red-600">
         <LogOut className="w-4 h-4" />
         Sign Out
       </button>
