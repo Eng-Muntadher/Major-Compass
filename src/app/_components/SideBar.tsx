@@ -30,7 +30,7 @@ const sidebarLinks = [
   },
   {
     label: "Saved Majors",
-    href: "/saved",
+    href: "/browse",
     Icon: Bookmark,
   },
   {
