@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface CTASectionProps {
   isAuthenticated: boolean;
@@ -18,10 +19,13 @@ function CTASection({ isAuthenticated }: CTASectionProps) {
           <ArrowRight className="w-5 h-5" />
         </button>
       ) : (
-        <button className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all inline-flex items-center gap-2">
+        <Link
+          href="/sign-up"
+          className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all inline-flex items-center gap-2"
+        >
           <span>Sign Up</span>
           <ArrowRight className="w-5 h-5" />
-        </button>
+        </Link>
       )}
     </div>
   );

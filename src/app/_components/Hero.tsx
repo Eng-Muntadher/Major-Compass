@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface HeroProps {
   isAuthenticated: boolean;
@@ -27,13 +28,20 @@ export default function Hero({ isAuthenticated }: HeroProps) {
           </button>
         ) : (
           <>
-            <button className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 justify-center">
+            <Link
+              href="/browse"
+              className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 justify-center cursor-pointer"
+            >
               <span>Get Started</span>
               <ArrowRight className="w-5 h-5" />
-            </button>
-            <button className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all">
+            </Link>
+
+            <Link
+              href="/sign-in"
+              className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-200 cursor-pointer transition-all"
+            >
               Sign In
-            </button>
+            </Link>
           </>
         )}
       </div>
