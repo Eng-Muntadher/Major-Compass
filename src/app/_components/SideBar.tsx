@@ -30,7 +30,7 @@ const sidebarLinks = [
   },
   {
     label: "Saved Majors",
-    href: "/browse",
+    href: "/saved-majors",
     Icon: Bookmark,
   },
   {
@@ -99,12 +99,17 @@ export function Sidebar() {
             <h2 className="text-xs uppercase tracking-wider text-gray-500 mb-3 px-2">
               Categories
             </h2>
+
             <div className="space-y-1">
               {categories.map((category) => (
-                <button key={category.id} className={linksClasses}>
+                <Link
+                  href={category.link}
+                  key={category.id}
+                  className={linksClasses}
+                >
                   <span className="text-xl">{category.icon}</span>
                   <span className="text-sm">{category.name}</span>
-                </button>
+                </Link>
               ))}
             </div>
           </div>

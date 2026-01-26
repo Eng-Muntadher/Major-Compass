@@ -1,36 +1,29 @@
-"use client";
-
-import { useState } from "react";
-import { motion } from "framer-motion";
 import { majors } from "../_data/majors";
 import { SortDropdown, SortOption } from "../_components/SortDropdown";
-import { staggerContainer, staggerItem } from "../_styles/animations";
 import { MajorCard } from "../_components/MajorCard";
 import { filterMajorsByCategory } from "../_utils/search";
 import { sortMajors } from "../_utils/SortAndFilter";
+import MajorsAnimatedGrid from "../_components/MajorsAnimatedGrid";
+import MajorAnimatedItem from "../_components/MajorAnimatedItem";
 
-export default function BrowsePage() {
-  const [selectedCategory] = useState("all");
-  const [sortOption, setSortOption] = useState<SortOption>("default");
-  const [savedMajors, setSavedMajors] = useState<string[]>([]);
+interface PageProps {
+  searchParams: Promise<{
+    category?: string;
+    sortOrder?: SortOption;
+  }>;
+}
+
+export default async function BrowsePage({ searchParams }: PageProps) {
+  const { category, sortOrder } = await searchParams;
 
   // Get filtered and sorted majors
   const getFilteredMajors = () => {
     let filtered = majors;
-    filtered = filterMajorsByCategory(filtered, selectedCategory);
-    return sortMajors(filtered, sortOption);
+    filtered = filterMajorsByCategory(filtered, category || "all");
+    return sortMajors(filtered, sortOrder || "default");
   };
 
   const filteredMajors = getFilteredMajors();
-
-  // Event handlers
-  const handleToggleSave = (majorId: string) => {
-    setSavedMajors((prev) =>
-      prev.includes(majorId)
-        ? prev.filter((id) => id !== majorId)
-        : [...prev, majorId],
-    );
-  };
 
   return (
     <section
@@ -50,28 +43,16 @@ export default function BrowsePage() {
       </header>
 
       {/* Sorting controls */}
-      <div className="mb-6">
-        <SortDropdown value={sortOption} onChange={setSortOption} />
-      </div>
+      <SortDropdown />
 
       {/* Results list */}
-      <motion.ul
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        variants={staggerContainer}
-        initial="initial"
-        animate="animate"
-        role="list"
-      >
+      <MajorsAnimatedGrid>
         {filteredMajors.map((major) => (
-          <motion.li key={major.id} variants={staggerItem} role="listitem">
-            <MajorCard
-              major={major}
-              isSaved={savedMajors.includes(major.id)}
-              onToggleSave={handleToggleSave}
-            />
-          </motion.li>
+          <MajorAnimatedItem key={major.id}>
+            <MajorCard major={major} />
+          </MajorAnimatedItem>
         ))}
-      </motion.ul>
+      </MajorsAnimatedGrid>
     </section>
   );
 }

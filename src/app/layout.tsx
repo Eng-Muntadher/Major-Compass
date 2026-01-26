@@ -5,6 +5,7 @@ import { Sidebar } from "./_components/SideBar";
 import { SidebarProvider } from "./_context/SideBarContext";
 import AnimatedMain from "./_components/AnimateMain";
 import { Footer } from "./_components/Footer";
+import AIAssistant from "./_components/AIAssistant";
 
 export const metadata: Metadata = {
   title: "Major Compass",
@@ -24,7 +25,10 @@ export default function RootLayout({
 
           <div className="flex">
             <Sidebar />
-            <AnimatedMain>{children}</AnimatedMain>
+            <AnimatedMain>
+              {children}
+              <AIAssistant />
+            </AnimatedMain>
           </div>
 
           <Footer />

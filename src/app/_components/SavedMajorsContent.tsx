@@ -1,7 +1,9 @@
 import StatsSummary from "./StatsSummary";
-import MajorsGrid from "./MajorsGrid";
 import CompareCTABanner from "./CompareCTABanner";
 import { Major } from "../_data/majors";
+import MajorsAnimatedGrid from "./MajorsAnimatedGrid";
+import MajorAnimatedItem from "./MajorAnimatedItem";
+import { MajorCard } from "./MajorCard";
 
 interface SavedMajorsContentProps {
   majors: Major[];
@@ -24,7 +26,14 @@ export default function SavedMajorsContent({
         averageYears={averageYears}
       />
 
-      <MajorsGrid majors={majors} />
+      {/* Majors list */}
+      <MajorsAnimatedGrid>
+        {majors.map((major) => (
+          <MajorAnimatedItem key={major.id}>
+            <MajorCard major={major} />
+          </MajorAnimatedItem>
+        ))}
+      </MajorsAnimatedGrid>
 
       <CompareCTABanner />
     </div>

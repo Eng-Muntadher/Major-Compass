@@ -6,11 +6,9 @@ import Link from "next/link";
 
 interface MajorCardProps {
   major: Major;
-  isSaved: boolean;
-  onToggleSave: (majorId: string) => void;
 }
 
-export function MajorCard({ major, isSaved, onToggleSave }: MajorCardProps) {
+export function MajorCard({ major }: MajorCardProps) {
   const difficultyColors = {
     Easy: "bg-green-100 text-green-700",
     Medium: "bg-yellow-100 text-yellow-700",
@@ -20,7 +18,7 @@ export function MajorCard({ major, isSaved, onToggleSave }: MajorCardProps) {
 
   return (
     <Link
-      href="sheep"
+      href={`/browse/${major.id}`}
       aria-labelledby={`major-${major.id}-title`}
       className="block bg-white rounded-xl border border-gray-200 overflow-hidden
                  hover:shadow-lg transition-all duration-300 group"
@@ -36,21 +34,13 @@ export function MajorCard({ major, isSaved, onToggleSave }: MajorCardProps) {
         {/* Save button */}
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleSave(major.id);
-          }}
-          className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm cursor-pointer
-                      transition-all ${
-                        isSaved
-                          ? "bg-blue-600 text-white"
-                          : "bg-white/90 text-gray-600 hover:bg-white"
-                      }`}
-          aria-pressed={isSaved}
-          aria-label={isSaved ? "Remove from saved majors" : "Save major"}
+          className="absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm cursor-pointer transition-allbg-white/90 text-gray-600 hover:bg-white"
+
+          // aria-pressed={isSaved}
+          // aria-label={isSaved ? "Remove from saved majors" : "Save major"}
         >
           <BookmarkIcon
-            className={`w-5 h-5 ${isSaved ? "fill-current" : ""}`}
+            // className={`w-5 h-5 ${isSaved ? "fill-current" : ""}`}
             aria-hidden="true"
           />
         </button>

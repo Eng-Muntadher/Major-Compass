@@ -23,41 +23,78 @@ export interface Major {
   demandOutsideIraqLevel?: "Low" | "Medium" | "High";
 }
 
-export const categories = [
-  { id: "all", name: "All Majors", nameArabic: "جميع التخصصات", icon: "📚" },
-  { id: "engineering", name: "Engineering", nameArabic: "الهندسة", icon: "⚙️" },
+export interface MajorCategory {
+  id: string;
+  name: string;
+  nameArabic: string;
+  icon: string;
+  link: string;
+}
+
+export const categories: MajorCategory[] = [
+  {
+    id: "all",
+    name: "All Majors",
+    nameArabic: "جميع التخصصات",
+    icon: "📚",
+    link: "/browse",
+  },
+  {
+    id: "engineering",
+    name: "Engineering",
+    nameArabic: "الهندسة",
+    icon: "⚙️",
+    link: "/browse?category=engineering",
+  },
   {
     id: "medicine",
     name: "Medicine & Health",
     nameArabic: "الطب والصحة",
     icon: "🏥",
+    link: "/browse?category=medicine",
   },
-  { id: "science", name: "Science", nameArabic: "العلوم", icon: "🔬" },
+  {
+    id: "science",
+    name: "Science",
+    nameArabic: "العلوم",
+    icon: "🔬",
+    link: "/browse?category=science",
+  },
   {
     id: "business",
     name: "Business & Economics",
     nameArabic: "الأعمال والاقتصاد",
     icon: "💼",
+    link: "/browse?category=business",
   },
   {
     id: "arts",
     name: "Arts & Humanities",
     nameArabic: "الفنون والعلوم الإنسانية",
     icon: "🎨",
+    link: "/browse?category=arts",
   },
   {
-    id: "it",
+    id: "IT",
     name: "IT & Computer Science",
     nameArabic: "تكنولوجيا المعلومات",
     icon: "💻",
+    link: "/browse?category=IT",
   },
   {
     id: "law",
     name: "Law & Political Science",
     nameArabic: "القانون والعلوم السياسية",
     icon: "⚖️",
+    link: "/browse?category=law",
   },
-  { id: "education", name: "Education", nameArabic: "التربية", icon: "👨‍🏫" },
+  {
+    id: "education",
+    name: "Education",
+    nameArabic: "التربية",
+    icon: "👨‍🏫",
+    link: "/browse?category=education",
+  },
 ];
 
 export const majors: Major[] = [
@@ -65,7 +102,7 @@ export const majors: Major[] = [
     id: "computer-science",
     name: "Computer Science",
     nameArabic: "علوم الحاسوب",
-    category: "it",
+    category: "IT",
     description:
       "Study of computers, algorithms, programming, and computational systems. Learn to design software, solve complex problems, and innovate in technology.",
     minGPA: 85,
@@ -888,7 +925,7 @@ export const majors: Major[] = [
     id: "information-technology",
     name: "Information Technology",
     nameArabic: "تكنولوجيا المعلومات",
-    category: "it",
+    category: "IT",
     description:
       "Manage computer systems, networks, and technical infrastructure. Keep businesses running smoothly through technology.",
     minGPA: 78,
