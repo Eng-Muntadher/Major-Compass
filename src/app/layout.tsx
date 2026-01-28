@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "@/app/_styles/globals.css";
-import { Header } from "./_components/Header";
 import { Sidebar } from "./_components/SideBar";
 import { SidebarProvider } from "./_context/SideBarContext";
 import AnimatedMain from "./_components/AnimateMain";
 import { Footer } from "./_components/Footer";
 import AIAssistant from "./_components/AIAssistant";
+import HeaderServerWrapper from "./_components/HeaderServerWrapper";
 
 export const metadata: Metadata = {
   title: "Major Compass",
@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen bg-gray-50">
         <SidebarProvider>
-          <Header />
+          <HeaderServerWrapper />
 
           <div className="flex">
             <Sidebar />

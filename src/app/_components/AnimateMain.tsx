@@ -13,9 +13,8 @@ export default function AnimatedMain({ children }: AnimatedMainProps) {
   const pathname = usePathname();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" key={pathname}>
       <motion.main
-        key={pathname}
         {...pageTransition}
         className="flex-1 p-4 sm:p-6 lg:p-8 min-h-screen"
       >

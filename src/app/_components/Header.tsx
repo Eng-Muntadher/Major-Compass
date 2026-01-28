@@ -9,15 +9,13 @@ import { SearchBar } from "./SearchBar";
 import { UserMenu } from "./UserMenu";
 import { Logo } from "./Logo";
 import { useSidebar } from "../_context/SideBarContext";
+import { EnglishSearchMajors } from "../_lib/types";
 
-// interface HeaderProps {
-//   onSearch: (query: string) => void;
-//   onMenuToggle: () => void;
-//   isMobileMenuOpen: boolean;
-//   onSelectMajor?: (majorId: string) => void;
-// }
+interface HeaderProps {
+  searchMajors: EnglishSearchMajors[] | null;
+}
 
-export function Header() {
+export function Header({ searchMajors }: HeaderProps) {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isSidebarOpen, toggleSidebar } = useSidebar();
@@ -33,7 +31,10 @@ export function Header() {
           </div>
 
           {/* Center: Search Bar (Desktop) */}
-          <SearchBar className="flex-1 max-w-2xl mx-4 hidden md:block" />
+          <SearchBar
+            searchMajors={searchMajors}
+            className="flex-1 max-w-2xl mx-4 hidden md:block"
+          />
 
           {/* Right: Header Items */}
           <div className="flex items-center gap-2">
@@ -53,7 +54,7 @@ export function Header() {
         {/* Mobile Search Bar */}
         {isSearchExpanded && (
           <div className="pb-4 md:hidden">
-            <SearchBar autoFocus />
+            <SearchBar searchMajors={searchMajors} autoFocus />
           </div>
         )}
       </div>

@@ -1,5 +1,6 @@
 import type { SortOption } from "../_components/SortDropdown";
 import { Major } from "../_data/majors";
+import { MajorEN } from "../_lib/types";
 
 export function filterMajorsByCategory(
   majors: Major[],
@@ -18,15 +19,20 @@ const difficultyOrder: { [key: string]: number } = {
   "Very Hard": 4,
 };
 
-export function sortMajors(majors: Major[], sortOption: SortOption): Major[] {
-  const sorted = [...majors];
+export function sortMajors(
+  majors: MajorEN[] | null,
+  sortOption: SortOption,
+): MajorEN[] | null {
+  const sorted = majors ? [...majors] : null;
+
+  if (sorted === null) return null;
 
   switch (sortOption) {
     case "name-asc":
-      return sorted.sort((a, b) => a.name.localeCompare(b.name));
+      return sorted.sort((a, b) => a.nameEn.localeCompare(b.nameEn));
 
     case "name-desc":
-      return sorted.sort((a, b) => b.name.localeCompare(a.name));
+      return sorted.sort((a, b) => b.nameEn.localeCompare(a.nameEn));
 
     case "difficulty-asc":
       return sorted.sort(

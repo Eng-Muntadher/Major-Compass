@@ -1,11 +1,10 @@
 // app/majors/[majorId]/_components/HeroSection.tsx
 import { BookmarkIcon } from "lucide-react";
 import { ImageWithFallback } from "./ImageWithFallback";
-import { getMajorImage } from "../_utils/images";
-import { Major } from "../_data/majors";
+import { MajorEN } from "../_lib/types";
 
 interface HeroDetailsHeroProps {
-  major: Major;
+  major: MajorEN | null;
 }
 
 function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
@@ -16,10 +15,10 @@ function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
     >
       <div className="relative h-64 bg-linear-to-br from-blue-100 to-purple-100">
         <ImageWithFallback
-          src={getMajorImage(major.id)}
-          alt={`Image of ${major.id}`}
-          className="w-full h-full object-cover"
-          role="presentation"
+          src={major?.imageUrl}
+          alt={major?.nameEn ? `${major.nameEn} major` : "Major image"}
+          className="w-full h-full"
+          objectFit="cover"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
 
@@ -28,17 +27,17 @@ function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
               <h1 id="major-title" className="text-3xl mb-2 font-bold">
-                {major.name}
+                {major?.nameEn}
               </h1>
 
               <p className="text-xl opacity-90" lang="ar">
-                {major.nameArabic}
+                {major?.nameAr}
               </p>
             </div>
 
             <button
               className="p-3 rounded-full hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black/60 cursor-pointer"
-              aria-label={`Bookmark ${major.name}`}
+              aria-label={`Bookmark ${major?.nameEn}`}
             >
               <BookmarkIcon className="w-6 h-6" aria-hidden="true" />
             </button>

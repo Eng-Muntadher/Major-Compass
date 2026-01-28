@@ -1,21 +1,20 @@
-import { Major } from "../_data/majors";
 import { BookmarkIcon, TrendingUp, Clock, Award } from "lucide-react";
 import { ImageWithFallback } from "./ImageWithFallback";
-import { getMajorImage } from "../_utils/images";
 import Link from "next/link";
+import { MajorEN } from "../_lib/types";
 
 interface MajorCardProps {
-  major: Major;
+  major: MajorEN;
 }
 
-export function MajorCard({ major }: MajorCardProps) {
-  const difficultyColors = {
-    Easy: "bg-green-100 text-green-700",
-    Medium: "bg-yellow-100 text-yellow-700",
-    Hard: "bg-orange-100 text-orange-700",
-    "Very Hard": "bg-red-100 text-red-700",
-  };
+const difficultyColors = {
+  Easy: "bg-green-100 text-green-700",
+  Medium: "bg-yellow-100 text-yellow-700",
+  Hard: "bg-orange-100 text-orange-700",
+  "Very Hard": "bg-red-100 text-red-700",
+};
 
+export function MajorCard({ major }: MajorCardProps) {
   return (
     <Link
       href={`/browse/${major.id}`}
@@ -26,8 +25,9 @@ export function MajorCard({ major }: MajorCardProps) {
       {/* Image */}
       <div className="relative h-48 overflow-hidden bg-linear-to-br from-blue-100 to-purple-100">
         <ImageWithFallback
-          src={getMajorImage(major.id)}
-          alt={`Illustration representing ${major.name}`}
+          src={major.imageUrl}
+          alt={major?.nameEn ? `${major.nameEn} major` : "Major image"}
+          objectFit="cover"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
 
@@ -47,8 +47,7 @@ export function MajorCard({ major }: MajorCardProps) {
 
         {/* Difficulty badge */}
         <span
-          className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs
-                      backdrop-blur-sm ${difficultyColors[major.difficulty]}`}
+          className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs backdrop-blur-sm ${difficultyColors[major.difficulty]}`}
         >
           {major.difficulty}
         </span>
@@ -61,9 +60,9 @@ export function MajorCard({ major }: MajorCardProps) {
             id={`major-${major.id}-title`}
             className="text-lg mb-1 group-hover:text-blue-600 transition-colors"
           >
-            {major.name}
+            {major.nameEn}
           </h3>
-          <p className="text-sm text-gray-500">{major.nameArabic}</p>
+          <p className="text-sm text-gray-500">{major.nameAr}</p>
         </header>
 
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -88,7 +87,7 @@ export function MajorCard({ major }: MajorCardProps) {
         {/* Job opportunities */}
         <div className="flex items-center gap-2 mt-3 text-sm text-green-600">
           <TrendingUp className="w-4 h-4" aria-hidden="true" />
-          <span>{major.jobOpportunities.length} career paths</span>
+          <span>{major.jobOpportunities?.length} career paths</span>
         </div>
       </div>
     </Link>

@@ -1,13 +1,10 @@
-interface Major {
-  id: string;
-  name: string;
-}
+import { MajorEN } from "../_lib/types";
 
 interface MajorSelectorProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  majors: Major[];
+  majors: MajorEN[] | null;
   excludeId?: string;
   id: string;
 }
@@ -34,13 +31,13 @@ export default function MajorSelector({
         aria-label={label}
       >
         <option value="">Choose a major...</option>
-        {majors.map((major) => (
+        {majors?.map((major) => (
           <option
             key={major.id}
             value={major.id}
             disabled={major.id === excludeId}
           >
-            {major.name}
+            {major.nameEn}
           </option>
         ))}
       </select>

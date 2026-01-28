@@ -1,10 +1,14 @@
-import { majors } from "../_data/majors";
 import { SortDropdown, SortOption } from "../_components/SortDropdown";
 import { MajorCard } from "../_components/MajorCard";
 import { filterMajorsByCategory } from "../_utils/search";
 import { sortMajors } from "../_utils/SortAndFilter";
 import MajorsAnimatedGrid from "../_components/MajorsAnimatedGrid";
 import MajorAnimatedItem from "../_components/MajorAnimatedItem";
+import { createClient } from "../_lib/supabase";
+import { getMajorsInEnglish } from "../_lib/supabaseHelpers";
+import { MajorEN } from "../_lib/types";
+
+export const revalidate = 60;
 
 interface PageProps {
   searchParams: Promise<{
@@ -16,9 +20,12 @@ interface PageProps {
 export default async function BrowsePage({ searchParams }: PageProps) {
   const { category, sortOrder } = await searchParams;
 
+  const supabase = await createClient();
+  const majors = await getMajorsInEnglish(supabase);
+
   // Get filtered and sorted majors
   const getFilteredMajors = () => {
-    let filtered = majors;
+    let filtered: MajorEN[] | null = majors;
     filtered = filterMajorsByCategory(filtered, category || "all");
     return sortMajors(filtered, sortOrder || "default");
   };
@@ -37,8 +44,8 @@ export default async function BrowsePage({ searchParams }: PageProps) {
         </h2>
 
         <p className="text-gray-600" aria-live="polite">
-          {filteredMajors.length} major
-          {filteredMajors.length !== 1 ? "s" : ""} found
+          {filteredMajors?.length} major
+          {filteredMajors?.length !== 1 ? "s" : ""} found
         </p>
       </header>
 
@@ -47,7 +54,7 @@ export default async function BrowsePage({ searchParams }: PageProps) {
 
       {/* Results list */}
       <MajorsAnimatedGrid>
-        {filteredMajors.map((major) => (
+        {filteredMajors?.map((major) => (
           <MajorAnimatedItem key={major.id}>
             <MajorCard major={major} />
           </MajorAnimatedItem>

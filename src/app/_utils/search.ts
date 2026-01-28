@@ -1,35 +1,42 @@
-import { Major } from "../_data/majors";
+import { EnglishSearchMajors, MajorEN } from "../_lib/types";
 
 /**
  * Filter majors by search query
  * Searches across name (English/Arabic), description, and category
  */
-export function filterMajorsBySearch(majors: Major[], query: string): Major[] {
+export function filterMajorsBySearch(
+  majors: EnglishSearchMajors[] | null,
+  query: string,
+): EnglishSearchMajors[] | null {
   if (!query.trim()) {
     return majors;
   }
 
   const lowerQuery = query.toLowerCase();
 
-  return majors.filter((major) => {
-    return (
-      major.name.toLowerCase().includes(lowerQuery) ||
-      major.nameArabic.includes(query) ||
-      major.description.toLowerCase().includes(lowerQuery) ||
-      major.category.toLowerCase().includes(lowerQuery)
-    );
-  });
+  return majors
+    ? majors?.filter((major) => {
+        return (
+          major.name.toLowerCase().includes(lowerQuery) ||
+          major.category.toLowerCase().includes(lowerQuery)
+        );
+      })
+    : null;
 }
 
 /**
  * Filter majors by category
  */
 export function filterMajorsByCategory(
-  majors: Major[],
+  majors: MajorEN[] | null,
   categoryId: string,
-): Major[] {
+): MajorEN[] | null {
   if (categoryId === "all") {
     return majors;
   }
-  return majors.filter((major) => major.category === categoryId);
+  return majors
+    ? majors.filter(
+        (major) => major.category.toLowerCase() === categoryId.toLowerCase(),
+      )
+    : null;
 }

@@ -2,24 +2,11 @@ import ComparisonTableHeader from "./ComparisonTableHeader";
 import ComparisonRow from "./ComparisonRow";
 import JobOpportunitiesRow from "./JobOpportunitiesRow";
 import SkillsRow from "./SkillsRow";
-
-interface Major {
-  id: string;
-  name: string;
-  nameArabic: string;
-  duration: string;
-  minGPA: number;
-  difficulty: string;
-  averageSalary: string;
-  demandInIraq?: string;
-  demandOutsideIraq?: string;
-  jobOpportunities: string[];
-  skills: string[];
-}
+import { MajorEN } from "../_lib/types";
 
 interface ComparisonTableProps {
-  major1: Major;
-  major2: Major;
+  major1: MajorEN;
+  major2: MajorEN;
 }
 
 export default function ComparisonTable({
@@ -32,14 +19,14 @@ export default function ComparisonTable({
       aria-labelledby="comparison-heading"
     >
       <h2 id="comparison-heading" className="sr-only">
-        Major Comparison: {major1.name} vs {major2.name}
+        Major Comparison: {major1.nameEn} vs {major2.nameEn}
       </h2>
 
       <ComparisonTableHeader
-        major1Name={major1.name}
-        major1NameArabic={major1.nameArabic}
-        major2Name={major2.name}
-        major2NameArabic={major2.nameArabic}
+        major1Name={major1.nameEn}
+        major1NameArabic={major1.nameAr}
+        major2Name={major2.nameEn}
+        major2NameArabic={major2.nameAr}
       />
 
       <div role="table" aria-label="Major comparison details">

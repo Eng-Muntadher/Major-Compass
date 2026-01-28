@@ -1,4 +1,3 @@
-import { Major, majors } from "../../_data/majors";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import MajorDetailsHeroSection from "@/app/_components/MajorDetailsHeroSection";
@@ -14,6 +13,8 @@ import MajorUniversitiesSection from "@/app/_components/MajorUniversitiesSection
 import CommonMistakes from "@/app/_components/CommonMistakes";
 import SimilarMajors from "@/app/_components/SmimilarMajors";
 import AIAnalyzeButton from "@/app/_components/AIAnalyzeButton";
+import { getMajorsInEnglish } from "@/app/_lib/supabaseHelpers";
+import { createClient } from "@/app/_lib/supabase";
 
 interface PageProps {
   params: Promise<{
@@ -21,9 +22,14 @@ interface PageProps {
   }>;
 }
 
+export const revalidate = 60;
+
 export default async function MajorDetail({ params }: PageProps) {
   const { majorId } = await params;
-  const major: Major = majors.find((m) => m.id === majorId) as Major;
+
+  const supabase = await createClient();
+  const majorRaw = await getMajorsInEnglish(supabase, [majorId]);
+  const major = majorRaw?.at(0);
 
   if (!major) {
     return (
@@ -33,9 +39,7 @@ export default async function MajorDetail({ params }: PageProps) {
     );
   }
 
-  const similarMajorsList = majors.filter((m) =>
-    major.similarMajors.includes(m.id),
-  );
+  const similarMajorsList = major.similarMajors;
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -88,7 +92,7 @@ export default async function MajorDetail({ params }: PageProps) {
 
         {/* Similar Majors */}
         {similarMajorsList.length > 0 && (
-          <SimilarMajors majors={similarMajorsList} />
+          <SimilarMajors similarMajorsList={similarMajorsList} />
         )}
       </article>
     </div>

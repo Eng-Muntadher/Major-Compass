@@ -1,12 +1,18 @@
 import { Award } from "lucide-react";
 import Link from "next/link";
-import { Major } from "../_data/majors";
+import { createClient } from "../_lib/supabase";
+import { getSimilarMajorsInEnglish } from "../_lib/supabaseHelpers";
 
 interface SimilarMajorsProps {
-  majors: Major[];
+  similarMajorsList: string[];
 }
 
-function SimilarMajors({ majors }: SimilarMajorsProps) {
+async function SimilarMajors({ similarMajorsList }: SimilarMajorsProps) {
+  const supabase = await createClient();
+  const majors = await getSimilarMajorsInEnglish(supabase, similarMajorsList);
+
+  if (!majors) return null;
+
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 p-6"
@@ -23,13 +29,13 @@ function SimilarMajors({ majors }: SimilarMajorsProps) {
         {majors.map((similarMajor) => (
           <li key={similarMajor.id}>
             <Link
-              href={similarMajor.id}
+              href={`/browse/${similarMajor.id}`}
               className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-              <h3 className="mb-1 font-semibold">{similarMajor.name}</h3>
+              <h3 className="mb-1 font-semibold">{similarMajor.nameEn}</h3>
 
               <p className="text-sm text-gray-500 mb-2" lang="ar">
-                {similarMajor.nameArabic}
+                {similarMajor.nameAr}
               </p>
 
               <div className="flex items-center gap-2 text-sm text-gray-600">

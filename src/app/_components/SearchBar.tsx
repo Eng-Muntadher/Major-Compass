@@ -1,26 +1,31 @@
 import { Search } from "lucide-react";
 import { useState, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
-import { majors } from "../_data/majors";
 import { filterMajorsBySearch } from "../_utils/search";
 import { useClickOutside } from "../_hooks/useClickOutside";
 import { SearchDropdown } from "./SearchDropdown";
+import { EnglishSearchMajors } from "../_lib/types";
 
 interface SearchBarProps {
   className?: string;
   autoFocus?: boolean;
+  searchMajors: EnglishSearchMajors[] | null;
 }
 
 export function SearchBar({
   className = "",
   autoFocus = false,
+  searchMajors,
 }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const filteredMajors = filterMajorsBySearch(majors, searchQuery).slice(0, 8);
+  const filteredMajors = filterMajorsBySearch(searchMajors, searchQuery)?.slice(
+    0,
+    8,
+  );
 
   useClickOutside(
     [dropdownRef, inputRef],

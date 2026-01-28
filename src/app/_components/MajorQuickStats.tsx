@@ -1,6 +1,5 @@
-// app/majors/[majorId]/_components/QuickStats.tsx
 import { Award, Clock, TrendingUp } from "lucide-react";
-import { Major } from "../_data/majors";
+import { MajorEN } from "../_lib/types";
 
 const difficultyColors = {
   Easy: "bg-green-100 text-green-700",
@@ -10,7 +9,7 @@ const difficultyColors = {
 };
 
 interface QuickStatsProps {
-  major: Major;
+  major: MajorEN | null;
 }
 
 function MajorQuickStats({ major }: QuickStatsProps) {
@@ -27,7 +26,7 @@ function MajorQuickStats({ major }: QuickStatsProps) {
             aria-hidden="true"
           />
           <div className="text-sm text-gray-500 mb-1">Min GPA</div>
-          <dd className="text-lg font-semibold">{major.minGPA}%</dd>
+          <dd className="text-lg font-semibold">{major?.minGPA}%</dd>
         </div>
 
         <div className="text-center">
@@ -37,7 +36,7 @@ function MajorQuickStats({ major }: QuickStatsProps) {
             aria-hidden="true"
           />
           <div className="text-sm text-gray-500 mb-1">Duration</div>
-          <dd className="text-lg font-semibold">{major.duration}</dd>
+          <dd className="text-lg font-semibold">{major?.duration}</dd>
         </div>
 
         <div className="text-center">
@@ -48,7 +47,7 @@ function MajorQuickStats({ major }: QuickStatsProps) {
           />
           <div className="text-sm text-gray-500 mb-1">Jobs</div>
           <dd className="text-lg font-semibold">
-            {major.jobOpportunities.length}+
+            {major?.jobOpportunities.length}+
           </dd>
         </div>
 
@@ -56,9 +55,9 @@ function MajorQuickStats({ major }: QuickStatsProps) {
           <dt className="sr-only">Program Difficulty Level</dt>
           <dd>
             <span
-              className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${difficultyColors[major.difficulty]}`}
+              className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${major ? difficultyColors[major.difficulty] : ""}`}
             >
-              {major.difficulty}
+              {major?.difficulty}
             </span>
           </dd>
           <div className="text-sm text-gray-500 mt-1">Difficulty</div>

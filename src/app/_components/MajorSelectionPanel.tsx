@@ -1,12 +1,8 @@
+import { MajorEN } from "../_lib/types";
 import MajorSelector from "./MajorSelector";
 
-interface Major {
-  id: string;
-  name: string;
-}
-
 interface MajorSelectionPanelProps {
-  majors: Major[];
+  majors: MajorEN[] | null;
   major1Id: string;
   major2Id: string;
   onMajor1Change: (id: string) => void;

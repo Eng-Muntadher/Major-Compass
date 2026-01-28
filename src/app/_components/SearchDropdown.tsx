@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import { Major } from "../_data/majors";
 import { dropdownMenu } from "../_styles/animations";
+import Link from "next/link";
+import { EnglishSearchMajors } from "../_lib/types";
 
 interface SearchDropdownProps {
-  majors: Major[];
+  majors: EnglishSearchMajors[] | null | undefined;
   onMajorClick: (majorId: string) => void;
 }
 
 export function SearchDropdown({ majors, onMajorClick }: SearchDropdownProps) {
-  const hasResults = majors.length > 0;
+  const hasResults = majors ? majors.length > 0 : null;
 
   return (
     <motion.div
@@ -17,12 +18,12 @@ export function SearchDropdown({ majors, onMajorClick }: SearchDropdownProps) {
     >
       {hasResults ? (
         <>
-          {majors.map((major) => (
-            <button
+          {majors?.map((major) => (
+            <Link
+              href={`/browse/${major.id}`}
               key={major.id}
-              type="button"
               onClick={() => onMajorClick(major.id)}
-              className="w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
+              className="w-full block px-4 py-3 text-left hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
             >
               <div className="flex items-center gap-3">
                 <div className="flex-1 min-w-0">
@@ -34,7 +35,7 @@ export function SearchDropdown({ majors, onMajorClick }: SearchDropdownProps) {
                   </div>
                 </div>
               </div>
-            </button>
+            </Link>
           ))}
         </>
       ) : (
