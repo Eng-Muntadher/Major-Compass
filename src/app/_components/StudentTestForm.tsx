@@ -109,6 +109,7 @@ export default function StudentTestForm({
         options={[
           { value: "yes", label: "Yes" },
           { value: "no", label: "No" },
+          { value: "no-preference", label: "No preference" },
         ]}
         required
       />

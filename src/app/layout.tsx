@@ -6,6 +6,7 @@ import AnimatedMain from "./_components/AnimateMain";
 import { Footer } from "./_components/Footer";
 import AIAssistant from "./_components/AIAssistant";
 import HeaderServerWrapper from "./_components/HeaderServerWrapper";
+import { ToastProvider } from "./_components/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Major Compass",
@@ -32,6 +33,7 @@ export default function RootLayout({
           </div>
 
           <Footer />
+          <ToastProvider />
         </SidebarProvider>
       </body>
     </html>

@@ -1,57 +1,48 @@
-"use client";
-
-import { majors } from "../_data/majors";
-import { useState } from "react";
+import { redirect } from "next/navigation";
+import { createClient } from "../_lib/supabase";
 import ProfileHeader from "../_components/ProfileHeader";
 import SavedMajorsSection from "../_components/SavedMajorsSection";
 import RecentlyViewedSection from "../_components/RecentlyViewedSection";
 
-export default function UserProfile() {
-  const [isEditing, setIsEditing] = useState(false);
-  const [userName, setUserName] = useState("Demo Student");
-  const [userEmail, setUserEmail] = useState("example@example.com");
-  const [userGrade, setUserGrade] = useState("Fourth");
+export default async function UserProfile() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const savedMajorsList = [majors[0], majors[1]];
-  const recentlyViewedList = [majors[0], majors[1]];
+  if (!user) {
+    redirect("/sign-in");
+  }
 
-  const handleSave = () => {
-    // Save user data logic here
-    setIsEditing(false);
-  };
+  // Get user's profile data
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
 
-  const handleCancel = () => {
-    // Reset any unsaved changes
-    setIsEditing(false);
-  };
-
-  const handleToggleSave = (id: string) => {
-    // Toggle save status
-    console.log("Toggle save:", id);
-  };
+  if (error || !profile) {
+    console.error("Error fetching profile:", error);
+    return (
+      <div className="container mx-auto p-6">
+        <h1 className="text-2xl font-bold mb-4">Profile Not Found</h1>
+        <p>Please contact support.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto">
       <ProfileHeader
-        userName={userName}
-        userGrade={userGrade}
-        email={userEmail}
-        savedCount={savedMajorsList.length}
-        isEditing={isEditing}
-        onEditClick={() => setIsEditing(true)}
-        onSave={handleSave}
-        onCancel={handleCancel}
-        onUserNameChange={setUserName}
-        onEmailChange={setUserEmail}
-        onGradeChange={setUserGrade}
+        username={profile?.username}
+        email={profile?.email}
+        bookmarksCount={profile?.bookmarks.length}
+        grade={profile?.grade || "Set up your grade"}
+        avatarUrl={profile?.avatar_url}
       />
 
-      <SavedMajorsSection
-        majors={savedMajorsList}
-        onToggleSave={handleToggleSave}
-      />
-
-      <RecentlyViewedSection majors={recentlyViewedList} />
+      <SavedMajorsSection />
+      <RecentlyViewedSection />
     </div>
   );
 }

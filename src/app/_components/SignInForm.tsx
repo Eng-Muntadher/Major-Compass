@@ -2,55 +2,21 @@
 
 import { Lock, LogIn, Mail } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import FormInputField from "./FormInputField";
-import FormErrorAlert from "./FormErrorAlert";
+import { continueWithGoogle, signInWithEmail } from "../actions";
+import toast from "react-hot-toast";
+import SubmitButton from "./SubmitButton";
+import GoogleSignUpButton from "./GoogleSignUpButton";
 
 function SignInForm() {
-  const [formState, setFormState] = useState({
-    email: "",
-    password: "",
-    error: "",
-    loading: false,
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    setFormState((prev) => ({ ...prev, error: "", loading: true }));
-
-    const { email, password } = formState;
-
-    // Validation
-    if (!email || !password) {
-      setFormState((prev) => ({
-        ...prev,
-        error: "Please fill in all fields",
-        loading: false,
-      }));
-      return;
-    }
-
-    if (password.length < 6) {
-      setFormState((prev) => ({
-        ...prev,
-        error: "Password must be at least 6 characters",
-        loading: false,
-      }));
-      return;
-    }
-
-    // Simulate API call
-    setTimeout(() => {
-      setFormState((prev) => ({ ...prev, loading: false }));
-    }, 2000);
-  };
-
   return (
     <form
-      onSubmit={handleSubmit}
+      action={async (formData) => {
+        const result = await signInWithEmail(formData);
+        if (result.success) toast.success(result.message);
+        else toast.error(result.message);
+      }}
       aria-labelledby="sign-in-heading"
-      aria-busy={formState.loading}
       className="space-y-6 rounded-2xl shadow-xl p-8 border border-gray-100"
     >
       {/* For accessibility */}
@@ -62,12 +28,9 @@ function SignInForm() {
       <div>
         <FormInputField
           id="email"
+          name="email"
           label="Email"
           type="email"
-          value={formState.email}
-          onChange={(value) =>
-            setFormState((prev) => ({ ...prev, email: value }))
-          }
           icon={Mail}
         />
       </div>
@@ -77,30 +40,33 @@ function SignInForm() {
         <div className="relative">
           <FormInputField
             id="password"
+            name="password"
             label="Password"
             type="password"
-            value={formState.password}
-            onChange={(value) =>
-              setFormState((prev) => ({ ...prev, password: value }))
-            }
             icon={Lock}
             placeholder="••••••••"
           />
         </div>
       </div>
 
-      {/* Error Message */}
-      <FormErrorAlert message={formState.error} />
-
       {/* Submit Button */}
-      <button
-        type="submit"
-        disabled={formState.loading}
-        className="w-full bg-linear-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
-      >
-        <LogIn className="w-5 h-5" />
-        <span>Sign In</span>
-      </button>
+      <SubmitButton type="submit">
+        <LogIn className="w-5 h-5" aria-hidden="true" />
+        <span>Sign Up</span>
+      </SubmitButton>
+
+      {/* FormDivider */}
+      <div className="flex items-center gap-4 my-6" role="separator">
+        <div className="flex-1 h-px bg-gray-200"></div>
+        <span className="text-sm text-gray-500">or</span>
+        <div className="flex-1 h-px bg-gray-200"></div>
+      </div>
+
+      {/* Google Sign up */}
+      <GoogleSignUpButton
+        text="Continue with Google"
+        onClick={continueWithGoogle}
+      />
 
       {/* Switch to Sign Up */}
       <div className="mt-6 text-center">

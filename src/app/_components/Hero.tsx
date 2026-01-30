@@ -22,10 +22,13 @@ export default function Hero({ isAuthenticated }: HeroProps) {
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         {isAuthenticated ? (
-          <button className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 justify-center">
+          <Link
+            href="/browse"
+            className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 justify-center"
+          >
             <span>Explore Majors</span>
             <ArrowRight className="w-5 h-5" />
-          </button>
+          </Link>
         ) : (
           <>
             <Link

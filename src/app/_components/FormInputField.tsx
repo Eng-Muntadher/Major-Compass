@@ -4,8 +4,9 @@ interface FormInputFieldProps {
   id: string;
   label: string;
   type: "text" | "email" | "password";
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  name: string;
+  onChange?: (value: string) => void;
   icon: LucideIcon;
   placeholder?: string;
   required?: boolean;
@@ -18,6 +19,7 @@ export default function FormInputField({
   value,
   onChange,
   icon: Icon,
+  name,
   placeholder,
   required = false,
 }: FormInputFieldProps) {
@@ -41,7 +43,8 @@ export default function FormInputField({
           id={id}
           type={type}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          name={name}
+          onChange={(e) => (onChange ? onChange(e.target.value) : () => {})}
           className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
           placeholder={placeholder}
           required={required}

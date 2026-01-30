@@ -34,16 +34,16 @@ export default function ProfileInfoSection({
       aria-label="Profile information"
     >
       <ProfileInfoCard
-        icon={<Mail className="w-4 h-4" />}
+        icon={Mail}
         label="Email"
         value={email}
-        isEditing={isEditing}
+        isEditing={false}
         inputType="email"
         onChange={onEmailChange}
       />
 
       <ProfileInfoCard
-        icon={<GraduationCap className="w-4 h-4" />}
+        icon={GraduationCap}
         label="Grade"
         value={grade}
         isEditing={isEditing}
@@ -53,7 +53,7 @@ export default function ProfileInfoSection({
       />
 
       <ProfileInfoCard
-        icon={<BookmarkIcon className="w-4 h-4" />}
+        icon={BookmarkIcon}
         label="Saved Majors"
         value={savedCount}
         isEditing={false}

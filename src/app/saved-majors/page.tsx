@@ -2,8 +2,19 @@ import { majors } from "../_data/majors";
 import SavedMajorsHeader from "../_components/SavedMajorsHeader";
 import SavedMajorsContent from "../_components/SavedMajorsContent";
 import EmptySavedState from "../_components/EmptySavedState";
+import { redirect } from "next/navigation";
+import { createClient } from "../_lib/supabase";
 
-export default function SavedMajors() {
+export default async function SavedMajors() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
+
   const savedMajorIds = ["computer-science", "civil-engineering"];
 
   const savedMajors = majors.filter((major) =>

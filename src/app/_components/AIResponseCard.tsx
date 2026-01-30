@@ -1,48 +1,11 @@
+import ReactMarkdown from "react-markdown";
 import { Bot, Loader2 } from "lucide-react";
 import Card from "../_components/Card";
 
 interface AIResponseCardProps {
   loading: boolean;
-  response: string;
+  response: string | null;
 }
-
-const formatResponse = (text: string) => {
-  const lines = text.split("\n");
-  return lines.map((line, index) => {
-    if (line.startsWith("## ")) {
-      return (
-        <h2 key={index} className="text-2xl font-semibold mt-6 mb-3">
-          {line.substring(3)}
-        </h2>
-      );
-    }
-    if (line.includes("**")) {
-      const parts = line.split("**");
-      return (
-        <p key={index} className="mb-2">
-          {parts.map((part, i) =>
-            i % 2 === 1 ? <strong key={i}>{part}</strong> : part,
-          )}
-        </p>
-      );
-    }
-    if (line.startsWith("• ")) {
-      return (
-        <li key={index} className="ml-6 mb-2">
-          {line.substring(2)}
-        </li>
-      );
-    }
-    if (line.trim()) {
-      return (
-        <p key={index} className="mb-2">
-          {line}
-        </p>
-      );
-    }
-    return <br key={index} />;
-  });
-};
 
 export default function AIResponseCard({
   loading,
@@ -90,8 +53,8 @@ export default function AIResponseCard({
             </p>
           </div>
         ) : (
-          <div className="prose prose-blue max-w-none">
-            {formatResponse(response)}
+          <div className="whitespace-pre-line max-w-none">
+            {<ReactMarkdown>{response}</ReactMarkdown>}
           </div>
         )}
       </Card>

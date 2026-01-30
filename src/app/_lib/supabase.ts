@@ -18,7 +18,7 @@ export async function createClient() {
               cookieStore.set(name, value, options),
             );
           } catch {
-            throw new Error("Unable to fetch data!");
+            throw new Error("Unable to initiate connection");
           }
         },
       },

@@ -3,8 +3,9 @@ import { LucideIcon } from "lucide-react";
 interface FormSelectFieldProps {
   id: string;
   label: string;
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  name: string;
+  onChange?: (value: string) => void;
   options: string[];
   icon: LucideIcon;
   required?: boolean;
@@ -14,6 +15,7 @@ export default function FormSelectField({
   id,
   label,
   value,
+  name,
   onChange,
   options,
   icon: Icon,
@@ -38,7 +40,8 @@ export default function FormSelectField({
         <select
           id={id}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          name={name}
+          onChange={(e) => (onChange ? onChange(e.target.value) : () => {})}
           className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none appearance-none bg-white cursor-pointer"
           required={required}
           aria-required={required}

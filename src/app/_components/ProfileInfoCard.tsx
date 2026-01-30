@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import { LucideIcon } from "lucide-react";
 
 interface ProfileInfoCardProps {
-  icon: ReactNode;
+  icon: LucideIcon;
   label: string;
   value: string | number;
   isEditing: boolean;
@@ -11,7 +11,7 @@ interface ProfileInfoCardProps {
 }
 
 export default function ProfileInfoCard({
-  icon,
+  icon: Icon,
   label,
   value,
   isEditing,
@@ -24,7 +24,9 @@ export default function ProfileInfoCard({
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
       <div className="flex items-center gap-2 mb-2 opacity-80">
-        <span aria-hidden="true">{icon}</span>
+        <span aria-hidden="true">
+          <Icon className="w-4 h-4" aria-hidden="true" />
+        </span>
         <label htmlFor={isEditing ? inputId : undefined} className="text-sm">
           {label}
         </label>

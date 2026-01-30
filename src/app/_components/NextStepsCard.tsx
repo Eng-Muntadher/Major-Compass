@@ -1,15 +1,13 @@
+import { useRouter } from "next/navigation";
 import Button from "../_components/Button";
 import Card from "../_components/Card";
 
 interface NextStepsCardProps {
-  onExploreMajors?: () => void;
   onRetakeTest?: () => void;
 }
 
-export default function NextStepsCard({
-  onExploreMajors,
-  onRetakeTest,
-}: NextStepsCardProps) {
+export default function NextStepsCard({ onRetakeTest }: NextStepsCardProps) {
+  const router = useRouter();
   return (
     <section aria-labelledby="next-steps-heading" className="mb-6">
       <Card className="p-6" role="complementary">
@@ -33,7 +31,7 @@ export default function NextStepsCard({
           aria-label="Next steps actions"
         >
           <Button
-            onClick={onExploreMajors}
+            onClick={() => router.push("/browse")}
             className="flex-1 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-6"
           >
             Explore All Majors

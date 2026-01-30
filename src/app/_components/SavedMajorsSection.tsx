@@ -1,23 +1,10 @@
 import { Bookmark } from "lucide-react";
 import MiniMajorCard from "./MiniMajorCard";
+import { majors } from "../_data/majors";
 
-interface Major {
-  id: string;
-  name: string;
-  nameArabic: string;
-  difficulty: string;
-  minGPA: number;
-}
+export default function SavedMajorsSectio() {
+  const savedMajorsList = [majors[0], majors[1]];
 
-interface SavedMajorsSectionProps {
-  majors: Major[];
-  onToggleSave: (id: string) => void;
-}
-
-export default function SavedMajorsSection({
-  majors,
-  onToggleSave,
-}: SavedMajorsSectionProps) {
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 p-6 mb-6"
@@ -45,13 +32,8 @@ export default function SavedMajorsSection({
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {majors.map((major) => (
-            <MiniMajorCard
-              key={major.id}
-              major={major}
-              onToggleSave={onToggleSave}
-              isSaved={true}
-            />
+          {savedMajorsList.map((major) => (
+            <MiniMajorCard key={major.id} major={major} isSaved={true} />
           ))}
         </div>
       )}

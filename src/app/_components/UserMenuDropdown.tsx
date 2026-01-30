@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { User, LogOut } from "lucide-react";
 import { dropdownMenu } from "../_styles/animations";
 import Link from "next/link";
+import { signOut } from "../actions";
 
 interface UserMenuDropdownProps {
   userName: string;
@@ -23,7 +24,10 @@ export function UserMenuDropdown({ userName }: UserMenuDropdownProps) {
         <User className="w-4 h-4" />
         Profile
       </Link>
-      <button className="w-full px-4 py-2 text-left hover:bg-gray-50 transition-colors flex items-center gap-2 text-red-600">
+      <button
+        onClick={signOut}
+        className="w-full px-4 py-2 text-left hover:bg-gray-50 transition-colors flex items-center gap-2 text-red-600"
+      >
         <LogOut className="w-4 h-4" />
         Sign Out
       </button>

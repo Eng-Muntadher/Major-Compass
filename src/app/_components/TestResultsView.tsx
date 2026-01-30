@@ -5,9 +5,8 @@ import NextStepsCard from "./NextStepsCard";
 
 interface TestResultsViewProps {
   loading: boolean;
-  response: string;
+  response: string | null;
   onBack?: () => void;
-  onExploreMajors?: () => void;
   onRetakeTest?: () => void;
 }
 
@@ -15,7 +14,6 @@ export default function TestResultsView({
   loading,
   response,
   onBack,
-  onExploreMajors,
   onRetakeTest,
 }: TestResultsViewProps) {
   return (
@@ -27,10 +25,7 @@ export default function TestResultsView({
       {!loading && (
         <>
           <AIDisclaimer />
-          <NextStepsCard
-            onExploreMajors={onExploreMajors}
-            onRetakeTest={onRetakeTest}
-          />
+          <NextStepsCard onRetakeTest={onRetakeTest} />
         </>
       )}
     </div>

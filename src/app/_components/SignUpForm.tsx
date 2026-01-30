@@ -9,10 +9,11 @@ import {
 } from "lucide-react";
 import FormInputField from "./FormInputField";
 import FormSelectField from "./FormSelectField";
-import FormErrorAlert from "../_components/FormErrorAlert";
 import GoogleSignUpButton from "./GoogleSignUpButton";
 import Link from "next/link";
-import { useState } from "react";
+import { signUpWithEmail, signUpWithGoogle } from "../actions";
+import toast from "react-hot-toast";
+import SubmitButton from "./SubmitButton";
 
 const GRADES = [
   "6th Grade",
@@ -25,69 +26,16 @@ const GRADES = [
 ];
 
 export default function SignUpForm() {
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    grade: "12th Grade",
-    error: "",
-    loading: false,
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    setFormState((prev) => ({ ...prev, error: "", loading: true }));
-
-    const { name, email, password, confirmPassword } = formState;
-
-    // Validation
-    if (!name || !email || !password || !confirmPassword) {
-      setFormState((prev) => ({
-        ...prev,
-        error: "Please fill in all fields",
-        loading: false,
-      }));
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setFormState((prev) => ({
-        ...prev,
-        error: "Passwords do not match",
-        loading: false,
-      }));
-      return;
-    }
-
-    if (password.length < 6) {
-      setFormState((prev) => ({
-        ...prev,
-        error: "Password must be at least 6 characters",
-        loading: false,
-      }));
-      return;
-    }
-
-    // Simulate API call
-    setTimeout(() => {
-      setFormState((prev) => ({ ...prev, loading: false }));
-      console.log("Account created:", {
-        name: formState.name,
-        email: formState.email,
-        grade: formState.grade,
-      });
-    }, 2000);
-  };
-
-  const handleGoogleSignUp = () => {
-    console.log("Google sign up clicked");
-  };
-
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-      <form onSubmit={handleSubmit} aria-labelledby="signup-heading">
+      <form
+        action={async (formData) => {
+          const result = await signUpWithEmail(formData);
+          if (result.success) toast.success(result.message);
+          else toast.error(result.message);
+        }}
+        aria-labelledby="signup-heading"
+      >
         <h2 id="signup-heading" className="sr-only">
           Sign up form
         </h2>
@@ -95,12 +43,9 @@ export default function SignUpForm() {
         <div className="space-y-5">
           <FormInputField
             id="full-name"
+            name="username"
             label="Full Name"
             type="text"
-            value={formState.name}
-            onChange={(value) =>
-              setFormState((prev) => ({ ...prev, name: value }))
-            }
             icon={UserIcon}
             placeholder="Ahmed Ali"
             required
@@ -109,11 +54,8 @@ export default function SignUpForm() {
           <FormInputField
             id="email"
             label="Email"
+            name="email"
             type="email"
-            value={formState.email}
-            onChange={(value) =>
-              setFormState((prev) => ({ ...prev, email: value }))
-            }
             icon={Mail}
             placeholder="student@example.com"
             required
@@ -122,10 +64,7 @@ export default function SignUpForm() {
           <FormSelectField
             id="grade"
             label="Grade"
-            value={formState.grade}
-            onChange={(value) =>
-              setFormState((prev) => ({ ...prev, grade: value }))
-            }
+            name="grade"
             options={GRADES}
             icon={GraduationCap}
             required
@@ -135,10 +74,7 @@ export default function SignUpForm() {
             id="password"
             label="Password"
             type="password"
-            value={formState.password}
-            onChange={(value) =>
-              setFormState((prev) => ({ ...prev, password: value }))
-            }
+            name="password"
             icon={Lock}
             placeholder="••••••••"
             required
@@ -148,28 +84,17 @@ export default function SignUpForm() {
             id="confirm-password"
             label="Confirm Password"
             type="password"
-            value={formState.confirmPassword}
-            onChange={(value) =>
-              setFormState((prev) => ({ ...prev, confirmPassword: value }))
-            }
+            name="confirm-password"
             icon={Lock}
             placeholder="••••••••"
             required
           />
 
-          {/* Error element */}
-          <FormErrorAlert message={formState.error} />
-
           {/* Submit button */}
-          <button
-            type="submit"
-            disabled={formState.loading}
-            className="w-full bg-linear-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer font-medium"
-            aria-busy={formState.loading}
-          >
+          <SubmitButton type="submit">
             <UserPlus className="w-5 h-5" aria-hidden="true" />
-            <span>{formState.loading ? "Creating Account..." : "Sign Up"}</span>
-          </button>
+            <span>Sign Up</span>
+          </SubmitButton>
         </div>
       </form>
 
@@ -181,7 +106,10 @@ export default function SignUpForm() {
       </div>
 
       {/* Google Sign up */}
-      <GoogleSignUpButton onClick={handleGoogleSignUp} />
+      <GoogleSignUpButton
+        text="Sign up with Google"
+        onClick={signUpWithGoogle}
+      />
 
       {/* Sign up footer */}
       <footer className="mt-6 text-center">

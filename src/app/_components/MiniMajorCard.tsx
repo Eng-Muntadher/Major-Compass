@@ -11,7 +11,6 @@ interface Major {
 
 interface MiniMajorCardProps {
   major: Major;
-  onToggleSave: (id: string) => void;
   isSaved: boolean;
 }
 
@@ -22,14 +21,10 @@ const difficultyColors = {
   "Very Hard": "bg-red-100 text-red-700",
 };
 
-export default function MiniMajorCard({
-  major,
-  onToggleSave,
-  isSaved,
-}: MiniMajorCardProps) {
+export default function MiniMajorCard({ major, isSaved }: MiniMajorCardProps) {
   return (
     <Link
-      href="/"
+      href={`/browse/${major.id}`}
       className="border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:shadow-md transition-all group"
     >
       <div className="flex items-start justify-between mb-3">
@@ -44,10 +39,6 @@ export default function MiniMajorCard({
         </div>
 
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleSave(major.id);
-          }}
           className={`p-2 rounded-lg transition-colors ${
             isSaved ? "text-blue-600" : "text-gray-400 hover:text-blue-600"
           }`}
