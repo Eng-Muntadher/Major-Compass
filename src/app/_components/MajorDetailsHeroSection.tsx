@@ -1,13 +1,39 @@
 // app/majors/[majorId]/_components/HeroSection.tsx
-import { BookmarkIcon } from "lucide-react";
 import { ImageWithFallback } from "./ImageWithFallback";
 import { MajorEN } from "../_lib/types";
+import SaveMajorButton from "./SaveMajorButton";
+import { createClient } from "../_lib/supabase";
+import { updateRecentlyViewedMajor } from "../actions";
 
 interface HeroDetailsHeroProps {
   major: MajorEN | null;
 }
 
-function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
+async function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    updateRecentlyViewedMajor(major?.id);
+  }
+
+  // Get user's profile data
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("bookmarks")
+    .eq("id", user?.id)
+    .single();
+
+  if (error) {
+    console.error("Error fetching profile:", error);
+  }
+
+  const savedMajorsIds = profile?.bookmarks;
+
+  const isSaved = savedMajorsIds?.includes(major?.id);
+
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 overflow-hidden"
@@ -35,12 +61,12 @@ function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
               </p>
             </div>
 
-            <button
-              className="p-3 rounded-full hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black/60 cursor-pointer"
-              aria-label={`Bookmark ${major?.nameEn}`}
-            >
-              <BookmarkIcon className="w-6 h-6" aria-hidden="true" />
-            </button>
+            <SaveMajorButton
+              usedInDetails={true}
+              isSaved={isSaved}
+              majorId={major?.id}
+              isUserAuthenticated={user ? true : false}
+            />
           </div>
         </div>
       </div>

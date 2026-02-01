@@ -59,7 +59,7 @@ export default async function MajorDetail({ params }: PageProps) {
 
         <section className="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
           <MajorQuickStats major={major} />
-          <AIAnalyzeButton />
+          <AIAnalyzeButton major={major.nameEn} />
         </section>
 
         <GPANotice />

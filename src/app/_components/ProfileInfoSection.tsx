@@ -6,7 +6,6 @@ interface ProfileInfoSectionProps {
   grade: string;
   savedCount: number;
   isEditing: boolean;
-  onEmailChange?: (email: string) => void;
   onGradeChange?: (grade: string) => void;
 }
 
@@ -25,7 +24,6 @@ export default function ProfileInfoSection({
   grade,
   savedCount,
   isEditing,
-  onEmailChange,
   onGradeChange,
 }: ProfileInfoSectionProps) {
   return (
@@ -39,7 +37,6 @@ export default function ProfileInfoSection({
         value={email}
         isEditing={false}
         inputType="email"
-        onChange={onEmailChange}
       />
 
       <ProfileInfoCard

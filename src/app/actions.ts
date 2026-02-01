@@ -1,9 +1,39 @@
 "use server";
 
+export type StudentAIInput = {
+  gpa: number;
+  highSchoolField: string;
+  city: string;
+  preferSameCity: "yes" | "no";
+  preferredLanguages: string[];
+  subjectsStudied: string[];
+  preferredFieldType: string;
+};
+
+export interface RecentlySavedMajor {
+  id: string;
+  nameEn: string;
+  nameAr: string;
+  difficulty: string;
+  minGPA: number;
+}
+
+export interface RecentlyViewedMajor {
+  id: string;
+  nameEn: string;
+  nameAr: string;
+}
+
+interface AIMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 import { createClient } from "@/app/_lib/supabase";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import OpenAI from "openai";
+import { MajorEN } from "./_lib/types";
 
 // This function handles aign up and then creates a new profile in the database
 export async function signUpWithEmail(formData: FormData) {
@@ -229,16 +259,63 @@ export async function updateProfile(formData: FormData) {
   }
 
   const username = formData.get("username") as string;
-  const avatar_url = formData.get("avatarUrl") as string;
   const grade = formData.get("grade") as string;
+  const avatarFile = formData.get("avatar");
+
+  let avatar_url: string | null = null;
+
+  // Only upload if the user actually picked a new file.
+  // formData.get returns null if the key is missing, or a string if it's
+  // a text field — neither of which is a File.
+  if (avatarFile instanceof File) {
+    const extension = avatarFile.name.split(".").pop();
+
+    // Delete whatever is in this user's folder first.
+    const { error: listError, data: existingFiles } = await supabase.storage
+      .from("avatars")
+      .list(user.id);
+
+    if (listError) {
+      return { error: `Failed to list existing avatars: ${listError.message}` };
+    }
+
+    if (existingFiles && existingFiles.length > 0) {
+      const paths = existingFiles.map((file) => `${user.id}/${file.name}`);
+      const { error: deleteError } = await supabase.storage
+        .from("avatars")
+        .remove(paths);
+
+      if (deleteError) {
+        return { error: `Failed to delete old avatar: ${deleteError.message}` };
+      }
+    }
+
+    // Now upload the new one.
+    const { data, error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(`${user.id}/avatar.${extension}`, avatarFile);
+
+    if (uploadError) {
+      return { error: `Failed to upload avatar: ${uploadError.message}` };
+    }
+
+    const { data: urlData } = supabase.storage
+      .from("avatars")
+      .getPublicUrl(data.path);
+
+    avatar_url = `${urlData.publicUrl}?t=${Date.now()}`;
+  }
+
+  // Build the update object. Only include avatar_url if a new one was uploaded,
+  // otherwise leave the existing value in the DB untouched.
+  const updates: Record<string, string | null> = { username, grade };
+  if (avatar_url) {
+    updates.avatar_url = avatar_url;
+  }
 
   const { error } = await supabase
     .from("profiles")
-    .update({
-      username,
-      avatar_url,
-      grade,
-    })
+    .update(updates)
     .eq("id", user.id);
 
   if (error) {
@@ -252,16 +329,6 @@ export async function updateProfile(formData: FormData) {
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 });
-
-export type StudentAIInput = {
-  gpa: number;
-  highSchoolField: string;
-  city: string;
-  preferSameCity: "yes" | "no";
-  preferredLanguages: string[];
-  subjectsStudied: string[];
-  preferredFieldType: string;
-};
 
 export async function askAI(input: StudentAIInput) {
   const completion = await openai.chat.completions.create({
@@ -282,4 +349,227 @@ export async function askAI(input: StudentAIInput) {
   });
 
   return completion.choices[0].message.content;
+}
+
+export async function sendMessage(messages: AIMessage[]) {
+  try {
+    if (!messages || !Array.isArray(messages)) {
+      throw new Error("Invalid messages format");
+    }
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: messages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      })),
+      temperature: 0.7,
+      max_tokens: 1000,
+    });
+
+    return {
+      success: true,
+      message: completion.choices[0].message.content,
+    };
+  } catch (error) {
+    console.error("OpenAI API error:", error);
+    return {
+      success: false,
+      message: "Sorry, I encountered an error. Please try again.",
+    };
+  }
+}
+
+export async function toggleBookmarkAction(majorId: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (!user || authError) {
+    return { ok: false, error: "NOT_AUTHENTICATED" };
+  }
+
+  // Get current bookmarks
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("bookmarks")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) {
+    console.error(profileError);
+    return { ok: false, error: "PROFILE_FETCH_FAILED" };
+  }
+
+  const bookmarks: string[] = profile.bookmarks ?? [];
+
+  const isBookmarked = bookmarks.includes(majorId);
+
+  const updatedBookmarks = isBookmarked
+    ? bookmarks.filter((id) => id !== majorId)
+    : [...bookmarks, majorId];
+
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ bookmarks: updatedBookmarks })
+    .eq("id", user.id);
+
+  if (updateError) {
+    console.error(updateError);
+    return { ok: false, error: "UPDATE_FAILED" };
+  }
+
+  return {
+    ok: true,
+    bookmarked: !isBookmarked,
+  };
+}
+
+export async function getBookmarkedMajors(
+  majorIds: string[],
+): Promise<MajorEN[]> {
+  if (!majorIds || majorIds.length === 0) return [];
+
+  const supabase = await createClient();
+
+  const { data: majors, error } = await supabase
+    .from("majors")
+    .select("*")
+    .in("id", majorIds); // filter by array of IDs
+
+  if (error) {
+    console.error("Error fetching bookmarked majors:", error);
+    return [];
+  }
+
+  return majors.map((major) => ({
+    id: major.id,
+    nameEn: major.name_en,
+    nameAr: major.name_ar,
+    category: major.category_en,
+    description: major.description_en,
+    minGPA: major.min_gpa,
+    difficulty: major.difficulty,
+    duration: major.duration,
+    skills: major.skills_en,
+    subjects: major.subjects_en,
+    pros: major.pros_en,
+    cons: major.cons_en,
+    jobOpportunities: major.job_opportunities_en,
+    averageSalary: major.average_salary_en,
+    similarMajors: major.similar_majors,
+    topUniversities: major.top_universities_en,
+    imageUrl: major.image_url,
+    commonMistakes: major.common_mistakes_en,
+    demandInIraq: major.demand_in_iraq_en,
+    demandOutsideIraq: major.demand_outside_iraq_en,
+    demandInIraqLevel: major.demand_in_iraq_level,
+    demandOutsideIraqLevel: major.demand_outside_iraq_level,
+  }));
+}
+
+export async function getRecentlySaved(
+  majorIds: string[],
+): Promise<RecentlySavedMajor[]> {
+  if (!majorIds || majorIds.length === 0) return [];
+
+  const supabase = await createClient();
+
+  // Get only the last 2 IDs
+  const lastTwoIds = majorIds.slice(-2);
+
+  const { data: majors, error } = await supabase
+    .from("majors")
+    .select("id, name_en, name_ar, difficulty, min_gpa")
+    .in("id", lastTwoIds);
+
+  if (error) {
+    console.error("Error fetching bookmarked majors:", error);
+    return [];
+  }
+
+  return majors.map((major) => ({
+    id: major.id,
+    nameEn: major.name_en,
+    nameAr: major.name_ar,
+    difficulty: major.difficulty,
+    minGPA: major.min_gpa,
+  }));
+}
+
+export async function getRecentlyViwed(
+  majorIds: string[],
+): Promise<RecentlyViewedMajor[]> {
+  if (!majorIds || majorIds.length === 0) return [];
+
+  const supabase = await createClient();
+
+  const { data: majors, error } = await supabase
+    .from("majors")
+    .select("id, name_en, name_ar")
+    .in("id", [majorIds]);
+
+  if (error) {
+    console.error("Error fetching bookmarked majors:", error);
+    return [];
+  }
+
+  return majors.map((major) => ({
+    id: major.id,
+    nameEn: major.name_en,
+    nameAr: major.name_ar,
+  }));
+}
+
+export async function updateRecentlyViewedMajor(majorId: string | undefined) {
+  if (!majorId) return;
+
+  const supabase = await createClient();
+
+  // Get authenticated user
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    // Not logged in → silently ignore
+    return;
+  }
+
+  // Fetch current recently_viewed
+  const { data, error: fetchError } = await supabase
+    .from("profiles")
+    .select("recently_viewed")
+    .eq("id", user.id)
+    .single();
+
+  if (fetchError) {
+    console.error("Error fetching recently viewed:", fetchError);
+    return;
+  }
+
+  const current: string[] = data?.recently_viewed ?? [];
+
+  // Remove if already exists
+  const filtered = current.filter((id) => id !== majorId);
+
+  // Push new one to the end
+  filtered.push(majorId);
+
+  // Keep max length 3
+  const updated = filtered.slice(-3);
+
+  // Update DB
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ recently_viewed: updated })
+    .eq("id", user.id);
+
+  if (updateError) {
+    console.error("Error updating recently viewed:", updateError);
+  }
 }

@@ -23,6 +23,21 @@ export default async function BrowsePage({ searchParams }: PageProps) {
   const supabase = await createClient();
   const majors = await getMajorsInEnglish(supabase);
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Get user's profile data
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("bookmarks")
+    .eq("id", user?.id)
+    .single();
+
+  if (error) {
+    console.error("Error fetching profile:", error);
+  }
+
   // Get filtered and sorted majors
   const getFilteredMajors = () => {
     let filtered: MajorEN[] | null = majors;
@@ -33,10 +48,7 @@ export default async function BrowsePage({ searchParams }: PageProps) {
   const filteredMajors = getFilteredMajors();
 
   return (
-    <section
-      aria-labelledby="all-categories-heading"
-      className="min-h-screen bg-gray-50 p-8"
-    >
+    <section aria-labelledby="all-categories-heading" className="bg-gray-50">
       {/* Section header */}
       <header className="mb-8">
         <h2 id="all-categories-heading" className="text-3xl font-bold mb-2">
@@ -56,7 +68,11 @@ export default async function BrowsePage({ searchParams }: PageProps) {
       <MajorsAnimatedGrid>
         {filteredMajors?.map((major) => (
           <MajorAnimatedItem key={major.id}>
-            <MajorCard major={major} />
+            <MajorCard
+              major={major}
+              isSaved={profile?.bookmarks.includes(major.id) || false}
+              isUserAuthenticated={user ? true : false}
+            />
           </MajorAnimatedItem>
         ))}
       </MajorsAnimatedGrid>

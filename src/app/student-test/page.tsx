@@ -70,7 +70,7 @@ export default function StudentTest() {
       setSubmitted(true);
 
       // Scroll to the top smoothly
-      window.scrollTo({
+      document.getElementById("main-scroll")?.scrollTo({
         top: 0,
         behavior: "smooth",
       });
@@ -84,6 +84,11 @@ export default function StudentTest() {
   const handleBack = () => {
     setSubmitted(false);
     setLoading(false);
+
+    document.getElementById("main-scroll")?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const handleRetakeTest = () => {
@@ -101,9 +106,9 @@ export default function StudentTest() {
     setErrors({});
 
     // Scroll to the top smoothly
-    window.scrollTo({
+    document.getElementById("main-scroll")?.scrollTo({
       top: 0,
-      behavior: "smooth", // or "auto" for instant
+      behavior: "smooth",
     });
   };
 

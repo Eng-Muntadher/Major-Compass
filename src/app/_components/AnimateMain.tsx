@@ -14,10 +14,7 @@ export default function AnimatedMain({ children }: AnimatedMainProps) {
 
   return (
     <AnimatePresence mode="wait" key={pathname}>
-      <motion.main
-        {...pageTransition}
-        className="flex-1 p-4 sm:p-6 lg:p-8 min-h-screen"
-      >
+      <motion.main {...pageTransition} className="flex-1 p-4 sm:p-6 lg:p-8">
         {children}
       </motion.main>
     </AnimatePresence>

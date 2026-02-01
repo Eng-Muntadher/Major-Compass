@@ -1,17 +1,9 @@
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
-
-interface Major {
-  id: string;
-  name: string;
-  nameArabic: string;
-  difficulty: string;
-  minGPA: number;
-}
+import { RecentlySavedMajor } from "../actions";
 
 interface MiniMajorCardProps {
-  major: Major;
-  isSaved: boolean;
+  major: RecentlySavedMajor;
 }
 
 const difficultyColors = {
@@ -21,7 +13,7 @@ const difficultyColors = {
   "Very Hard": "bg-red-100 text-red-700",
 };
 
-export default function MiniMajorCard({ major, isSaved }: MiniMajorCardProps) {
+export default function MiniMajorCard({ major }: MiniMajorCardProps) {
   return (
     <Link
       href={`/browse/${major.id}`}
@@ -30,30 +22,17 @@ export default function MiniMajorCard({ major, isSaved }: MiniMajorCardProps) {
       <div className="flex items-start justify-between mb-3">
         <div
           className="flex-1 text-left cursor-pointer"
-          aria-label={`View details for ${major.name}`}
+          aria-label={`View details for ${major.nameEn}`}
         >
           <h3 className="mb-1 group-hover:text-blue-600 transition-colors font-semibold">
-            {major.name}
+            {major.nameEn}
           </h3>
-          <p className="text-sm text-gray-500">{major.nameArabic}</p>
+          <p className="text-sm text-gray-500">{major.nameAr}</p>
         </div>
 
-        <button
-          className={`p-2 rounded-lg transition-colors ${
-            isSaved ? "text-blue-600" : "text-gray-400 hover:text-blue-600"
-          }`}
-          aria-label={
-            isSaved
-              ? `Remove ${major.name} from saved majors`
-              : `Save ${major.name}`
-          }
-          aria-pressed={isSaved}
-        >
-          <Bookmark
-            className={`w-5 h-5 ${isSaved ? "fill-current" : ""}`}
-            aria-hidden="true"
-          />
-        </button>
+        <div className="p-2 rounded-lg transition-colors text-blue-600">
+          <Bookmark className="w-5 h-5 fill-current" aria-hidden="true" />
+        </div>
       </div>
 
       <div className="flex items-center justify-between text-sm">

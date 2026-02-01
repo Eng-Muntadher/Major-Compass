@@ -7,6 +7,7 @@ import { Footer } from "./_components/Footer";
 import AIAssistant from "./_components/AIAssistant";
 import HeaderServerWrapper from "./_components/HeaderServerWrapper";
 import { ToastProvider } from "./_components/ToastProvider";
+import { AIAssistantProvider } from "./_context/AIAssistantContext";
 
 export const metadata: Metadata = {
   title: "Major Compass",
@@ -20,20 +21,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-50">
+      <body className="flex flex-col h-screen bg-gray-50">
         <SidebarProvider>
-          <HeaderServerWrapper />
+          <AIAssistantProvider>
+            <HeaderServerWrapper />
 
-          <div className="flex">
-            <Sidebar />
-            <AnimatedMain>
-              {children}
-              <AIAssistant />
-            </AnimatedMain>
-          </div>
+            <div id="main-scroll" className="flex-1 overflow-y-auto">
+              {/* Sidebar + main content row */}
+              <div className="flex">
+                <Sidebar />
+                <AnimatedMain>{children}</AnimatedMain>
+              </div>
 
-          <Footer />
-          <ToastProvider />
+              {/* Footer — inside the scroll, full width, below the sidebar row */}
+              <Footer />
+            </div>
+
+            <AIAssistant />
+            <ToastProvider />
+          </AIAssistantProvider>
         </SidebarProvider>
       </body>
     </html>

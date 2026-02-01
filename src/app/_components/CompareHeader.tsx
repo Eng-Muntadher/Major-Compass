@@ -3,7 +3,7 @@ import { ArrowLeftRight } from "lucide-react";
 export default function CompareHeader() {
   return (
     <header className="mb-8">
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center max-sm:items-start gap-3 mb-4">
         <div
           className="w-12 h-12 bg-linear-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center"
           aria-hidden="true"

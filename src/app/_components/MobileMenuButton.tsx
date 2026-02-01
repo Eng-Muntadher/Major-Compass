@@ -9,7 +9,7 @@ export function MobileMenuButton({ isOpen, onToggle }: MobileMenuButtonProps) {
   return (
     <button
       onClick={onToggle}
-      className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+      className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
       aria-label="Toggle menu"
     >
       {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

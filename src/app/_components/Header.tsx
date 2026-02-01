@@ -13,51 +13,49 @@ import { EnglishSearchMajors } from "../_lib/types";
 
 interface HeaderProps {
   searchMajors: EnglishSearchMajors[] | null;
+  userName: string | null;
 }
 
-export function Header({ searchMajors }: HeaderProps) {
+export function Header({ searchMajors, userName }: HeaderProps) {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isSidebarOpen, toggleSidebar } = useSidebar();
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Left: Logo and Menu Toggle */}
-          <div className="flex items-center gap-3">
-            <MobileMenuButton isOpen={isSidebarOpen} onToggle={toggleSidebar} />
-            <Logo />
-          </div>
-
-          {/* Center: Search Bar (Desktop) */}
-          <SearchBar
-            searchMajors={searchMajors}
-            className="flex-1 max-w-2xl mx-4 hidden md:block"
-          />
-
-          {/* Right: Header Items */}
-          <div className="flex items-center gap-2">
-            <MobileSearchToggle
-              isExpanded={isSearchExpanded}
-              onToggle={() => setIsSearchExpanded(!isSearchExpanded)}
-            />
-
-            <LanguageToggle />
-
-            <SavedMajorsButton />
-
-            <UserMenu />
-          </div>
+    <header className="bg-white border-b border-gray-200 shadow-sm shrink-0">
+      <div className="grid grid-cols-2 md:grid-cols-[230px_1fr_230px] items-center px-4 h-16">
+        {/* Left: Logo and Menu Toggle */}
+        <div className="flex items-center gap-3">
+          <MobileMenuButton isOpen={isSidebarOpen} onToggle={toggleSidebar} />
+          <Logo />
         </div>
 
-        {/* Mobile Search Bar */}
-        {isSearchExpanded && (
-          <div className="pb-4 md:hidden">
-            <SearchBar searchMajors={searchMajors} autoFocus />
-          </div>
-        )}
+        {/* Center: Search Bar (Desktop) */}
+        <SearchBar
+          searchMajors={searchMajors}
+          className="hidden md:block lg:ml-60"
+        />
+
+        {/* Right: Header Items */}
+        <div className="flex justify-end gap-2">
+          <MobileSearchToggle
+            isExpanded={isSearchExpanded}
+            onToggle={() => setIsSearchExpanded(!isSearchExpanded)}
+          />
+
+          <LanguageToggle />
+
+          <SavedMajorsButton />
+
+          <UserMenu userName={userName} />
+        </div>
       </div>
+
+      {/* Mobile Search Bar */}
+      {isSearchExpanded && (
+        <div className="pb-4 md:hidden px-4">
+          <SearchBar searchMajors={searchMajors} autoFocus />
+        </div>
+      )}
     </header>
   );
 }

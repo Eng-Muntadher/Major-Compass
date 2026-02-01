@@ -1,1 +1,72 @@
 @import "tailwindcss";
+
+/* ── Scrollbar (WebKit: Chrome, Safari, Edge) ── */
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #2563eb, #7c3aed);
+  border-radius: 999px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #1d4ed8, #6d28d9);
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.35);
+}
+
+/* ── Scrollbar (Firefox) ── */
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #f1f5f9;
+}
+
+/* ─── Sidebar scrollbar ─────────────────────────────────────────────────── */
+.sidebar-scroll {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 transparent;
+}
+
+/* WebKit – Chrome / Safari / Edge ─────────────────────────────────────────── */
+
+/* The track (background channel) */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+/* The draggable thumb */
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #7c3aed);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+/* Hover – slightly lighter & wider feel via a brighter gradient */
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #818cf8, #a78bfa);
+}
+
+/* Active / pressed */
+.sidebar-scroll::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #a5b4fc, #c4b5fd);
+}
+
+::selection {
+  color: white;
+  background-color: #7c3aed;
+}

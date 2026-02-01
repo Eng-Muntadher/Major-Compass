@@ -13,9 +13,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useSidebar } from "../_context/SideBarContext";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const linksClasses =
-  "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-gray-100 text-gray-700 cursor-pointer";
+  "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors cursor-pointer";
 
 const sidebarLinks = [
   {
@@ -54,6 +55,11 @@ export function Sidebar() {
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isSidebarOpen, toggleSidebar } = useSidebar();
 
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const categoryURL = searchParams.get("category");
+
   return (
     <>
       {/* Overlay for mobile */}
@@ -70,12 +76,13 @@ export function Sidebar() {
       {/* Sidebar */}
       <aside
         className={`
-        fixed lg:sticky top-0 left-0 h-screen bg-white border-r border-gray-200 
-        w-64 shrink-0 z-50 transition-transform duration-300 ease-in-out
-        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-      `}
+    fixed lg:sticky top-0 left-0 h-screen bg-white border-r border-gray-200
+    w-64 shrink-0 z-50 overflow-y-auto
+    transition-transform duration-300 ease-in-out
+    ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+  `}
       >
-        <div className="flex flex-col h-full overflow-y-auto">
+        <div className="flex flex-col h-full overflow-y-auto sidebar-scroll">
           {/* Top spacing for mobile (below nav) */}
           <div className="h-16 lg:h-0" />
 
@@ -86,8 +93,15 @@ export function Sidebar() {
             </h2>
             <div className="space-y-1">
               {sidebarLinks.map(({ label, href, Icon }) => (
-                <Link key={href} href={href} className={linksClasses}>
-                  <Icon className="w-5 h-5" />
+                <Link
+                  key={href}
+                  href={href}
+                  className={
+                    linksClasses +
+                    ` ${pathname === href ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100 text-gray-700"}`
+                  }
+                >
+                  <Icon className="w-5 h-5" aria-hidden="true" />
                   <span>{label}</span>
                 </Link>
               ))}
@@ -101,16 +115,30 @@ export function Sidebar() {
             </h2>
 
             <div className="space-y-1">
-              {categories.map((category) => (
-                <Link
-                  href={category.link}
-                  key={category.id}
-                  className={linksClasses}
-                >
-                  <span className="text-xl">{category.icon}</span>
-                  <span className="text-sm">{category.name}</span>
-                </Link>
-              ))}
+              {categories.map((category) => {
+                const isActive =
+                  category.id === "all"
+                    ? pathname === "/browse" && !categoryURL
+                    : categoryURL === category.id;
+
+                return (
+                  <Link
+                    href={category.link}
+                    key={category.id}
+                    className={
+                      linksClasses +
+                      ` ${
+                        isActive
+                          ? "bg-blue-100 text-blue-600"
+                          : "hover:bg-gray-100 text-gray-700"
+                      }`
+                    }
+                  >
+                    <span className="text-xl">{category.icon}</span>
+                    <span className="text-sm">{category.name}</span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
 

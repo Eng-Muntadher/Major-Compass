@@ -7,7 +7,7 @@ function GPANotice() {
       role="note"
       aria-labelledby="gpa-notice-title"
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-start xl:items-center gap-3">
         <AlertCircle
           className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5"
           aria-hidden="true"

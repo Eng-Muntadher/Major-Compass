@@ -9,13 +9,17 @@ export function ToastProvider() {
       reverseOrder={false}
       gutter={8}
       toastOptions={{
-        // Default options
         duration: 4000,
         style: {
-          background: "#363636",
+          background: "linear-gradient(to right, #2563eb, #7c3aed)",
           color: "#fff",
+          borderRadius: "14px",
+          padding: "18px 28px",
+          marginBottom: "2rem",
+          boxShadow: "0 20px 40px rgba(37, 99, 235, 0.45)",
+          fontSize: "1rem",
+          textAlign: "center",
         },
-        // Custom styles for different types
         success: {
           duration: 3000,
           iconTheme: {

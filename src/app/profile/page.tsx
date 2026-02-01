@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "../_lib/supabase";
+import { getRecentlySaved, getRecentlyViwed } from "../actions";
 import ProfileHeader from "../_components/ProfileHeader";
 import SavedMajorsSection from "../_components/SavedMajorsSection";
 import RecentlyViewedSection from "../_components/RecentlyViewedSection";
@@ -21,6 +22,10 @@ export default async function UserProfile() {
     .eq("id", user.id)
     .single();
 
+  const recentlySavedMajors = await getRecentlySaved(profile?.bookmarks);
+  const recentlyViewdMajors = await getRecentlyViwed(profile?.recently_viewed);
+
+  // Error handling
   if (error || !profile) {
     console.error("Error fetching profile:", error);
     return (
@@ -41,8 +46,8 @@ export default async function UserProfile() {
         avatarUrl={profile?.avatar_url}
       />
 
-      <SavedMajorsSection />
-      <RecentlyViewedSection />
+      <SavedMajorsSection savedMajors={recentlySavedMajors} />
+      <RecentlyViewedSection recentlyViewedMajors={recentlyViewdMajors} />
     </div>
   );
 }

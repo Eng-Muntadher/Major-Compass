@@ -1,192 +1,198 @@
 import {
   GraduationCap,
-  Mail,
   Home,
   BookOpen,
   Lightbulb,
   GitCompare,
-  Globe,
-  Facebook,
-  Twitter,
-  Instagram,
   Linkedin,
   Github,
 } from "lucide-react";
+import Link from "next/link";
+
+const navigationLinks = [
+  { label: "Home", icon: Home },
+  { label: "All Majors", icon: BookOpen },
+  { label: "Tips & Advice", icon: Lightbulb },
+  { label: "Compare Majors", icon: GitCompare },
+  { label: "About", icon: GraduationCap },
+];
+
+const features = [
+  "16+ College Majors",
+  "Major Requirements Info",
+  "AI-Powered Career Assistant",
+  "Save & Compare Majors",
+  "AI Student Test",
+];
+
+// icon is optional — when omitted the label itself is rendered as the visual
+const socialLinks: {
+  label: string;
+  icon?: React.FC<{ className?: string }>;
+  href: string;
+  ariaLabel: string;
+  /** extra className applied to the clickable element */
+  className?: string;
+}[] = [
+  {
+    label: "LinkedIn",
+    icon: Linkedin,
+    href: "https://linkedin.com",
+    ariaLabel: "LinkedIn",
+  },
+  {
+    label: "GitHub",
+    icon: Github,
+    href: "https://github.com",
+    ariaLabel: "GitHub",
+  },
+  {
+    label: "MT",
+    href: "https://muntadher-ahmed.vercel.app",
+    ariaLabel: "Visit my portfolio",
+    className: "text-xl",
+  },
+];
+
+const linkClass =
+  "flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors";
 
 export function Footer() {
   return (
-    <footer className="bg-linear-to-br from-indigo-900 via-purple-900 to-indigo-800 text-white mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Top Section - Tagline */}
-        <div className="text-center mb-8">
-          <p className="text-xl text-indigo-200">
-            Helping Iraqi students choose the right major
-          </p>
-        </div>
+    <footer
+      className="bg-linear-to-br from-indigo-900 via-purple-900 to-indigo-800 text-white mt-16"
+      aria-labelledby="footer-heading"
+    >
+      <h2 id="footer-heading" className="sr-only">
+        Footer
+      </h2>
 
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
-          {/* About / Contact Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold flex items-center gap-2">
-              <GraduationCap className="w-5 h-5" />
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        {/* Tagline */}
+        <p className="text-center text-xl text-indigo-200 mb-8">
+          Helping Iraqi students choose the right major
+        </p>
+
+        {/* 1-col (centered) → 2-col (sm, centered) → 4-col (md, left-aligned) */}
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+          {/* About */}
+          <section
+            aria-labelledby="about-heading"
+            className="space-y-4 text-center md:text-left"
+          >
+            <h3
+              id="about-heading"
+              className="text-lg font-semibold flex md:flex-row flex-col items-center gap-2"
+            >
+              <GraduationCap className="w-5 h-5" aria-hidden="true" />
               About
             </h3>
+
             <p className="text-sm text-indigo-200 leading-relaxed">
-              College Guide is a comprehensive platform designed to help Iraqi
-              6th-grade students explore college majors and make informed
-              decisions about their future.
+              Major Compass is where informed futures begin. Empowering students
+              to explore and confidently shape their academic path.
             </p>
 
             <div className="space-y-2">
-              <h4 className="text-sm font-semibold text-indigo-200">
-                Developer
-              </h4>
-
-              <p className="text-sm text-indigo-300">
-                Built with ❤️ for Iraqi students
-              </p>
-              <a
-                href="mailto:collegeguide.iraq@gmail.com"
-                className="flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-                collegeguide.iraq@gmail.com
-              </a>
+              <p className="text-sm font-semibold text-indigo-200">Developer</p>
+              <p className="text-sm text-indigo-300">Muntadher Ahmed</p>
             </div>
-          </div>
+          </section>
 
-          {/* Navigation Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Navigation</h3>
-            <ul className="space-y-2">
-              <li>
-                <button className="flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors">
-                  <Home className="w-4 h-4" />
-                  Home
-                </button>
-              </li>
-              <li>
-                <button className="flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors">
-                  <BookOpen className="w-4 h-4" />
-                  All Majors
-                </button>
-              </li>
-              <li>
-                <button className="flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors">
-                  <Lightbulb className="w-4 h-4" />
-                  Tips & Advice
-                </button>
-              </li>
-              <li>
-                <button className="flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors">
-                  <GitCompare className="w-4 h-4" />
-                  Compare Majors
-                </button>
-              </li>
-              <li>
-                <button className="flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors">
-                  <GraduationCap className="w-4 h-4" />
-                  About
-                </button>
-              </li>
-              <li>
-                <button className="flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors">
-                  <Globe className="w-4 h-4" />
-                  English
-                </button>
-              </li>
+          <nav
+            aria-labelledby="navigation-heading"
+            className="space-y-4 text-center md:text-left"
+          >
+            <h3 id="navigation-heading" className="text-lg font-semibold">
+              Navigation
+            </h3>
+
+            <ul className="space-y-2 max-md:flex max-md:flex-col max-md:items-center">
+              {navigationLinks.map(({ label, icon: Icon }) => (
+                <li key={label}>
+                  <button
+                    type="button"
+                    className={`${linkClass} md:justify-start justify-center`}
+                  >
+                    <Icon className="w-4 h-4" aria-hidden="true" />
+                    <span>{label}</span>
+                  </button>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Features */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Features</h3>
-            <ul className="space-y-2 text-sm text-indigo-200">
-              <li>• 16+ College Majors</li>
-              <li>• Comprehensive Requirements Info</li>
-              <li>• AI-Powered Career Assistant</li>
-              <li>• Major Comparison Tools</li>
-              <li>• Market Demand Insights</li>
-              <li>• Bilingual Support</li>
-              <li>• Expert Tips & Advice</li>
-              <li>• Save & Compare Majors</li>
-            </ul>
-          </div>
+          <section
+            aria-labelledby="features-heading"
+            className="space-y-4 text-center md:text-left"
+          >
+            <h3 id="features-heading" className="text-lg font-semibold">
+              Features
+            </h3>
 
-          {/* Social Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Follow Us</h3>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-200 hover:text-white transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-6 h-6" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-200 hover:text-white transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-6 h-6" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-200 hover:text-white transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-6 h-6" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-200 hover:text-white transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-6 h-6" />
-              </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-200 hover:text-white transition-colors"
-                aria-label="GitHub"
-              >
-                <Github className="w-6 h-6" />
-              </a>
-            </div>
+            <ul className="space-y-2 text-sm text-indigo-200">
+              {features.map((feature) => (
+                <li key={feature}>
+                  <span aria-hidden="true">• </span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Social */}
+          <section
+            aria-labelledby="social-heading"
+            className="space-y-4 text-center md:text-left"
+          >
+            <h3 id="social-heading" className="text-lg font-semibold">
+              Find Me On
+            </h3>
+
+            <ul className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+              {socialLinks.map(
+                ({ label, icon: Icon, href, ariaLabel, className: extra }) => (
+                  <li key={label}>
+                    <Link
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={ariaLabel}
+                      className={`text-indigo-200 hover:text-white transition-colors ${extra ?? ""}`}
+                    >
+                      {Icon ? (
+                        <Icon className="w-6 h-6" aria-hidden="true" />
+                      ) : (
+                        <span aria-hidden="true">{label}</span>
+                      )}
+                    </Link>
+                  </li>
+                ),
+              )}
+            </ul>
+
             <div className="pt-4">
-              <h4 className="text-sm font-semibold mb-2">Contact Us</h4>
+              <h4 className="text-sm font-semibold mb-2">Contact Me</h4>
               <p className="text-sm text-indigo-200">
-                Have questions or feedback? We&apos;d love to hear from you!
+                Have questions or feedback? I&apos;d be happy to hear from you!
               </p>
             </div>
-          </div>
+          </section>
         </div>
 
-        {/* Bottom Section - Copyright & Disclaimer */}
-        <div className="border-t border-indigo-700 pt-8 space-y-4">
-          <div className="text-center space-y-2">
-            <p className="text-sm text-indigo-300">
-              © {new Date().getFullYear()} College Guide. All rights reserved.
-            </p>
+        {/* Bottom */}
+        <div className="border-t border-indigo-700 pt-8 text-center space-y-2">
+          <p className="text-sm text-indigo-300">
+            © {new Date().getFullYear()} Major Compass. All rights reserved.
+          </p>
 
-            <p className="text-xs text-indigo-400 max-w-3xl mx-auto">
-              Disclaimer: This app is designed for informational and educational
-              purposes only. Please verify all admission requirements and
-              information with official universities. Admission requirements may
-              vary by university and year. We are not responsible for decisions
-              made based on this information.
-            </p>
-          </div>
+          <p className="text-xs text-indigo-400 max-w-3xl mx-auto">
+            Disclaimer: This app is designed for informational purposes only.
+            Please verify all admission requirements with official universities.
+            The developer is not responsible for decisions made based on this
+            information.
+          </p>
         </div>
       </div>
     </footer>

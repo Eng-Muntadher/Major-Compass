@@ -1,11 +1,15 @@
 import { Clock } from "lucide-react";
-import { majors } from "../_data/majors";
 import Link from "next/link";
+import { RecentlyViewedMajor } from "../actions";
 
-export default function RecentlyViewedSection() {
-  const recentlyViewedList = [majors[0], majors[1], majors[2]];
+interface RecentlyViewedSectionProps {
+  recentlyViewedMajors: RecentlyViewedMajor[];
+}
 
-  if (recentlyViewedList.length === 0) {
+export default function RecentlyViewedSection({
+  recentlyViewedMajors,
+}: RecentlyViewedSectionProps) {
+  if (recentlyViewedMajors.length === 0) {
     return null;
   }
 
@@ -22,17 +26,17 @@ export default function RecentlyViewedSection() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {recentlyViewedList.map((major) => (
+        {recentlyViewedMajors.map((major) => (
           <Link
             href={`/browse/${major.id}`}
             key={major.id}
             className="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-left group"
-            aria-label={`View ${major.name}`}
+            aria-label={`View ${major.nameEn}`}
           >
             <h3 className="mb-1 group-hover:text-blue-600 transition-colors font-semibold">
-              {major.name}
+              {major.nameEn}
             </h3>
-            <p className="text-sm text-gray-500">{major.nameArabic}</p>
+            <p className="text-sm text-gray-500">{major.nameAr}</p>
           </Link>
         ))}
       </div>

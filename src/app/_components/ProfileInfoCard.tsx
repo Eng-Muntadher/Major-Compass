@@ -22,7 +22,7 @@ export default function ProfileInfoCard({
   const inputId = `profile-${label.toLowerCase().replace(/\s+/g, "-")}`;
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 overflow-x-auto custom-scroll">
       <div className="flex items-center gap-2 mb-2 opacity-80">
         <span aria-hidden="true">
           <Icon className="w-4 h-4" aria-hidden="true" />
@@ -42,7 +42,11 @@ export default function ProfileInfoCard({
             aria-label={label}
           >
             {selectOptions?.map((option) => (
-              <option key={option.label} value={option.label}>
+              <option
+                key={option.label}
+                value={option.label}
+                className="text-purple-900"
+              >
                 {option.label}
               </option>
             ))}

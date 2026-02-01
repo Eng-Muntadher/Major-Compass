@@ -1,4 +1,10 @@
+"use client";
+
+import { useAIAssistant } from "../_context/AIAssistantContext";
+
 export default function CompareCTABanner() {
+  const { setIsAIOpen } = useAIAssistant();
+
   return (
     <aside
       className="mt-8 bg-linear-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100"
@@ -14,8 +20,9 @@ export default function CompareCTABanner() {
           </p>
         </div>
         <button
-          className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+          onClick={() => setIsAIOpen(true)}
           aria-label="Compare saved majors with AI"
+          className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
         >
           <span className="text-xl" aria-hidden="true">
             🤖

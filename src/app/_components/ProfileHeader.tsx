@@ -1,25 +1,25 @@
 "use client";
 
+import { useState, useTransition } from "react";
 import { User, Edit2 } from "lucide-react";
 import ProfileInfoSection from "./ProfileInfoSection";
-import { useState, useOptimistic, useTransition } from "react";
+import { updateProfile } from "../actions";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import { updateProfile } from "../actions";
 
 interface ProfileHeaderProps {
-  username: string | null;
-  email: string | null;
-  grade: string | null;
-  avatarUrl: string | null;
-  bookmarksCount: number;
-}
-
-interface ProfileData {
   username: string;
   email: string;
   grade: string;
   avatarUrl: string | null;
+  bookmarksCount: number;
+}
+
+interface EditableProfile {
+  username: string;
+  grade: string;
+  avatarUrl: string | null;
+  avatarFile: File | null; // only set when user picks a new file
 }
 
 export default function ProfileHeader({
@@ -32,92 +32,146 @@ export default function ProfileHeader({
   const [isEditing, setIsEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  const initialProfile: ProfileData = {
-    username: username || "",
-    email: email || "",
-    grade: grade || "",
-    avatarUrl: avatarUrl,
+  const serverProfile = { username, grade, avatarUrl };
+
+  // Local draft state that the edit form mutates.
+  const [draft, setDraft] = useState<EditableProfile>({
+    username,
+    grade,
+    avatarUrl,
+    avatarFile: null,
+  });
+
+  const handleEdit = () => {
+    // Reset draft to current server values before opening the form.
+    setDraft({
+      username: serverProfile.username,
+      grade: serverProfile.grade,
+      avatarUrl: serverProfile.avatarUrl,
+      avatarFile: null,
+    });
+    setIsEditing(true);
   };
 
-  // Optimistic state
-  const [optimisticProfile, updateOptimisticProfile] = useOptimistic(
-    initialProfile,
-    (state, newProfile: Partial<ProfileData>) => ({
-      ...state,
-      ...newProfile,
-    }),
-  );
+  const handleCancel = () => {
+    if (draft.avatarFile && draft.avatarUrl) {
+      URL.revokeObjectURL(draft.avatarUrl);
+    }
+    setIsEditing(false);
+  };
 
-  const handleSave = (formData: FormData) => {
-    const username = formData.get("username") as string;
-    const email = formData.get("email") as string;
-    const grade = formData.get("grade") as string;
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
+    if (draft.avatarFile && draft.avatarUrl) {
+      URL.revokeObjectURL(draft.avatarUrl);
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+    setDraft((prev) => ({ ...prev, avatarFile: file, avatarUrl: previewUrl }));
+  };
+
+  const handleSave = () => {
     startTransition(async () => {
-      // Optimistically update UI immediately
-      updateOptimisticProfile({ username, email, grade });
-      setIsEditing(false);
-
       try {
+        const formData = new FormData();
+        formData.append("username", draft.username);
+        formData.append("grade", draft.grade);
+
+        // Only send the avatar file if the user actually picked a new one.
+        if (draft.avatarFile) {
+          formData.append("avatar", draft.avatarFile);
+        }
+
         await updateProfile(formData);
-        toast.success("Profile updated!");
+
+        // Clean up the blob URL now that the save succeeded.
+        // (The server will have returned a real URL on next page load.)
+        if (draft.avatarFile && draft.avatarUrl) {
+          URL.revokeObjectURL(draft.avatarUrl);
+        }
+
+        toast.success("Profile updated successfully!");
+        setIsEditing(false);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.error("Failed to update profile");
-        setIsEditing(true); // Re-open edit mode on error
+        // Stay in edit mode so the user can retry or cancel.
       }
     });
   };
+
+  const displayAvatarUrl = isEditing
+    ? draft.avatarUrl
+    : serverProfile.avatarUrl;
 
   return (
     <header className="bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-8 text-white">
       <div className="flex items-start justify-between mb-6">
         <div className="flex items-center gap-4">
-          <div
-            className="relative w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center"
-            aria-hidden="true"
-          >
-            {optimisticProfile.avatarUrl ? (
+          <div className="relative w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center overflow-hidden">
+            {displayAvatarUrl ? (
               <Image
                 fill
-                src={optimisticProfile.avatarUrl}
+                src={displayAvatarUrl}
                 alt=""
                 className="w-full h-full rounded-full object-cover"
               />
             ) : (
               <User className="w-10 h-10" aria-hidden="true" />
             )}
+
+            {/* File input — visually hidden but clickable via the label below */}
+            {isEditing && (
+              <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity cursor-pointer z-10">
+                <span className="text-xs font-semibold text-center px-1 leading-tight">
+                  Change
+                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="sr-only"
+                  aria-label="Upload avatar"
+                />
+              </label>
+            )}
           </div>
+
           <div>
             {isEditing ? (
-              <form action={handleSave}>
-                <label htmlFor="user-name" className="sr-only">
-                  Your user name
+              <>
+                <label htmlFor="profile-username" className="sr-only">
+                  Username
                 </label>
                 <input
-                  id="user-name"
+                  id="profile-username"
                   name="username"
                   type="text"
-                  defaultValue={optimisticProfile.username || ""}
+                  value={draft.username}
+                  onChange={(e) =>
+                    setDraft((prev) => ({ ...prev, username: e.target.value }))
+                  }
                   className="bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg text-2xl outline-none border-2 border-white/40 focus:border-white"
-                  aria-label="Edit your name"
                   required
                 />
-              </form>
+              </>
             ) : (
               <h1 className="text-3xl mb-1 font-semibold">
-                {optimisticProfile.username}
+                {serverProfile.username}
               </h1>
             )}
             <p className="opacity-90">
-              {optimisticProfile.grade || "Grade not set"}
+              {(isEditing ? draft.grade : serverProfile.grade) ||
+                "Grade not set"}
             </p>
           </div>
         </div>
 
         {!isEditing ? (
           <button
-            onClick={() => setIsEditing(true)}
+            onClick={handleEdit}
             className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
             aria-label="Edit profile"
           >
@@ -127,28 +181,20 @@ export default function ProfileHeader({
         ) : (
           <div className="flex gap-2" role="group" aria-label="Edit actions">
             <button
-              onClick={() => setIsEditing(false)}
+              onClick={handleCancel}
               disabled={isPending}
               type="button"
-              className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
               aria-label="Cancel editing"
             >
               Cancel
             </button>
 
             <button
-              onClick={(e) => {
-                const form = e.currentTarget
-                  .closest("header")
-                  ?.querySelector("form");
-                if (form) {
-                  const formData = new FormData(form);
-                  handleSave(formData);
-                }
-              }}
+              onClick={handleSave}
               disabled={isPending}
               type="button"
-              className="px-4 py-2 bg-white hover:bg-white/90 text-blue-600 rounded-lg transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-white hover:bg-white/90 text-blue-600 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
               aria-label="Save changes"
             >
               {isPending ? "Saving..." : "Save"}
@@ -158,10 +204,13 @@ export default function ProfileHeader({
       </div>
 
       <ProfileInfoSection
-        email={optimisticProfile.email || ""}
-        grade={optimisticProfile.grade}
+        email={email}
+        grade={isEditing ? draft.grade : serverProfile.grade}
         savedCount={bookmarksCount}
         isEditing={isEditing}
+        onGradeChange={(newGrade) =>
+          setDraft((prev) => ({ ...prev, grade: newGrade }))
+        }
       />
     </header>
   );
