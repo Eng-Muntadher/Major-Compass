@@ -1,6 +1,6 @@
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
-import { RecentlySavedMajor } from "../actions";
+import { RecentlySavedMajor } from "../_lib/types";
 
 interface MiniMajorCardProps {
   major: RecentlySavedMajor;

@@ -12,13 +12,15 @@ import {
   preferredLanguages,
   subjects,
 } from "../_data/testData";
-import type { StudentTestData } from "../student-test/page";
+import { StudentTestData } from "./StudentTestPageContent";
+import { TestTranslationTypes } from "../translations/en/studentTest";
 
 interface StudentTestFormProps {
   formData: StudentTestData;
   errors: { [key: string]: string };
   onFormDataChange: (data: StudentTestData) => void;
   onSubmit: (e: React.FormEvent) => void;
+  formLabels: TestTranslationTypes["form"];
 }
 
 export default function StudentTestForm({
@@ -26,6 +28,7 @@ export default function StudentTestForm({
   errors,
   onFormDataChange,
   onSubmit,
+  formLabels,
 }: StudentTestFormProps) {
   const handleLanguageToggle = (value: string) => {
     onFormDataChange({
@@ -45,10 +48,17 @@ export default function StudentTestForm({
     });
   };
 
+  const isEnglish = formLabels.gpa.label.startsWith("G");
+
   return (
     <form onSubmit={onSubmit} className="space-y-8" noValidate>
       {/* GPA */}
-      <FormField label="GPA (0-100)" required error={errors.gpa} htmlFor="gpa">
+      <FormField
+        label={formLabels.gpa.label}
+        required
+        error={errors.gpa}
+        htmlFor="gpa"
+      >
         <Input
           id="gpa"
           type="number"
@@ -62,7 +72,7 @@ export default function StudentTestForm({
               gpa: parseFloat(e.target.value) || 0,
             })
           }
-          placeholder="Enter your GPA"
+          placeholder={formLabels.gpa.placeholder}
           className={errors.gpa ? "border-red-500" : ""}
           aria-invalid={!!errors.gpa}
           aria-describedby={errors.gpa ? "gpa-error" : undefined}
@@ -71,7 +81,7 @@ export default function StudentTestForm({
 
       {/* High School Field */}
       <SelectField
-        label="High School Field of Study"
+        label={formLabels.highSchoolField.label}
         id="highSchoolField"
         value={formData.highSchoolField}
         onChange={(value) =>
@@ -79,25 +89,27 @@ export default function StudentTestForm({
         }
         options={highSchoolFields}
         error={errors.highSchoolField}
-        placeholder="Select your field"
+        placeholder={formLabels.highSchoolField.placeholder}
         required
+        isEnglish={isEnglish}
       />
 
       {/* City */}
       <SelectField
-        label="City"
+        label={formLabels.city.label}
         id="city"
         value={formData.city}
         onChange={(value) => onFormDataChange({ ...formData, city: value })}
         options={iraqiCities}
         error={errors.city}
-        placeholder="Select your city"
+        placeholder={formLabels.city.placeholder}
         required
+        isEnglish={isEnglish}
       />
 
       {/* Prefer Same City */}
       <RadioField
-        label="Do you prefer to study in the same city?"
+        label={formLabels.preferSameCity.label}
         name="preferSameCity"
         value={formData.preferSameCity}
         onChange={(value) =>
@@ -107,36 +119,41 @@ export default function StudentTestForm({
           })
         }
         options={[
-          { value: "yes", label: "Yes" },
-          { value: "no", label: "No" },
-          { value: "no-preference", label: "No preference" },
+          { value: "yes", label: formLabels.preferSameCity.options.yes },
+          { value: "no", label: formLabels.preferSameCity.options.no },
+          {
+            value: "no-preference",
+            label: formLabels.preferSameCity.options.noPreference,
+          },
         ]}
         required
       />
 
       {/* Preferred Languages */}
       <CheckboxGroup
-        label="Preferred Study Language(s)"
+        label={formLabels.preferredLanguages.label}
         options={preferredLanguages}
         selected={formData.preferredLanguages}
         onToggle={handleLanguageToggle}
         error={errors.preferredLanguages}
         required
+        isEnglish={isEnglish}
       />
 
       {/* Subjects Studied */}
       <CheckboxGroup
-        label="Subjects Studied"
+        label={formLabels.subjectsStudied.label}
         options={subjects}
         selected={formData.subjectsStudied}
         onToggle={handleSubjectToggle}
         error={errors.subjectsStudied}
         required
+        isEnglish={isEnglish}
       />
 
       {/* Preferred Field Type */}
       <SelectField
-        label="Preferred Field Type"
+        label={formLabels.preferredFieldType.label}
         id="preferredFieldType"
         value={formData.preferredFieldType}
         onChange={(value) =>
@@ -144,8 +161,9 @@ export default function StudentTestForm({
         }
         options={fieldTypes}
         error={errors.preferredFieldType}
-        placeholder="Select field type"
+        placeholder={formLabels.preferredFieldType.placeholder}
         required
+        isEnglish={isEnglish}
       />
 
       {/* Submit Button */}
@@ -154,7 +172,7 @@ export default function StudentTestForm({
           type="submit"
           className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-6 text-lg transition-colors cursor-pointer"
         >
-          Get My Results
+          {formLabels.submitButton.label}
           <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
         </Button>
       </div>

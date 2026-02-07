@@ -1,44 +1,50 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { EnglishSearchMajors, MajorAR, MajorEN } from "./types";
+import {
+  EnglishSearchMajors,
+  Lang,
+  Major,
+  MajorNameType,
+  MajorRow,
+  RecentlySavedMajor,
+  RecentlyViewedMajor,
+} from "./types";
 
-export async function getMajorsInEnglish(
+export async function getMajors(
   supabase: SupabaseClient,
+  lang: Lang = "en",
   ids?: string[],
-): Promise<MajorEN[] | null> {
-  let query = supabase.from("majors").select(`
-      id,
-      name_en,
-      name_ar,
-      category_en,
-      description_en,
-      min_gpa,
-      difficulty,
-      duration,
-      skills_en,
-      subjects_en,
-      pros_en,
-      cons_en,
-      job_opportunities_en,
-      average_salary_en,
-      similar_majors,
-      top_universities_en,
-      image_url,
-      common_mistakes_en,
-      demand_in_iraq_en,
-      demand_outside_iraq_en,
-      demand_in_iraq_level,
-      demand_outside_iraq_level
-    `);
+): Promise<Partial<Major>[] | null> {
+  // Map the language-dependent fields
+  const fieldMap = {
+    description: `description_${lang}` as const,
+    jobOpportunities: `job_opportunities_${lang}` as const,
+  };
 
-  // Apply filter ONLY if ids exist and are not empty, otherwise we return all the data in the DB
-  if (ids && ids.length > 0) {
+  // Select only the fields we need
+  const selectFields = [
+    "id",
+    "name_ar",
+    "name_en",
+    "difficulty",
+    "image_url",
+    "min_gpa",
+    "duration",
+    "category_en",
+    fieldMap.description,
+    fieldMap.jobOpportunities,
+  ].join(", ");
+
+  let query = supabase.from("majors").select(selectFields);
+
+  if (ids?.length) {
     query = query.in("id", ids);
   }
 
-  const { data, error } = await query;
+  // Use your MajorRow type for the Supabase response
+  const { data, error } = await query.returns<MajorRow[]>();
 
   if (error || !data) {
-    console.error("Error fetching English majors:", error);
+    console.error(`Error fetching majors in ${lang}:`, error);
     return null;
   }
 
@@ -47,89 +53,267 @@ export async function getMajorsInEnglish(
     nameEn: major.name_en,
     nameAr: major.name_ar,
     category: major.category_en,
-    description: major.description_en,
-    minGPA: major.min_gpa,
     difficulty: major.difficulty,
-    duration: major.duration,
-    skills: major.skills_en,
-    subjects: major.subjects_en,
-    pros: major.pros_en,
-    cons: major.cons_en,
-    jobOpportunities: major.job_opportunities_en,
-    averageSalary: major.average_salary_en,
-    similarMajors: major.similar_majors,
-    topUniversities: major.top_universities_en,
     imageUrl: major.image_url,
-    commonMistakes: major.common_mistakes_en,
-    demandInIraq: major.demand_in_iraq_en,
-    demandOutsideIraq: major.demand_outside_iraq_en,
-    demandInIraqLevel: major.demand_in_iraq_level,
-    demandOutsideIraqLevel: major.demand_outside_iraq_level,
+    description: major[fieldMap.description] as string | null,
+    minGPA: major.min_gpa,
+    duration: major.duration,
+    jobOpportunities: major[fieldMap.jobOpportunities] as string[] | null,
   }));
 }
 
-export async function getMajorsInArabic(
+export async function getMajorName(
   supabase: SupabaseClient,
-  ids?: string[],
-): Promise<MajorAR[] | null> {
-  let query = supabase.from("majors").select(`
-    id,
-    name_ar,
-    category_ar,
-    description_ar,
-    min_gpa,
-    difficulty,
-    duration,
-    skills_ar,
-    subjects_ar,
-    pros_ar,
-    cons_ar,
-    job_opportunities_ar,
-    average_salary_ar,
-    similar_majors,
-    top_universities_ar,
-    image_url,
-    common_mistakes_ar,
-    demand_in_iraq_ar,
-    demand_outside_iraq_ar,
-    demand_in_iraq_level,
-    demand_outside_iraq_level
-  `);
+  lang: "en" | "ar",
+  majorId: string,
+): Promise<MajorNameType | null> {
+  const { data, error } = await supabase
+    .from("majors")
+    .select(`name_en, name_ar`)
+    .eq("id", majorId)
+    .single();
 
-  // ✅ Apply filter ONLY if ids exist and are not empty
-  if (ids && ids.length > 0) {
-    query = query.in("id", ids);
-  }
+  if (error || !data) return null;
+  return lang === "ar" ? data.name_ar : data.name_en;
+}
 
-  const { data, error } = await query;
+export async function getMajorsWithFullInfo(
+  supabase: SupabaseClient,
+  lang: Lang = "en",
+): Promise<Major[] | null> {
+  const fieldMap = {
+    category: `category_${lang}` as const,
+    description: `description_${lang}` as const,
+    skills: `skills_${lang}` as const,
+    subjects: `subjects_${lang}` as const,
+    pros: `pros_${lang}` as const,
+    cons: `cons_${lang}` as const,
+    jobOpportunities: `job_opportunities_${lang}` as const,
+    averageSalary: `average_salary_${lang}` as const,
+    topUniversities: `top_universities_${lang}` as const,
+    commonMistakes: `common_mistakes_${lang}` as const,
+    demandInIraq: `demand_in_iraq_${lang}` as const,
+    demandOutsideIraq: `demand_outside_iraq_${lang}` as const,
+  };
+
+  const selectFields = [
+    "id",
+    "name_ar",
+    "name_en",
+    fieldMap.category,
+    fieldMap.description,
+    "min_gpa",
+    "difficulty",
+    "duration",
+    fieldMap.skills,
+    fieldMap.subjects,
+    fieldMap.pros,
+    fieldMap.cons,
+    fieldMap.jobOpportunities,
+    fieldMap.averageSalary,
+    "similar_majors",
+    fieldMap.topUniversities,
+    "image_url",
+    fieldMap.commonMistakes,
+    fieldMap.demandInIraq,
+    fieldMap.demandOutsideIraq,
+    "demand_in_iraq_level",
+    "demand_outside_iraq_level",
+  ].join(", ");
+
+  const { data, error } = await supabase
+    .from("majors")
+    .select(selectFields)
+    .returns<MajorRow[]>();
 
   if (error || !data) {
-    console.error("Error fetching Arabic majors:", error);
+    console.error(`Error fetching majors in ${lang}:`, error);
     return null;
   }
 
-  return data.map((major) => ({
+  return data.map((major) => {
+    const get = <T = unknown>(key: string) => major[key] as T;
+
+    return {
+      // static
+      id: major.id,
+      nameAr: major.name_ar,
+      nameEn: major.name_en,
+      minGPA: major.min_gpa,
+      difficulty: major.difficulty,
+      duration: major.duration,
+      similarMajors: major.similar_majors,
+      imageUrl: major.image_url,
+      demandOutsideIraqLevel: major.demand_outside_iraq_level?.toString() as
+        | "High"
+        | "Medium"
+        | "Low"
+        | null,
+      demandInIraqLevel: major.demand_in_iraq_level?.toString() as
+        | "High"
+        | "Medium"
+        | "Low"
+        | null,
+
+      // dynamic
+      category: get(fieldMap.category),
+      description: get(fieldMap.description),
+      skills: get(fieldMap.skills),
+      subjects: get(fieldMap.subjects),
+      pros: get(fieldMap.pros),
+      cons: get(fieldMap.cons),
+      jobOpportunities: get(fieldMap.jobOpportunities),
+      averageSalary: get(fieldMap.averageSalary),
+      topUniversities: get(fieldMap.topUniversities),
+      commonMistakes: get(fieldMap.commonMistakes),
+      demandInIraq: get(fieldMap.demandInIraq),
+      demandOutsideIraq: get(fieldMap.demandOutsideIraq),
+    };
+  });
+}
+
+export async function getMajorDetails(
+  supabase: SupabaseClient,
+  lang: Lang = "en",
+  id: string,
+): Promise<Major | null> {
+  // Language-dependent fields
+  const fieldMap = {
+    category: `category_${lang}` as const,
+    description: `description_${lang}` as const,
+    skills: `skills_${lang}` as const,
+    subjects: `subjects_${lang}` as const,
+    pros: `pros_${lang}` as const,
+    cons: `cons_${lang}` as const,
+    jobOpportunities: `job_opportunities_${lang}` as const,
+    averageSalary: `average_salary_${lang}` as const,
+    topUniversities: `top_universities_${lang}` as const,
+    commonMistakes: `common_mistakes_${lang}` as const,
+    demandInIraq: `demand_in_iraq_${lang}` as const,
+    demandOutsideIraq: `demand_outside_iraq_${lang}` as const,
+  };
+
+  const selectFields = [
+    "id",
+    "name_ar",
+    "name_en",
+    fieldMap.category,
+    fieldMap.description,
+    "min_gpa",
+    "difficulty",
+    "duration",
+    fieldMap.skills,
+    fieldMap.subjects,
+    fieldMap.pros,
+    fieldMap.cons,
+    fieldMap.jobOpportunities,
+    fieldMap.averageSalary,
+    "similar_majors",
+    fieldMap.topUniversities,
+    "image_url",
+    fieldMap.commonMistakes,
+    fieldMap.demandInIraq,
+    fieldMap.demandOutsideIraq,
+    "demand_in_iraq_level",
+    "demand_outside_iraq_level",
+  ].join(", ");
+
+  const { data, error } = await supabase
+    .from("majors")
+    .select(selectFields)
+    .eq("id", id)
+    .single<MajorRow>();
+
+  if (error || !data) {
+    console.error(`Error fetching major with id=${id} in ${lang}:`, error);
+    return null;
+  }
+
+  const get = <T = unknown>(key: string) => data[key] as T;
+
+  return {
+    // static
+    id: data.id,
+    nameAr: data.name_ar,
+    nameEn: data.name_en,
+    minGPA: data.min_gpa,
+    difficulty: data.difficulty,
+    duration: data.duration,
+    similarMajors: data.similar_majors,
+    imageUrl: data.image_url,
+    demandOutsideIraqLevel:
+      (data.demand_outside_iraq_level?.toString() as
+        | "High"
+        | "Medium"
+        | "Low") || null,
+    demandInIraqLevel:
+      (data.demand_in_iraq_level?.toString() as "High" | "Medium" | "Low") ||
+      null,
+
+    // dynamic
+    category: get(fieldMap.category),
+    description: get(fieldMap.description),
+    skills: get(fieldMap.skills),
+    subjects: get(fieldMap.subjects),
+    pros: get(fieldMap.pros),
+    cons: get(fieldMap.cons),
+    jobOpportunities: get(fieldMap.jobOpportunities),
+    averageSalary: get(fieldMap.averageSalary),
+    topUniversities: get(fieldMap.topUniversities),
+    commonMistakes: get(fieldMap.commonMistakes),
+    demandInIraq: get(fieldMap.demandInIraq),
+    demandOutsideIraq: get(fieldMap.demandOutsideIraq),
+  };
+}
+
+export async function getRecentlySavedMajors(
+  supabase: SupabaseClient,
+  majorIds: string[],
+): Promise<RecentlySavedMajor[]> {
+  if (!majorIds || majorIds.length === 0) return [];
+
+  // Get only the last 2 IDs
+  const lastTwoIds = majorIds.slice(-2);
+
+  const { data: majors, error } = await supabase
+    .from("majors")
+    .select("id, name_en, name_ar, difficulty, min_gpa")
+    .in("id", lastTwoIds);
+
+  if (error) {
+    console.error("Error fetching bookmarked majors:", error);
+    return [];
+  }
+
+  return majors.map((major) => ({
     id: major.id,
-    name: major.name_ar,
-    category: major.category_ar,
-    description: major.description_ar,
-    minGPA: major.min_gpa,
+    nameEn: major.name_en,
+    nameAr: major.name_ar,
     difficulty: major.difficulty,
-    duration: major.duration,
-    skills: major.skills_ar,
-    subjects: major.subjects_ar,
-    pros: major.pros_ar,
-    cons: major.cons_ar,
-    jobOpportunities: major.job_opportunities_ar,
-    averageSalary: major.average_salary_ar,
-    similarMajors: major.similar_majors,
-    topUniversities: major.top_universities_ar,
-    imageUrl: major.image_url,
-    commonMistakes: major.common_mistakes_ar,
-    demandInIraq: major.demand_in_iraq_ar,
-    demandOutsideIraq: major.demand_outside_iraq_ar,
-    demandInIraqLevel: major.demand_in_iraq_level,
-    demandOutsideIraqLevel: major.demand_outside_iraq_level,
+    minGPA: major.min_gpa,
+  }));
+}
+
+export async function getRecentlyViwedMajors(
+  supabase: SupabaseClient,
+  majorIds: string[],
+): Promise<RecentlyViewedMajor[]> {
+  if (!majorIds || majorIds.length === 0) return [];
+
+  const { data: majors, error } = await supabase
+    .from("majors")
+    .select("id, name_en, name_ar")
+    .in("id", [majorIds]);
+
+  if (error) {
+    console.error("Error fetching bookmarked majors:", error);
+    return [];
+  }
+
+  return majors.map((major) => ({
+    id: major.id,
+    nameEn: major.name_en,
+    nameAr: major.name_ar,
   }));
 }
 
@@ -138,7 +322,7 @@ export async function getEnSearchMajors(
 ): Promise<EnglishSearchMajors[] | null> {
   const { data, error } = await supabase
     .from("majors")
-    .select("id, name_en, category_en");
+    .select("id, name_en, category_en, name_ar, category_ar");
 
   if (error || !data) {
     console.error("Error fetching Arabic majors:", error);
@@ -147,8 +331,10 @@ export async function getEnSearchMajors(
 
   return data.map((major) => ({
     id: major.id,
-    name: major.name_en,
-    category: major.category_en,
+    nameAr: major.name_ar,
+    nameEn: major.name_en,
+    categoryAr: major.category_ar,
+    categoryEn: major.category_en,
   }));
 }
 

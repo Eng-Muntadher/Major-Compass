@@ -2,22 +2,27 @@ import ReactMarkdown from "react-markdown";
 import { Bot, Loader2 } from "lucide-react";
 import Card from "../_components/Card";
 
+interface AIResponseCardContent {
+  title: string;
+  loadingText: string;
+  loadedText: string;
+  processingText: string;
+}
+
 interface AIResponseCardProps {
   loading: boolean;
   response: string | null;
+  content: AIResponseCardContent;
 }
 
 export default function AIResponseCard({
   loading,
   response,
+  content,
 }: AIResponseCardProps) {
   return (
     <section aria-labelledby="ai-advisor-title" className="mb-6">
-      <Card
-        className="p-6 md:p-8"
-        role="region"
-        aria-label="AI Career Advisor Response"
-      >
+      <Card className="p-6 md:p-8" role="region" aria-label={content.title}>
         <header className="flex items-start gap-4 mb-6">
           <div
             className="w-12 h-12 bg-linear-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center shrink-0"
@@ -27,12 +32,10 @@ export default function AIResponseCard({
           </div>
           <div className="flex-1">
             <h2 id="ai-advisor-title" className="text-xl font-semibold mb-1">
-              AI Career Advisor
+              {content.title}
             </h2>
             <p className="text-sm text-gray-600">
-              {loading
-                ? "Analyzing your profile and generating recommendations..."
-                : "Here are your personalized recommendations"}
+              {loading ? content.loadingText : content.loadedText}
             </p>
           </div>
         </header>
@@ -48,8 +51,7 @@ export default function AIResponseCard({
               aria-hidden="true"
             />
             <p className="text-gray-600 text-center">
-              Processing your information and generating personalized
-              recommendations...
+              {content.processingText}
             </p>
           </div>
         ) : (

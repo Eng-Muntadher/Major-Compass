@@ -1,12 +1,12 @@
 // app/majors/[majorId]/_components/HeroSection.tsx
 import { ImageWithFallback } from "./ImageWithFallback";
-import { MajorEN } from "../_lib/types";
+import { Major } from "../_lib/types";
 import SaveMajorButton from "./SaveMajorButton";
 import { createClient } from "../_lib/supabase";
-import { updateRecentlyViewedMajor } from "../actions";
+import { updateRecentlyViewedMajor } from "@/app/actions/majorsActions";
 
 interface HeroDetailsHeroProps {
-  major: MajorEN | null;
+  major: Major | null;
 }
 
 async function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
@@ -44,6 +44,7 @@ async function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
           src={major?.imageUrl}
           alt={major?.nameEn ? `${major.nameEn} major` : "Major image"}
           className="w-full h-full"
+          priority={true}
           objectFit="cover"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />

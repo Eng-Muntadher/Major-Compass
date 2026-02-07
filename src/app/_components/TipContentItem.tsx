@@ -1,10 +1,14 @@
-import { type TipContent } from "../_data/tips";
+interface TipContentItemProps {
+  content: {
+    heading: string;
+    points: readonly string[];
+  };
+}
 
-function TipContentItem({ content }: { content: TipContent }) {
+function TipContentItem({ content }: TipContentItemProps) {
   return (
     <div>
       <h3 className="mb-3 text-blue-600">{content.heading}</h3>
-      <p className="text-sm text-gray-500 mb-3">{content.headingArabic}</p>
       <ul className="space-y-2">
         {content.points.map((point, pointIndex) => (
           <li key={pointIndex} className="flex items-start gap-3">

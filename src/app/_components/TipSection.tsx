@@ -1,10 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { type TipSection } from "../_data/tips";
 import TipSectionContent from "./TipSectionContent";
 import TipSectionHeader from "./TipSectionHeader";
 
 interface TipSectionProps {
-  TipSet: TipSection;
+  TipSet: {
+    id: string;
+    title: string;
+    icon: string;
+    content: readonly {
+      heading: string;
+      points: readonly string[];
+    }[];
+  };
   isExpanded: boolean;
   onToggle: () => void;
 }

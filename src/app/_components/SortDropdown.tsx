@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpDown } from "lucide-react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 export type SortOption =
   | "default"
@@ -14,11 +14,16 @@ export type SortOption =
 
 export function SortDropdown() {
   const router = useRouter();
+  const routeParams = useParams();
   const searchParams = useSearchParams();
 
-  const currentSort = searchParams.get("sortOrder") ?? "default";
+  const lang = (routeParams.lang ?? "en") as "en" | "ar";
 
-  const onChange = (value: string) => {
+  // ✅ Reactive value
+  const currentSort = (searchParams.get("sortOrder") ??
+    "default") as SortOption;
+
+  const onChange = (value: SortOption) => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (value === "default") {
@@ -27,32 +32,51 @@ export function SortDropdown() {
       params.set("sortOrder", value);
     }
 
-    router.push(`/browse?${params.toString()}`);
+    router.push(`/${lang}/browse?${params.toString()}`);
   };
+
+  const sortLabels: Record<SortOption, string> =
+    lang === "en"
+      ? {
+          default: "Default order",
+          "name-asc": "Name (A–Z)",
+          "name-desc": "Name (Z–A)",
+          "difficulty-asc": "Difficulty (Low to High)",
+          "difficulty-desc": "Difficulty (High to Low)",
+          "gpa-asc": "GPA (Low to High)",
+          "gpa-desc": "GPA (High to Low)",
+        }
+      : {
+          default: "الترتيب الافتراضي",
+          "name-asc": "الاسم (أ–ي)",
+          "name-desc": "الاسم (ي–أ)",
+          "difficulty-asc": "الصعوبة (من الأقل إلى الأعلى)",
+          "difficulty-desc": "الصعوبة (من الأعلى إلى الأقل)",
+          "gpa-asc": "المعدل (من الأقل إلى الأعلى)",
+          "gpa-desc": "المعدل (من الأعلى إلى الأقل)",
+        };
+
   return (
     <div className="flex items-center gap-2 mb-6">
-      {/* Decorative icon */}
       <ArrowUpDown className="w-4 h-4 text-gray-500" aria-hidden="true" />
 
-      {/* Accessible label */}
       <label htmlFor="sort-majors" className="sr-only">
-        Sort majors
+        {lang === "en" ? "Sort majors" : "ترتيب التخصصات"}
       </label>
 
       <select
         id="sort-majors"
         value={currentSort}
-        onChange={(e) => onChange(e.target.value)}
-        className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+        onChange={(e) => onChange(e.target.value as SortOption)}
+        className={`px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm
+          focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer
+          ${lang === "ar" ? "text-right" : "text-left"}`}
       >
-        <option value="default">Default order</option>
-        <option value="name-asc">Name (A–Z)</option>
-        <option value="name-desc">Name (Z–A)</option>
-        <option value="difficulty-asc">Difficulty (Low to High)</option>
-        <option value="difficulty-desc">Difficulty (High to Low)</option>
-        <option value="gpa-asc">GPA (Low to High)</option>
-        <option value="gpa-desc">GPA (High to Low)</option>
+        {Object.entries(sortLabels).map(([key, label]) => (
+          <option key={key} value={key}>
+            {label}
+          </option>
+        ))}
       </select>
     </div>
   );

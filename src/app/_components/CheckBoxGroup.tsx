@@ -5,6 +5,7 @@ import Label from "./Label";
 type Option = {
   value: string;
   label: string;
+  labelAr: string;
 };
 
 type CheckboxGroupProps = {
@@ -14,6 +15,7 @@ type CheckboxGroupProps = {
   onToggle: (value: string) => void;
   error?: string;
   required?: boolean;
+  isEnglish: boolean;
 };
 
 export default function CheckboxGroup({
@@ -23,6 +25,7 @@ export default function CheckboxGroup({
   onToggle,
   error,
   required,
+  isEnglish,
 }: CheckboxGroupProps) {
   return (
     <FormField label={label} required={required} error={error}>
@@ -32,13 +35,14 @@ export default function CheckboxGroup({
             <Checkbox
               id={`checkbox-${option.value}`}
               checked={selected.includes(option.value)}
+              className="focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               onChange={() => onToggle(option.value)}
             />
             <Label
               htmlFor={`checkbox-${option.value}`}
               className="font-normal cursor-pointer"
             >
-              {option.label}
+              {isEnglish ? option.label : option.labelAr}
             </Label>
           </div>
         ))}

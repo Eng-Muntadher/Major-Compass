@@ -7,6 +7,11 @@ interface ProfileInfoSectionProps {
   savedCount: number;
   isEditing: boolean;
   onGradeChange?: (grade: string) => void;
+  translations: {
+    email: string;
+    grade: string;
+    savedMajors: string;
+  };
 }
 
 const gradeOptions = [
@@ -25,6 +30,7 @@ export default function ProfileInfoSection({
   savedCount,
   isEditing,
   onGradeChange,
+  translations,
 }: ProfileInfoSectionProps) {
   return (
     <section
@@ -33,7 +39,7 @@ export default function ProfileInfoSection({
     >
       <ProfileInfoCard
         icon={Mail}
-        label="Email"
+        label={translations.email}
         value={email}
         isEditing={false}
         inputType="email"
@@ -41,7 +47,7 @@ export default function ProfileInfoSection({
 
       <ProfileInfoCard
         icon={GraduationCap}
-        label="Grade"
+        label={translations.grade}
         value={grade}
         isEditing={isEditing}
         inputType="select"
@@ -51,7 +57,7 @@ export default function ProfileInfoSection({
 
       <ProfileInfoCard
         icon={BookmarkIcon}
-        label="Saved Majors"
+        label={translations.savedMajors}
         value={savedCount}
         isEditing={false}
       />

@@ -1,4 +1,4 @@
-import { EnglishSearchMajors, MajorEN } from "../_lib/types";
+import { EnglishSearchMajors, Major } from "../_lib/types";
 
 /**
  * Filter majors by search query
@@ -13,12 +13,15 @@ export function filterMajorsBySearch(
   }
 
   const lowerQuery = query.toLowerCase();
+  console.log(majors);
 
   return majors
     ? majors?.filter((major) => {
         return (
-          major.name.toLowerCase().includes(lowerQuery) ||
-          major.category.toLowerCase().includes(lowerQuery)
+          major.nameEn.toLowerCase().includes(lowerQuery) ||
+          major.categoryEn.toLowerCase().includes(lowerQuery) ||
+          major.categoryAr.toLowerCase().includes(lowerQuery) ||
+          major.nameAr.toLowerCase().includes(lowerQuery)
         );
       })
     : null;
@@ -28,15 +31,15 @@ export function filterMajorsBySearch(
  * Filter majors by category
  */
 export function filterMajorsByCategory(
-  majors: MajorEN[] | null,
+  majors: Partial<Major>[] | null,
   categoryId: string,
-): MajorEN[] | null {
+): Partial<Major>[] | null {
   if (categoryId === "all") {
     return majors;
   }
   return majors
     ? majors.filter(
-        (major) => major.category.toLowerCase() === categoryId.toLowerCase(),
+        (major) => major?.category?.toLowerCase() === categoryId.toLowerCase(),
       )
     : null;
 }

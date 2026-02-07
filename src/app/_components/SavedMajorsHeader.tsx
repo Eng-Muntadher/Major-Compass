@@ -1,10 +1,15 @@
 import { Bookmark } from "lucide-react";
+import { SavedMajorsTranslationTypes } from "../translations/en/savedMajors";
 
 interface SavedMajorsHeaderProps {
   count: number;
+  header: SavedMajorsTranslationTypes["header"];
 }
 
-export default function SavedMajorsHeader({ count }: SavedMajorsHeaderProps) {
+export default function SavedMajorsHeader({
+  count,
+  header,
+}: SavedMajorsHeaderProps) {
   return (
     <header className="mb-8">
       <div className="flex items-center justify-between mb-4">
@@ -17,18 +22,17 @@ export default function SavedMajorsHeader({ count }: SavedMajorsHeaderProps) {
           </div>
 
           <div>
-            <h1 className="text-3xl">Saved Majors</h1>
+            <h1 className="text-3xl">{header.title}</h1>
 
             <p className="text-gray-600" aria-live="polite">
-              {count} {count === 1 ? "major saved" : "majors saved"}
+              {count}{" "}
+              {count === 1 ? header.countLabel.one : header.countLabel.other}
             </p>
           </div>
         </div>
       </div>
 
-      <p className="text-gray-600">
-        Your personal collection of majors you&apos;re interested in
-      </p>
+      <p className="text-gray-600">{header.description}</p>
     </header>
   );
 }

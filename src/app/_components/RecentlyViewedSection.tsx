@@ -1,13 +1,16 @@
 import { Clock } from "lucide-react";
 import Link from "next/link";
-import { RecentlyViewedMajor } from "../actions";
+import { RecentlyViewedMajor } from "../_lib/types";
+import { ProfileTranslationTypes } from "../translations/en/profile";
 
 interface RecentlyViewedSectionProps {
   recentlyViewedMajors: RecentlyViewedMajor[];
+  translations: ProfileTranslationTypes["sections"]["recentlyViewed"];
 }
 
 export default function RecentlyViewedSection({
   recentlyViewedMajors,
+  translations,
 }: RecentlyViewedSectionProps) {
   if (recentlyViewedMajors.length === 0) {
     return null;
@@ -21,7 +24,7 @@ export default function RecentlyViewedSection({
       <header className="flex items-center gap-2 mb-6">
         <Clock className="w-6 h-6 text-purple-600" aria-hidden="true" />
         <h2 id="recently-viewed-heading" className="text-2xl">
-          Recently Viewed
+          {translations.title}
         </h2>
       </header>
 

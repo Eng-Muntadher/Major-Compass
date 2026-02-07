@@ -1,11 +1,13 @@
 import { Briefcase } from "lucide-react";
+import { MajorDetailsType } from "@/app/translations/en/majorDetails";
 
 interface CareerSectionProps {
-  jobs: string[];
-  salary: string;
+  jobs: string[] | [];
+  salary: string | null;
+  t: MajorDetailsType["career"];
 }
 
-function MajorCareerSection({ jobs, salary }: CareerSectionProps) {
+function MajorCareerSection({ jobs, salary, t }: CareerSectionProps) {
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 p-6 mb-6"
@@ -16,11 +18,11 @@ function MajorCareerSection({ jobs, salary }: CareerSectionProps) {
         className="text-xl mb-2 flex items-center gap-2 font-semibold"
       >
         <Briefcase className="w-6 h-6 text-green-600" aria-hidden="true" />
-        Career Opportunities
+        {t.heading}
       </h2>
 
       <p className="text-gray-600 mb-4">
-        <span className="font-medium">Average Salary:</span> {salary}
+        <span className="font-medium">{t.averageSalary}</span> {salary}
       </p>
 
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">

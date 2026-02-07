@@ -1,23 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import MajorSelectionPanel from "../_components/MajorSelectionPanel";
-import ComparisonTable from "../_components/ComparisonTable";
-import EmptyComparisonState from "../_components/EmptyComparisonState";
-import { MajorEN } from "../_lib/types";
+import { Major } from "../_lib/types";
+import MajorSelectionPanel from "./MajorSelectionPanel";
+import ComparisonTable from "./ComparisonTable";
+import EmptyComparisonState from "./EmptyComparisonState";
+import { CompareTranslations } from "@/app/translations/en/compare";
 
-interface CompareWrapperProps {
-  majors: MajorEN[] | null;
+interface CompareMajorsClientWrapperProps {
+  majors: Major[] | null;
+  t: Omit<CompareTranslations, "header">;
 }
 
-function CompareMajorsClientWrapper({ majors }: CompareWrapperProps) {
-  const [major1Id, setMajor1Id] = useState<string>("");
-  const [major2Id, setMajor2Id] = useState<string>("");
+export default function CompareMajorsClientWrapper({
+  majors,
+  t,
+}: CompareMajorsClientWrapperProps) {
+  const [major1Id, setMajor1Id] = useState("");
+  const [major2Id, setMajor2Id] = useState("");
 
   const major1 = majors?.find((m) => m.id === major1Id);
   const major2 = majors?.find((m) => m.id === major2Id);
 
   const showComparison = major1 && major2;
+
   return (
     <>
       <MajorSelectionPanel
@@ -26,15 +32,18 @@ function CompareMajorsClientWrapper({ majors }: CompareWrapperProps) {
         major2Id={major2Id}
         onMajor1Change={setMajor1Id}
         onMajor2Change={setMajor2Id}
+        t={t.selection}
       />
 
       {showComparison ? (
-        <ComparisonTable major1={major1} major2={major2} />
+        <ComparisonTable
+          major1={major1}
+          major2={major2}
+          t={t.comparisonTable}
+        />
       ) : (
-        <EmptyComparisonState />
+        <EmptyComparisonState t={t.emptyState} />
       )}
     </>
   );
 }
-
-export default CompareMajorsClientWrapper;

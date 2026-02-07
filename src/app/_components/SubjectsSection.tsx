@@ -1,10 +1,12 @@
 import { GraduationCap } from "lucide-react";
+import { MajorDetailsType } from "@/app/translations/en/majorDetails";
 
 interface SubjectsSectionProps {
-  subjects: string[];
+  subjects: string[] | [];
+  t: MajorDetailsType["subjects"];
 }
 
-function SubjectsSection({ subjects }: SubjectsSectionProps) {
+function SubjectsSection({ subjects, t }: SubjectsSectionProps) {
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 p-6 mb-6"
@@ -15,7 +17,7 @@ function SubjectsSection({ subjects }: SubjectsSectionProps) {
         className="text-xl mb-4 flex items-center gap-2 font-semibold"
       >
         <GraduationCap className="w-6 h-6 text-blue-600" aria-hidden="true" />
-        Main Subjects You&apos;ll Study
+        {t.heading}
       </h2>
 
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">

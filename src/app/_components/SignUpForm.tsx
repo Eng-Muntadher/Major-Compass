@@ -1,5 +1,13 @@
 "use client";
 
+import { signUpWithEmail } from "@/app/actions/emailAuth";
+import { signUpWithGoogle } from "@/app/actions/googleAuth";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import SubmitButton from "./SubmitButton";
+import FormInputField from "./FormInputField";
+import FormSelectField from "./FormSelectField";
+import GoogleSignUpButton from "./GoogleSignUpButton";
 import {
   UserPlus,
   Mail,
@@ -7,13 +15,7 @@ import {
   User as UserIcon,
   GraduationCap,
 } from "lucide-react";
-import FormInputField from "./FormInputField";
-import FormSelectField from "./FormSelectField";
-import GoogleSignUpButton from "./GoogleSignUpButton";
-import Link from "next/link";
-import { signUpWithEmail, signUpWithGoogle } from "../actions";
-import toast from "react-hot-toast";
-import SubmitButton from "./SubmitButton";
+import { SignUpTranslationTypes } from "../translations/en/signUp";
 
 const GRADES = [
   "6th Grade",
@@ -25,7 +27,12 @@ const GRADES = [
   "12th Grade",
 ];
 
-export default function SignUpForm() {
+interface SignUpFormProps {
+  translations: SignUpTranslationTypes["form"];
+  lang: "en" | "ar";
+}
+
+export default function SignUpForm({ translations, lang }: SignUpFormProps) {
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
       <form
@@ -37,33 +44,35 @@ export default function SignUpForm() {
         aria-labelledby="signup-heading"
       >
         <h2 id="signup-heading" className="sr-only">
-          Sign up form
+          {translations.ariaLabel}
         </h2>
 
         <div className="space-y-5">
           <FormInputField
+            autoComplete="name"
             id="full-name"
             name="username"
-            label="Full Name"
+            label={translations.fullName.label}
             type="text"
             icon={UserIcon}
-            placeholder="Ahmed Ali"
+            placeholder={translations.fullName.placeholder}
             required
           />
 
           <FormInputField
+            autoComplete="email"
             id="email"
-            label="Email"
+            label={translations.email.label}
             name="email"
             type="email"
             icon={Mail}
-            placeholder="student@example.com"
+            placeholder={translations.email.placeholder}
             required
           />
 
           <FormSelectField
             id="grade"
-            label="Grade"
+            label={translations.grade.label}
             name="grade"
             options={GRADES}
             icon={GraduationCap}
@@ -71,29 +80,30 @@ export default function SignUpForm() {
           />
 
           <FormInputField
+            autoComplete="password"
             id="password"
-            label="Password"
+            label={translations.password.label}
             type="password"
             name="password"
             icon={Lock}
-            placeholder="••••••••"
+            placeholder={translations.password.placeholder}
             required
           />
 
           <FormInputField
             id="confirm-password"
-            label="Confirm Password"
+            label={translations.confirmPassword.label}
             type="password"
             name="confirm-password"
             icon={Lock}
-            placeholder="••••••••"
+            placeholder={translations.confirmPassword.placeholder}
             required
           />
 
           {/* Submit button */}
           <SubmitButton type="submit">
             <UserPlus className="w-5 h-5" aria-hidden="true" />
-            <span>Sign Up</span>
+            <span>{translations.submitButton}</span>
           </SubmitButton>
         </div>
       </form>
@@ -101,25 +111,25 @@ export default function SignUpForm() {
       {/* FormDivider */}
       <div className="flex items-center gap-4 my-6" role="separator">
         <div className="flex-1 h-px bg-gray-200"></div>
-        <span className="text-sm text-gray-500">or</span>
+        <span className="text-sm text-gray-500">{translations.divider}</span>
         <div className="flex-1 h-px bg-gray-200"></div>
       </div>
 
       {/* Google Sign up */}
       <GoogleSignUpButton
-        text="Sign up with Google"
+        text={translations.googleButton}
         onClick={signUpWithGoogle}
       />
 
       {/* Sign up footer */}
       <footer className="mt-6 text-center">
         <p className="text-gray-600">
-          Already have an account?{" "}
+          {translations.switchToSignIn.text}{" "}
           <Link
-            href="/sign-in"
+            href={`/${lang}/sign-in`}
             className="text-purple-600 hover:text-purple-700 font-medium"
           >
-            Sign In
+            {translations.switchToSignIn.link}
           </Link>
         </p>
       </footer>

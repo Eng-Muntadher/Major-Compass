@@ -1,11 +1,14 @@
 import { createClient } from "../_lib/supabase";
 import { getEnSearchMajors } from "../_lib/supabaseHelpers";
+import { getLocaleFromParams } from "../_utils/lang";
 import { Header } from "./Header";
 
-async function HeaderServerWrapper() {
+async function HeaderServerWrapper({ lang }: { lang: string }) {
   const supabase = await createClient();
 
   const searchMajors = await getEnSearchMajors(supabase);
+
+  const locale = getLocaleFromParams(lang);
 
   const {
     data: { user },
@@ -19,6 +22,7 @@ async function HeaderServerWrapper() {
 
   return (
     <Header
+      lang={locale}
       searchMajors={searchMajors}
       userName={userName.data?.username || null}
     />

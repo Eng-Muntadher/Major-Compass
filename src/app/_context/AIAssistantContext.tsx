@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { sendMessage } from "@/app/actions";
+import { sendMessage } from "@/app/actions/aiActions";
 
 interface Message {
   role: "user" | "assistant";

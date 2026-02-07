@@ -4,19 +4,25 @@ import { AnimatePresence } from "framer-motion";
 import { UserMenuDropdown } from "./UserMenuDropdown";
 import { usePathname } from "next/navigation";
 
-export function UserMenu({ userName }: { userName: string | null }) {
+interface UserMenuProps {
+  userName: string | null;
+  lang: "en" | "ar";
+}
+
+export function UserMenu({ userName, lang }: UserMenuProps) {
   const [showMenu, setShowMenu] = useState(false);
 
   const pathname = usePathname();
+
+  const fullHref = `/${lang}/profile`;
+  const isActive = pathname === fullHref;
 
   return (
     <div className="relative">
       <button
         onClick={() => setShowMenu(!showMenu)}
         className={`p-2 rounded-lg transition-colors cursor-pointer ${
-          pathname === "/profile"
-            ? "bg-blue-100 text-blue-600"
-            : "hover:bg-gray-100"
+          isActive ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100"
         } `}
         aria-label="User menu"
       >
@@ -33,6 +39,7 @@ export function UserMenu({ userName }: { userName: string | null }) {
             <UserMenuDropdown
               onNavigate={() => setShowMenu(false)}
               userName={userName}
+              lang={lang}
             />
           </>
         )}

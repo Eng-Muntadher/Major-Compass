@@ -1,7 +1,13 @@
-import { type TipContent } from "../_data/tips";
 import TipContentItem from "./TipContentItem";
 
-function TipSectionContent({ content }: { content: TipContent[] }) {
+interface TipSectionContentProps {
+  content: readonly {
+    heading: string;
+    points: readonly string[];
+  }[];
+}
+
+function TipSectionContent({ content }: TipSectionContentProps) {
   return (
     <div className="px-6 pb-6 space-y-6 border-t border-gray-100 pt-6">
       {content.map((item, index) => (

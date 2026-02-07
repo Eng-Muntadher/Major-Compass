@@ -1,25 +1,23 @@
 import { Target } from "lucide-react";
 import InfoSection from "./InfoSection";
+import { aboutTranslation } from "../translations/en/about";
 
-function MissionSection() {
+interface MissionSectionProps {
+  mission: aboutTranslation["mission"];
+}
+
+function MissionSection({ mission }: MissionSectionProps) {
   return (
     <InfoSection
       icon={Target}
       iconBgColor="bg-blue-100"
       iconColor="text-blue-600"
-      title="Our Mission"
+      title={mission.title}
     >
       <p className="text-gray-700 leading-relaxed mb-4">
-        College Guide was created to help Iraqi 6th-grade students make informed
-        decisions about their future. We understand that choosing a college
-        major is one of the most important decisions in a young person&apos;s
-        life.
+        {mission.paragraphs[0]}
       </p>
-      <p className="text-gray-700 leading-relaxed">
-        Our platform provides comprehensive information about different majors,
-        career opportunities, and personalized guidance to help students
-        discover the path that&apos;s right for them.
-      </p>
+      <p className="text-gray-700 leading-relaxed">{mission.paragraphs[1]}</p>
     </InfoSection>
   );
 }

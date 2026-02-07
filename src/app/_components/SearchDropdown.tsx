@@ -6,9 +6,14 @@ import { EnglishSearchMajors } from "../_lib/types";
 interface SearchDropdownProps {
   majors: EnglishSearchMajors[] | null | undefined;
   onMajorClick: (majorId: string) => void;
+  lang: "en" | "ar";
 }
 
-export function SearchDropdown({ majors, onMajorClick }: SearchDropdownProps) {
+export function SearchDropdown({
+  majors,
+  onMajorClick,
+  lang,
+}: SearchDropdownProps) {
   const hasResults = majors ? majors.length > 0 : null;
 
   return (
@@ -28,10 +33,10 @@ export function SearchDropdown({ majors, onMajorClick }: SearchDropdownProps) {
               <div className="flex items-center gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-gray-900 truncate">
-                    {major.name}
+                    {lang === "en" ? major.nameEn : major.nameAr}
                   </div>
                   <div className="text-xs text-gray-500 truncate">
-                    {major.category}
+                    {lang === "en" ? major.categoryEn : major.categoryAr}
                   </div>
                 </div>
               </div>

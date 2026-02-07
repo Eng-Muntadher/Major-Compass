@@ -1,13 +1,16 @@
 import { Bookmark } from "lucide-react";
 import MiniMajorCard from "./MiniMajorCard";
-import { RecentlySavedMajor } from "../actions";
+import { RecentlySavedMajor } from "../_lib/types";
+import { ProfileTranslationTypes } from "../translations/en/profile";
 
 interface SavedMajorsSectionProps {
   savedMajors: RecentlySavedMajor[];
+  translations: ProfileTranslationTypes["sections"]["savedMajors"];
 }
 
 export default function SavedMajorsSection({
   savedMajors,
+  translations,
 }: SavedMajorsSectionProps) {
   return (
     <section
@@ -17,7 +20,7 @@ export default function SavedMajorsSection({
       <header className="flex items-center gap-2 mb-6">
         <Bookmark className="w-6 h-6 text-blue-600" aria-hidden="true" />
         <h2 id="saved-majors-heading" className="text-2xl">
-          Recently Saved
+          {translations.title}
         </h2>
       </header>
 
@@ -29,10 +32,10 @@ export default function SavedMajorsSection({
           >
             <Bookmark className="w-8 h-8 text-gray-400" />
           </div>
-          <p className="text-gray-600 mb-2 font-medium">No saved majors yet</p>
-          <p className="text-sm text-gray-500">
-            Browse majors and click the bookmark icon to save them here
+          <p className="text-gray-600 mb-2 font-medium">
+            {translations.noSaved}
           </p>
+          <p className="text-sm text-gray-500">{translations.description}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

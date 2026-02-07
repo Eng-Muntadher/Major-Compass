@@ -1,13 +1,11 @@
+import { HomeTranslationTypes } from "../translations/en/home";
 import StatItem from "./StatItem";
 
-// Static data
-const stats = [
-  { value: "16+", label: "College Majors" },
-  { value: "8", label: "Categories" },
-  { value: "🎯", label: "AI-Powered Guidance" },
-];
+interface StatsSectionProps {
+  stats: HomeTranslationTypes["stats"];
+}
 
-function StatsSection() {
+function StatsSection({ stats }: StatsSectionProps) {
   return (
     <div className="bg-linear-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16 border border-blue-100">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">

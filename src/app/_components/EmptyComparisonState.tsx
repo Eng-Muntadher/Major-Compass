@@ -1,6 +1,11 @@
 import { ArrowLeftRight } from "lucide-react";
+import { CompareTranslations } from "@/app/translations/en/compare";
 
-export default function EmptyComparisonState() {
+interface EmptyComparisonStateProps {
+  t: CompareTranslations["emptyState"];
+}
+
+export default function EmptyComparisonState({ t }: EmptyComparisonStateProps) {
   return (
     <div
       className="bg-white rounded-xl border border-gray-200 p-12 text-center"
@@ -13,12 +18,8 @@ export default function EmptyComparisonState() {
       >
         <ArrowLeftRight className="w-10 h-10 text-purple-600" />
       </div>
-      <h2 className="text-xl mb-2 font-semibold">
-        Select Two Majors to Compare
-      </h2>
-      <p className="text-gray-600">
-        Use the dropdowns above to choose majors for detailed comparison
-      </p>
+      <h2 className="text-xl mb-2 font-semibold">{t.heading}</h2>
+      <p className="text-gray-600">{t.description}</p>
     </div>
   );
 }

@@ -3,28 +3,31 @@ import Button from "../_components/Button";
 
 interface ResultsHeaderProps {
   onBack?: () => void;
+  header: {
+    backLabel: string; // "Back to Test"
+    title: string; // "Your Personalized Assessment"
+    description: string; // "AI-powered analysis based on your profile and preferences"
+  };
 }
 
-export default function ResultsHeader({ onBack }: ResultsHeaderProps) {
+export default function ResultsHeader({ onBack, header }: ResultsHeaderProps) {
   return (
     <section aria-labelledby="results-title" className="mb-6">
       <Button
         variant="ghost"
         className="mb-4"
         onClick={onBack}
-        aria-label="Go back to test"
+        aria-label={header.backLabel}
       >
         <ArrowLeft className="w-4 h-4 mr-2" aria-hidden="true" />
-        Back to Test
+        {header.backLabel}
       </Button>
 
       <h1 id="results-title" className="text-4xl mb-2">
-        Your Personalized Assessment
+        {header.title}
       </h1>
 
-      <p className="text-gray-600">
-        AI-powered analysis based on your profile and preferences
-      </p>
+      <p className="text-gray-600">{header.description}</p>
     </section>
   );
 }

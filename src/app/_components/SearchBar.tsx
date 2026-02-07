@@ -10,12 +10,14 @@ interface SearchBarProps {
   className?: string;
   autoFocus?: boolean;
   searchMajors: EnglishSearchMajors[] | null;
+  lang: "en" | "ar";
 }
 
 export function SearchBar({
   className = "",
   autoFocus = false,
   searchMajors,
+  lang,
 }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -33,26 +35,26 @@ export function SearchBar({
     showDropdown,
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      setShowDropdown(false);
-    }
-  };
-
   const handleMajorClick = () => {
     setSearchQuery("");
     setShowDropdown(false);
   };
 
+  const placeholder =
+    lang === "ar"
+      ? "ابحث عن التخصصات (مثال: علوم الحاسوب، الطب)..."
+      : "Search majors (e.g., Computer Science, Medicine)...";
+
   return (
-    <form onSubmit={handleSubmit} className={className}>
+    <div className={className}>
       <div className="flex justify-center relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         <input
           ref={inputRef}
           type="text"
-          placeholder="Search majors (e.g., Computer Science, Medicine)..."
+          name="search"
+          id="search"
+          placeholder={placeholder}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setShowDropdown(true)}
@@ -63,6 +65,7 @@ export function SearchBar({
           {showDropdown && searchQuery.trim() && (
             <div ref={dropdownRef}>
               <SearchDropdown
+                lang={lang}
                 majors={filteredMajors}
                 onMajorClick={handleMajorClick}
               />
@@ -70,6 +73,6 @@ export function SearchBar({
           )}
         </AnimatePresence>
       </div>
-    </form>
+    </div>
   );
 }

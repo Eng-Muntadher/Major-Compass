@@ -34,6 +34,7 @@ export default function RadioField({
               value={option.value}
               id={`${name}-${option.value}`}
               name={name}
+              className="focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               checked={value === option.value}
               onChange={() => onChange(option.value)}
             />

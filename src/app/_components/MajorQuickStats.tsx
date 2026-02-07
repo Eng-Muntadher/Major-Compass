@@ -1,5 +1,6 @@
-import { Award, Clock, TrendingUp } from "lucide-react";
-import { MajorEN } from "../_lib/types";
+import { Award, BarChart2, Clock, TrendingUp } from "lucide-react";
+import { Major } from "../_lib/types";
+import { MajorDetailsType } from "../translations/en/majorDetails";
 
 const difficultyColors = {
   Easy: "bg-green-100 text-green-700",
@@ -9,58 +10,72 @@ const difficultyColors = {
 };
 
 interface QuickStatsProps {
-  major: MajorEN | null;
+  major: Major;
+  t: MajorDetailsType["quickStats"];
 }
 
-function MajorQuickStats({ major }: QuickStatsProps) {
+function MajorQuickStats({ major, t }: QuickStatsProps) {
   return (
     <>
       <h2 id="quick-stats-heading" className="sr-only">
-        Quick Statistics
+        {t.heading}
       </h2>
       <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 border-b border-gray-200">
         <div className="text-center">
-          <dt className="sr-only">Minimum GPA Required</dt>
+          <dt className="sr-only">{t.minGPA.ariaLabel}</dt>
           <Award
             className="w-6 h-6 text-blue-600 mx-auto mb-2"
             aria-hidden="true"
           />
-          <div className="text-sm text-gray-500 mb-1">Min GPA</div>
+          <div className="text-sm text-gray-500 mb-1">{t.minGPA.label}</div>
           <dd className="text-lg font-semibold">{major?.minGPA}%</dd>
         </div>
 
         <div className="text-center">
-          <dt className="sr-only">Program Duration</dt>
+          <dt className="sr-only">{t.duration.ariaLabel}</dt>
           <Clock
             className="w-6 h-6 text-purple-600 mx-auto mb-2"
             aria-hidden="true"
           />
-          <div className="text-sm text-gray-500 mb-1">Duration</div>
-          <dd className="text-lg font-semibold">{major?.duration}</dd>
+          <div className="text-sm text-gray-500 mb-1">{t.duration.label}</div>
+          <dd className="text-lg font-semibold">
+            {t.duration.label.startsWith("D")
+              ? major?.duration
+              : major.duration?.replace("years", "سنين")}
+          </dd>
         </div>
 
         <div className="text-center">
-          <dt className="sr-only">Number of Career Opportunities</dt>
+          <dt className="sr-only">{t.jobs.ariaLabel}</dt>
           <TrendingUp
             className="w-6 h-6 text-green-600 mx-auto mb-2"
             aria-hidden="true"
           />
-          <div className="text-sm text-gray-500 mb-1">Jobs</div>
+          <div className="text-sm text-gray-500 mb-1">{t.jobs.label}</div>
           <dd className="text-lg font-semibold">
-            {major?.jobOpportunities.length}+
+            {major?.jobOpportunities?.length}
+            {t.jobs.suffix}
           </dd>
         </div>
 
         <div className="text-center">
-          <dt className="sr-only">Program Difficulty Level</dt>
+          <dt className="sr-only">{t.difficulty.ariaLabel}</dt>
+          <BarChart2
+            className="w-6 h-6 text-yellow-500 mx-auto mb-2"
+            aria-hidden="true"
+          />
+          <div className="text-sm text-gray-500 mb-1">{t.difficulty.label}</div>
           <dd>
             <span
-              className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${major ? difficultyColors[major.difficulty] : ""}`}
+              className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${major ? difficultyColors[major.difficulty as "Easy" | "Hard" | "Medium"] : ""}`}
             >
-              {major?.difficulty}
+              {major
+                ? t.difficulty.levels[
+                    major.difficulty as "Easy" | "Hard" | "Medium"
+                  ]
+                : ""}
             </span>
           </dd>
-          <div className="text-sm text-gray-500 mt-1">Difficulty</div>
         </div>
       </dl>
     </>

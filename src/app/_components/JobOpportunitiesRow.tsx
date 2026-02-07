@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 
 interface JobOpportunitiesRowProps {
+  label: string;
   jobs1: string[];
   jobs2: string[];
 }
@@ -8,11 +9,12 @@ interface JobOpportunitiesRowProps {
 export default function JobOpportunitiesRow({
   jobs1,
   jobs2,
+  label,
 }: JobOpportunitiesRowProps) {
   return (
     <div className="grid grid-cols-3 border-t border-gray-200">
       <div className="p-4 bg-gray-50">
-        <p className="text-sm font-medium">Job Opportunities</p>
+        <p className="text-sm font-medium">{label}</p>
       </div>
       <div className="p-4 border-l border-gray-200">
         <ul

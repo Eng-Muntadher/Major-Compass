@@ -1,7 +1,16 @@
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "../_components/alerts";
 
-export default function AIDisclaimer() {
+interface AIDisclaimerContent {
+  importantLabel: string;
+  message: string; // The full disclaimer text
+}
+
+interface AIDisclaimerProps {
+  content: AIDisclaimerContent;
+}
+
+export default function AIDisclaimer({ content }: AIDisclaimerProps) {
   return (
     <Alert
       className="mb-6 border-amber-500 bg-amber-50"
@@ -12,13 +21,9 @@ export default function AIDisclaimer() {
 
       <AlertDescription className="text-amber-900">
         <span id="disclaimer-title" className="font-semibold">
-          Important:
-        </span>
-        These results are AI-generated suggestions based on your inputs. They
-        should be used as general guidance only and may not be fully accurate.
-        Please consult with academic advisors, visit universities, talk to
-        current students, and consider multiple factors before making your final
-        decision.
+          {content.importantLabel}
+        </span>{" "}
+        {content.message}
       </AlertDescription>
     </Alert>
   );

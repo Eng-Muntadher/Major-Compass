@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import TipSection from "./TipSection";
-import { tips } from "../_data/tips";
+import { TipsTranslationTypes } from "../translations/en/tips";
 
-function TipsList() {
-  const [expandedSections, setExpandedSections] = useState([tips[0].id]);
+interface TipsListProps {
+  sections: TipsTranslationTypes["sections"];
+}
+
+function TipsList({ sections }: TipsListProps) {
+  const [expandedSections, setExpandedSections] = useState([sections[0].id]);
 
   const HandleToggleSection = (sectionId: string) => {
     setExpandedSections((prev) =>
@@ -17,12 +21,12 @@ function TipsList() {
 
   return (
     <div className="space-y-4">
-      {tips.map((tips) => (
+      {sections.map((section) => (
         <TipSection
-          key={tips.id}
-          TipSet={tips}
-          isExpanded={expandedSections.includes(tips.id)}
-          onToggle={() => HandleToggleSection(tips.id)}
+          key={section.id}
+          TipSet={section}
+          isExpanded={expandedSections.includes(section.id)}
+          onToggle={() => HandleToggleSection(section.id)}
         />
       ))}
     </div>

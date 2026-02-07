@@ -1,7 +1,7 @@
 interface ComparisonRowProps {
   label: string;
-  value1: string;
-  value2: string;
+  value1: string | null;
+  value2: string | null;
   isLongText?: boolean;
 }
 

@@ -1,8 +1,10 @@
 import { TrendingUp, Globe } from "lucide-react";
+import { MajorDetailsType } from "@/app/translations/en/majorDetails";
 
 interface DemandBannersProps {
-  demandInIraq?: "High" | "Medium" | "Low";
-  demandOutsideIraq?: "High" | "Medium" | "Low";
+  demandInIraq?: "High" | "Medium" | "Low" | null;
+  demandOutsideIraq?: "High" | "Medium" | "Low" | null;
+  t: MajorDetailsType["demandBanners"];
 }
 
 const demandStyles = {
@@ -29,6 +31,7 @@ const demandStyles = {
 function MajorDemandBanners({
   demandInIraq,
   demandOutsideIraq,
+  t,
 }: DemandBannersProps) {
   return (
     <section
@@ -36,14 +39,14 @@ function MajorDemandBanners({
       aria-labelledby="demand-heading"
     >
       <h2 id="demand-heading" className="sr-only">
-        Market Demand
+        {t.heading}
       </h2>
 
       {demandInIraq && (
         <div
           className={`rounded-xl p-4 border-2 ${demandStyles[demandInIraq].bg} ${demandStyles[demandInIraq].border}`}
           role="status"
-          aria-label={`Demand inside Iraq: ${demandInIraq}`}
+          aria-label={`${t.insideIraq.ariaLabel}: ${t.levels[demandInIraq]}`}
         >
           <div className="flex items-center gap-3">
             <TrendingUp
@@ -51,11 +54,11 @@ function MajorDemandBanners({
               aria-hidden="true"
             />
             <div className="flex-1">
-              <p className="text-xs text-gray-600 mb-1">Demand Inside Iraq</p>
+              <p className="text-xs text-gray-600 mb-1">{t.insideIraq.label}</p>
               <p
                 className={`text-lg font-semibold ${demandStyles[demandInIraq].text}`}
               >
-                {demandInIraq}
+                {t.levels[demandInIraq]}
               </p>
             </div>
           </div>
@@ -66,7 +69,7 @@ function MajorDemandBanners({
         <div
           className={`rounded-xl p-4 border-2 ${demandStyles[demandOutsideIraq].bg} ${demandStyles[demandOutsideIraq].border}`}
           role="status"
-          aria-label={`Demand outside Iraq: ${demandOutsideIraq}`}
+          aria-label={`${t.outsideIraq.ariaLabel}: ${t.levels[demandOutsideIraq]}`}
         >
           <div className="flex items-center gap-3">
             <Globe
@@ -74,11 +77,13 @@ function MajorDemandBanners({
               aria-hidden="true"
             />
             <div className="flex-1">
-              <p className="text-xs text-gray-600 mb-1">Demand Outside Iraq</p>
+              <p className="text-xs text-gray-600 mb-1">
+                {t.outsideIraq.label}
+              </p>
               <p
                 className={`text-lg font-semibold ${demandStyles[demandOutsideIraq].text}`}
               >
-                {demandOutsideIraq}
+                {t.levels[demandOutsideIraq]}
               </p>
             </div>
           </div>

@@ -1,8 +1,15 @@
 "use client";
 
 import { useAIAssistant } from "../_context/AIAssistantContext";
+import { SavedMajorsTranslationTypes } from "../translations/en/savedMajors";
 
-export default function CompareCTABanner() {
+interface CompareCTABannerProps {
+  compareCTA: SavedMajorsTranslationTypes["compareCTA"];
+}
+
+export default function CompareCTABanner({
+  compareCTA,
+}: CompareCTABannerProps) {
   const { setIsAIOpen } = useAIAssistant();
 
   return (
@@ -12,22 +19,23 @@ export default function CompareCTABanner() {
     >
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="text-center sm:text-left">
-          <h2 id="compare-cta-heading" className="text-lg font-semibold mb-1">
-            Ready to Compare Your Options?
+          <h2
+            id="compare-cta-heading"
+            className={`text-lg font-semibold mb-1 ${compareCTA.title.startsWith("R") ? "" : "text-right"}`}
+          >
+            {compareCTA.title}
           </h2>
-          <p className="text-sm text-gray-600">
-            Use AI to analyze and compare your saved majors
-          </p>
+          <p className="text-sm text-gray-600">{compareCTA.description}</p>
         </div>
         <button
           onClick={() => setIsAIOpen(true)}
-          aria-label="Compare saved majors with AI"
+          aria-label={compareCTA.buttonAria}
           className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
         >
           <span className="text-xl" aria-hidden="true">
             🤖
           </span>
-          <span>Compare with AI</span>
+          <span>{compareCTA.buttonLabel}</span>
         </button>
       </div>
     </aside>

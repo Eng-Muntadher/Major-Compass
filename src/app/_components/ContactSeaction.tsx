@@ -1,29 +1,34 @@
 import { Github, Globe, Mail } from "lucide-react";
 import ContactLink from "./ContactLink";
+import { aboutTranslation } from "../translations/en/about";
 
-// Static data
-const contacts = [
-  {
-    href: "mailto:contact@collegeguide.iq",
-    icon: Mail,
-    text: "contact@collegeguide.iq",
-    isExternal: false,
-  },
-  {
-    href: "https://github.com/collegeguide-iraq",
-    icon: Github,
-    text: "@collegeguide-iraq",
-    isExternal: true,
-  },
-  {
-    href: "https://collegeguide.iq",
-    icon: Globe,
-    text: "collegeguide.iq",
-    isExternal: true,
-  },
-];
+interface ContactSectionProps {
+  contact: aboutTranslation["contact"];
+}
 
-function ContactSection() {
+function ContactSection({ contact }: ContactSectionProps) {
+  // Static Translation data
+  const contactsData = [
+    {
+      href: "mailto:muntadheralshammari33@gmail.com",
+      icon: Mail,
+      text: contact.links[0].text,
+      isExternal: false,
+    },
+    {
+      href: "https://github.com/Eng-Muntadher",
+      icon: Github,
+      text: contact.links[1].text,
+      isExternal: true,
+    },
+    {
+      href: "https://muntadher-ahmed.vercel.app",
+      icon: Globe,
+      text: contact.links[2].text,
+      isExternal: true,
+    },
+  ];
+
   return (
     <div className="bg-white rounded-xl p-8 border border-gray-200">
       <div className="flex items-start gap-4">
@@ -31,14 +36,12 @@ function ContactSection() {
           <Mail className="w-6 h-6 text-green-600" />
         </div>
         <div className="flex-1">
-          <h2 className="text-2xl mb-4">Get In Touch</h2>
-          <p className="text-gray-700 mb-6">
-            Have questions or feedback? We&apos;d love to hear from you!
-          </p>
+          <h2 className="text-2xl mb-4">{contact.title}</h2>
+          <p className="text-gray-700 mb-6">{contact.description}</p>
 
           <div className="space-y-3">
-            {contacts.map((contact, index) => (
-              <ContactLink key={index} {...contact} />
+            {contactsData.map((contactItem, index) => (
+              <ContactLink key={index} {...contactItem} />
             ))}
           </div>
         </div>

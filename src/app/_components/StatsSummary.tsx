@@ -1,16 +1,19 @@
 import { Bookmark } from "lucide-react";
 import StatCard from "./StatCard";
+import { SavedMajorsTranslationTypes } from "../translations/en/savedMajors";
 
 interface StatsSummaryProps {
   totalSaved: number;
   categoriesCount: number;
   averageYears: number;
+  stats: SavedMajorsTranslationTypes["stats"];
 }
 
 export default function StatsSummary({
   totalSaved,
   categoriesCount,
   averageYears,
+  stats,
 }: StatsSummaryProps) {
   return (
     <section
@@ -21,21 +24,21 @@ export default function StatsSummary({
         icon={Bookmark}
         iconColor="text-blue-600"
         value={totalSaved}
-        label="Total Saved"
+        label={stats.total}
         bgColor="bg-blue-100"
       />
 
       <StatCard
         emoji="📚"
         value={categoriesCount}
-        label="Categories"
+        label={stats.categories}
         bgColor="bg-purple-100"
       />
 
       <StatCard
         emoji="⏱️"
         value={averageYears}
-        label="Avg. Years"
+        label={stats.AvgYears}
         bgColor="bg-green-100"
       />
     </section>

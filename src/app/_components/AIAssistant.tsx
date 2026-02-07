@@ -8,15 +8,53 @@ import { useClickOutside } from "../_hooks/useClickOutside";
 import { useAIAssistant } from "../_context/AIAssistantContext";
 import ReactMarkdown from "react-markdown";
 import toast from "react-hot-toast";
+import { useParams } from "next/navigation";
 
-// Static data
-const quickPrompts = [
-  "How to pick a career?",
-  "Is a medicine carrer good for me?",
-  "Is engineering hard?",
-];
+// Static data (multi-language)
+const quickPromptsData = {
+  en: [
+    "How to pick a career?",
+    "Is a medicine career good for me?",
+    "Is engineering hard?",
+  ],
+  ar: [
+    "كيف أختار مساري المهني؟",
+    "هل دراسة الطب مناسبة لي؟",
+    "هل الهندسة صعبة؟",
+  ],
+};
+
+const translations = {
+  en: {
+    assistantTitle: "AI Career Assistant",
+    welcomeTitle: "Welcome to Your AI Career Assistant!",
+    welcomeDescription:
+      "Ask me anything about college majors, career paths, and finding your perfect fit.",
+    inputPlaceholder: "Ask me anything...",
+    openAssistantLabel: "Open AI Assistant",
+    openAssistantTooltip: "Ask AI Assistant",
+    closeAssistantLabel: "Close AI Assistant",
+    hintMessage: "Try my AI assistant here",
+  },
+  ar: {
+    assistantTitle: "مساعد المسار المهني بالذكاء الاصطناعي",
+    welcomeTitle: "مرحبًا بك في مساعدك المهني بالذكاء الاصطناعي!",
+    welcomeDescription:
+      "اطرح أي سؤال حول التخصصات الجامعية، المسارات المهنية، وإيجاد الأنسب لك.",
+    inputPlaceholder: "اسألني أي شيء...",
+    openAssistantLabel: "افتح مساعد الذكاء الاصطناعي",
+    openAssistantTooltip: "اطرح سؤالًا على مساعد الذكاء الاصطناعي",
+    closeAssistantLabel: "أغلق مساعد الذكاء الاصطناعي",
+    hintMessage: "جرب مساعد الذكاء الاصطناعي هنا",
+  },
+};
 
 export default function AIAssistant() {
+  const params = useParams();
+  const lang = params.lang as "en" | "ar";
+  const isEnglish = lang === "en";
+  const t = translations[lang] || translations.en;
+
   const { isAIOpen, setIsAIOpen, messages, isTyping, sendMessageToAI } =
     useAIAssistant();
 
@@ -28,21 +66,13 @@ export default function AIAssistant() {
 
   useClickOutside([modalRef], () => setIsAIOpen(false), isAIOpen);
 
-  // Auto scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-
-    // Refocus input after AI finishes typing
-    if (!isTyping) {
-      inputRef.current?.focus();
-    }
+    if (!isTyping) inputRef.current?.focus();
   }, [messages, isTyping, isAIOpen]);
 
-  // Auto focus on the input when the modal window opens
   useEffect(() => {
-    if (isAIOpen) {
-      inputRef.current?.focus();
-    }
+    if (isAIOpen) inputRef.current?.focus();
   }, [isAIOpen]);
 
   const handleSendMessage = async (messageText?: string) => {
@@ -65,43 +95,49 @@ export default function AIAssistant() {
       toast(
         <div className="flex items-center gap-2 text-sm">
           <span>🤖</span>
-          <span className="font-medium">Try my AI assistant here</span>
+          <span className="font-medium">{t.hintMessage}</span>
         </div>,
         {
           id: "ai-hint",
           duration: 5000,
           position: "bottom-right",
           style: {
-            background: "linear-gradient(to right, #2563eb, #7c3aed)", // blue → purple
+            background: "linear-gradient(to right, #2563eb, #7c3aed)",
             color: "#fff",
-            borderRadius: "9999px", // pill shape
+            borderRadius: "9999px",
             padding: "10px 16px",
-            marginBottom: "5.75rem", // sits nicely above the button
-            boxShadow: "0 10px 25px rgba(37, 99, 235, 0.35)", // soft colored glow
+            marginBottom: "5.75rem",
+            boxShadow: "0 10px 25px rgba(37, 99, 235, 0.35)",
             fontSize: "0.875rem",
           },
         },
       );
-    }, 9000); // 6s after page load
+    }, 9000);
 
     return () => clearTimeout(timer);
-  }, [isAIOpen]);
+  }, [isAIOpen, t]);
+
+  const quickPrompts = quickPromptsData[lang] || quickPromptsData.en;
 
   return (
     <>
       {/* Floating Button */}
       {!isAIOpen && (
-        <div className="fixed bottom-6 right-6 z-40">
+        <div
+          className={`fixed bottom-6 z-40 ${isEnglish ? "right-6" : "left-6"}`}
+        >
           <button
             onClick={() => setIsAIOpen(true)}
             className="w-17 h-17 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center group cursor-pointer"
-            aria-label="Open AI Assistant"
+            aria-label={t.openAssistantLabel}
           >
             <span className="text-2xl" aria-hidden="true">
               🤖
             </span>
-            <div className="absolute right-full mr-3 bg-gray-900 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-              Ask AI Assistant
+            <div
+              className={`absolute bg-gray-900 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none ${isEnglish ? "right-full mr-3" : "left-full ml-3"}`}
+            >
+              {t.openAssistantTooltip}
             </div>
           </button>
         </div>
@@ -130,14 +166,14 @@ export default function AIAssistant() {
                   </div>
                   <div>
                     <h2 id="ai-assistant-title" className="text-xl">
-                      AI Career Assistant
+                      {t.assistantTitle}
                     </h2>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsAIOpen(false)}
                   className="p-2 hover:bg-white/20 rounded-lg transition-colors cursor-pointer"
-                  aria-label="Close AI Assistant"
+                  aria-label={t.closeAssistantLabel}
                 >
                   <X className="w-6 h-6" aria-hidden="true" />
                 </button>
@@ -153,20 +189,23 @@ export default function AIAssistant() {
                         aria-hidden="true"
                       />
                     </div>
-                    <h3 className="text-xl mb-2">
-                      Welcome to Your AI Career Assistant!
-                    </h3>
-                    <p className="text-gray-600">
-                      Ask me anything about college majors, career paths, and
-                      finding your perfect fit.
-                    </p>
+                    <h3 className="text-xl mb-2">{t.welcomeTitle}</h3>
+                    <p className="text-gray-600">{t.welcomeDescription}</p>
                   </div>
                 )}
 
                 {messages.map((message, index) => (
                   <div
                     key={index}
-                    className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}
+                    className={`flex gap-3 ${
+                      message.role === "user"
+                        ? isEnglish
+                          ? "flex-row-reverse"
+                          : ""
+                        : isEnglish
+                          ? ""
+                          : "flex-row-reverse"
+                    }`}
                   >
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
@@ -182,7 +221,13 @@ export default function AIAssistant() {
                       )}
                     </div>
                     <div
-                      className={`flex-1 ${message.role === "user" ? "text-right" : ""}`}
+                      className={`flex-1 ${
+                        message.role === "user"
+                          ? "text-right"
+                          : isEnglish
+                            ? ""
+                            : "text-left"
+                      }`}
                     >
                       <div
                         className={`inline-block max-w-[85%] p-4 rounded-2xl ${
@@ -200,7 +245,9 @@ export default function AIAssistant() {
                 ))}
 
                 {isTyping && (
-                  <div className="flex gap-3">
+                  <div
+                    className={`flex ${isEnglish ? "" : "flex-row-reverse"} gap-3`}
+                  >
                     <div className="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center">
                       <Bot className="w-5 h-5" aria-hidden="true" />
                     </div>
@@ -263,7 +310,7 @@ export default function AIAssistant() {
                         handleSendMessage();
                       }
                     }}
-                    placeholder="Ask me anything..."
+                    placeholder={t.inputPlaceholder}
                     className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                     disabled={isTyping}
                   />

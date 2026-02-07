@@ -14,9 +14,10 @@ import { EnglishSearchMajors } from "../_lib/types";
 interface HeaderProps {
   searchMajors: EnglishSearchMajors[] | null;
   userName: string | null;
+  lang: "en" | "ar";
 }
 
-export function Header({ searchMajors, userName }: HeaderProps) {
+export function Header({ searchMajors, userName, lang }: HeaderProps) {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const { isSidebarOpen, toggleSidebar } = useSidebar();
 
@@ -26,13 +27,14 @@ export function Header({ searchMajors, userName }: HeaderProps) {
         {/* Left: Logo and Menu Toggle */}
         <div className="flex items-center gap-3">
           <MobileMenuButton isOpen={isSidebarOpen} onToggle={toggleSidebar} />
-          <Logo />
+          <Logo lang={lang} />
         </div>
 
         {/* Center: Search Bar (Desktop) */}
         <SearchBar
+          lang={lang}
           searchMajors={searchMajors}
-          className="hidden md:block lg:ml-60"
+          className={`hidden md:block ${lang === "en" ? "lg:ml-60" : "lg:mr-60"}`}
         />
 
         {/* Right: Header Items */}
@@ -42,18 +44,18 @@ export function Header({ searchMajors, userName }: HeaderProps) {
             onToggle={() => setIsSearchExpanded(!isSearchExpanded)}
           />
 
-          <LanguageToggle />
+          <LanguageToggle currentLanguage={lang} />
 
-          <SavedMajorsButton />
+          <SavedMajorsButton currentLanguage={lang} />
 
-          <UserMenu userName={userName} />
+          <UserMenu userName={userName} lang={lang} />
         </div>
       </div>
 
       {/* Mobile Search Bar */}
       {isSearchExpanded && (
         <div className="pb-4 md:hidden px-4">
-          <SearchBar searchMajors={searchMajors} autoFocus />
+          <SearchBar lang={lang} searchMajors={searchMajors} autoFocus />
         </div>
       )}
     </header>

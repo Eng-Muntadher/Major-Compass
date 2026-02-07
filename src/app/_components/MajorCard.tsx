@@ -1,12 +1,13 @@
 import { TrendingUp, Clock, Award } from "lucide-react";
 import { ImageWithFallback } from "./ImageWithFallback";
 import Link from "next/link";
-import { MajorEN } from "../_lib/types";
+import { Major } from "../_lib/types";
 import SaveMajorButton from "./SaveMajorButton";
 
 interface MajorCardProps {
-  major: MajorEN;
+  major: Partial<Major>;
   isSaved: boolean;
+  index: number;
   isUserAuthenticated: boolean;
 }
 
@@ -20,6 +21,7 @@ const difficultyColors = {
 export function MajorCard({
   major,
   isSaved,
+  index,
   isUserAuthenticated,
 }: MajorCardProps) {
   return (
@@ -37,6 +39,10 @@ export function MajorCard({
       <div className="relative h-48 overflow-hidden bg-linear-to-br from-blue-100 to-purple-100">
         <ImageWithFallback
           src={major.imageUrl}
+          priority={index === 0}
+          sizes="(max-width: 640px) 100vw,
+         (max-width: 1024px) 50vw,
+         33vw"
           alt={major?.nameEn ? `${major.nameEn} major` : "Major image"}
           objectFit="cover"
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
@@ -54,7 +60,7 @@ export function MajorCard({
 
         {/* Difficulty badge */}
         <span
-          className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs backdrop-blur-sm ${difficultyColors[major.difficulty]}`}
+          className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs backdrop-blur-sm ${difficultyColors[major.difficulty as "Easy" | "Medium" | "Hard"]}`}
         >
           {major.difficulty}
         </span>
@@ -65,7 +71,7 @@ export function MajorCard({
         <header className="mb-2">
           <h3
             id={`major-${major.id}-title`}
-            className="text-lg mb-1 transition-colors duration-300 group-hover:text-blue-600"
+            className="text-lg mb-1 transition-colors duration-300 group-hover:text-blue-600 line-clamp-1"
           >
             {major.nameEn}
           </h3>

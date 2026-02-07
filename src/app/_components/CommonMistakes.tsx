@@ -1,10 +1,12 @@
 import { TrendingDown } from "lucide-react";
+import { MajorDetailsType } from "@/app/translations/en/majorDetails";
 
 interface CommonMistakesProps {
   mistakes: string[];
+  t: MajorDetailsType["commonMistakes"];
 }
 
-function CommonMistakes({ mistakes }: CommonMistakesProps) {
+function CommonMistakes({ mistakes, t }: CommonMistakesProps) {
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 p-6 mb-6"
@@ -15,7 +17,7 @@ function CommonMistakes({ mistakes }: CommonMistakesProps) {
         className="text-xl mb-4 flex items-center gap-2 text-red-600 font-semibold"
       >
         <TrendingDown className="w-6 h-6" aria-hidden="true" />
-        Common Mistakes Students in This Major Make
+        {t.heading}
       </h2>
 
       <ol className="space-y-3" role="list">

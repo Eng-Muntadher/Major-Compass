@@ -3,9 +3,10 @@
 import { useState, useTransition } from "react";
 import { User, Edit2 } from "lucide-react";
 import ProfileInfoSection from "./ProfileInfoSection";
-import { updateProfile } from "../actions";
+import { updateProfile } from "@/app/actions/profileActions";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { ProfileTranslationTypes } from "../translations/en/profile";
 
 interface ProfileHeaderProps {
   username: string;
@@ -13,13 +14,18 @@ interface ProfileHeaderProps {
   grade: string;
   avatarUrl: string | null;
   bookmarksCount: number;
+  translations: {
+    header: ProfileTranslationTypes["header"];
+    toast: ProfileTranslationTypes["toast"];
+    info: ProfileTranslationTypes["info"];
+  };
 }
 
 interface EditableProfile {
   username: string;
   grade: string;
   avatarUrl: string | null;
-  avatarFile: File | null; // only set when user picks a new file
+  avatarFile: File | null;
 }
 
 export default function ProfileHeader({
@@ -28,13 +34,13 @@ export default function ProfileHeader({
   grade,
   avatarUrl,
   bookmarksCount,
+  translations,
 }: ProfileHeaderProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const serverProfile = { username, grade, avatarUrl };
 
-  // Local draft state that the edit form mutates.
   const [draft, setDraft] = useState<EditableProfile>({
     username,
     grade,
@@ -43,7 +49,6 @@ export default function ProfileHeader({
   });
 
   const handleEdit = () => {
-    // Reset draft to current server values before opening the form.
     setDraft({
       username: serverProfile.username,
       grade: serverProfile.grade,
@@ -79,25 +84,21 @@ export default function ProfileHeader({
         formData.append("username", draft.username);
         formData.append("grade", draft.grade);
 
-        // Only send the avatar file if the user actually picked a new one.
         if (draft.avatarFile) {
           formData.append("avatar", draft.avatarFile);
         }
 
         await updateProfile(formData);
 
-        // Clean up the blob URL now that the save succeeded.
-        // (The server will have returned a real URL on next page load.)
         if (draft.avatarFile && draft.avatarUrl) {
           URL.revokeObjectURL(draft.avatarUrl);
         }
 
-        toast.success("Profile updated successfully!");
+        toast.success(translations.toast.updateSuccess);
         setIsEditing(false);
       } catch (error) {
         console.error(error);
-        toast.error("Failed to update profile");
-        // Stay in edit mode so the user can retry or cancel.
+        toast.error(translations.toast.updateError);
       }
     });
   };
@@ -122,11 +123,10 @@ export default function ProfileHeader({
               <User className="w-10 h-10" aria-hidden="true" />
             )}
 
-            {/* File input — visually hidden but clickable via the label below */}
             {isEditing && (
               <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity cursor-pointer z-10">
                 <span className="text-xs font-semibold text-center px-1 leading-tight">
-                  Change
+                  {translations.header.changeAvatar}
                 </span>
                 <input
                   type="file"
@@ -143,7 +143,7 @@ export default function ProfileHeader({
             {isEditing ? (
               <>
                 <label htmlFor="profile-username" className="sr-only">
-                  Username
+                  {translations.header.usernameLabel}
                 </label>
                 <input
                   id="profile-username"
@@ -164,7 +164,7 @@ export default function ProfileHeader({
             )}
             <p className="opacity-90">
               {(isEditing ? draft.grade : serverProfile.grade) ||
-                "Grade not set"}
+                translations.header.gradeNotSet}
             </p>
           </div>
         </div>
@@ -176,7 +176,7 @@ export default function ProfileHeader({
             aria-label="Edit profile"
           >
             <Edit2 className="w-4 h-4" aria-hidden="true" />
-            <span>Edit Profile</span>
+            <span>{translations.header.editProfile}</span>
           </button>
         ) : (
           <div className="flex gap-2" role="group" aria-label="Edit actions">
@@ -187,7 +187,7 @@ export default function ProfileHeader({
               className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
               aria-label="Cancel editing"
             >
-              Cancel
+              {translations.header.cancel}
             </button>
 
             <button
@@ -197,7 +197,9 @@ export default function ProfileHeader({
               className="px-4 py-2 bg-white hover:bg-white/90 text-blue-600 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
               aria-label="Save changes"
             >
-              {isPending ? "Saving..." : "Save"}
+              {isPending
+                ? translations.header.saving
+                : translations.header.save}
             </button>
           </div>
         )}
@@ -211,6 +213,7 @@ export default function ProfileHeader({
         onGradeChange={(newGrade) =>
           setDraft((prev) => ({ ...prev, grade: newGrade }))
         }
+        translations={translations.info}
       />
     </header>
   );

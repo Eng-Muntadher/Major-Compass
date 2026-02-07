@@ -1,10 +1,15 @@
 import { Building } from "lucide-react";
+import { MajorDetailsType } from "@/app/translations/en/majorDetails";
 
 interface UniversitiesSectionProps {
-  universities: string[];
+  universities: string[] | [];
+  t: MajorDetailsType["universities"];
 }
 
-function MajorUniversitiesSection({ universities }: UniversitiesSectionProps) {
+function MajorUniversitiesSection({
+  universities,
+  t,
+}: UniversitiesSectionProps) {
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 p-6 mb-6"
@@ -15,7 +20,7 @@ function MajorUniversitiesSection({ universities }: UniversitiesSectionProps) {
         className="text-xl mb-4 flex items-center gap-2 font-semibold"
       >
         <Building className="w-6 h-6 text-orange-600" aria-hidden="true" />
-        Top Universities in Iraq
+        {t.heading}
       </h2>
 
       <ol className="space-y-3" role="list">
@@ -26,7 +31,7 @@ function MajorUniversitiesSection({ universities }: UniversitiesSectionProps) {
           >
             <span
               className="w-8 h-8 bg-orange-200 rounded-full flex items-center justify-center text-orange-700 font-semibold shrink-0"
-              aria-label={`Rank ${index + 1}`}
+              aria-label={`${t.rankLabel} ${index + 1}`}
             >
               {index + 1}
             </span>

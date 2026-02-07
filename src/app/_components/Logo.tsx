@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function Logo() {
+export function Logo({ lang }: { lang: "en" | "ar" }) {
   return (
     <Link
       href="/home"
@@ -14,7 +14,7 @@ export function Logo() {
       <div className="hidden lg:block">
         <h1 className="text-lg leading-tight">Major Compass</h1>
         <p className="text-xs text-gray-500 leading-tight">
-          Explore Your Future
+          {lang === "en" ? "Explore Your Future" : "استكشف مستقبلك"}
         </p>
       </div>
     </Link>

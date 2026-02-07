@@ -1,8 +1,10 @@
 import { ChevronDown } from "lucide-react";
-import { TipSection } from "../_data/tips";
 
 interface TipSectionHeaderProps {
-  tipInfo: TipSection;
+  tipInfo: {
+    title: string;
+    icon: string;
+  };
   isExpanded: boolean;
   onToggle: () => void;
 }
@@ -22,7 +24,6 @@ function TipSectionHeader({
 
         <div className="text-left">
           <h2 className="text-xl mb-1">{tipInfo.title}</h2>
-          <p className="text-sm text-gray-500">{tipInfo.titleArabic}</p>
         </div>
       </div>
 

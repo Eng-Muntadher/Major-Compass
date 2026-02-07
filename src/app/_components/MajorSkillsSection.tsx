@@ -1,10 +1,12 @@
 import { Brain } from "lucide-react";
+import { MajorDetailsType } from "@/app/translations/en/majorDetails";
 
 interface SkillsSectionProps {
-  skills: string[];
+  skills: string[] | [];
+  t: MajorDetailsType["skills"];
 }
 
-function MajorSkillsSection({ skills }: SkillsSectionProps) {
+function MajorSkillsSection({ skills, t }: SkillsSectionProps) {
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 p-6 mb-6"
@@ -15,7 +17,7 @@ function MajorSkillsSection({ skills }: SkillsSectionProps) {
         className="text-xl mb-4 flex items-center gap-2 font-semibold"
       >
         <Brain className="w-6 h-6 text-purple-600" aria-hidden="true" />
-        Required Skills
+        {t.heading}
       </h2>
 
       <ul className="flex flex-wrap gap-2" role="list">

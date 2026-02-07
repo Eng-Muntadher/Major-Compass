@@ -3,12 +3,19 @@
 import { Lock, LogIn, Mail } from "lucide-react";
 import Link from "next/link";
 import FormInputField from "./FormInputField";
-import { continueWithGoogle, signInWithEmail } from "../actions";
+import { signInWithEmail } from "@/app/actions/emailAuth";
+import { continueWithGoogle } from "@/app/actions/googleAuth";
 import toast from "react-hot-toast";
 import SubmitButton from "./SubmitButton";
 import GoogleSignUpButton from "./GoogleSignUpButton";
+import { SignInTranslationTypes } from "../translations/en/signIn";
 
-function SignInForm() {
+interface SignInFormProps {
+  translations: SignInTranslationTypes["form"];
+  lang: "en" | "ar";
+}
+
+function SignInForm({ translations, lang }: SignInFormProps) {
   return (
     <form
       action={async (formData) => {
@@ -21,15 +28,16 @@ function SignInForm() {
     >
       {/* For accessibility */}
       <h2 id="sign-in-heading" className="sr-only">
-        Sign in form
+        {translations.ariaLabel}
       </h2>
 
       {/* Email */}
       <div>
         <FormInputField
           id="email"
+          autoComplete="email"
           name="email"
-          label="Email"
+          label={translations.email.label}
           type="email"
           icon={Mail}
         />
@@ -39,12 +47,13 @@ function SignInForm() {
       <div>
         <div className="relative">
           <FormInputField
+            autoComplete="password"
             id="password"
             name="password"
-            label="Password"
+            label={translations.password.label}
             type="password"
             icon={Lock}
-            placeholder="••••••••"
+            placeholder={translations.password.placeholder}
           />
         </div>
       </div>
@@ -52,28 +61,31 @@ function SignInForm() {
       {/* Submit Button */}
       <SubmitButton type="submit">
         <LogIn className="w-5 h-5" aria-hidden="true" />
-        <span>Sign Up</span>
+        <span>{translations.submitButton}</span>
       </SubmitButton>
 
       {/* FormDivider */}
       <div className="flex items-center gap-4 my-6" role="separator">
         <div className="flex-1 h-px bg-gray-200"></div>
-        <span className="text-sm text-gray-500">or</span>
+        <span className="text-sm text-gray-500">{translations.divider}</span>
         <div className="flex-1 h-px bg-gray-200"></div>
       </div>
 
       {/* Google Sign up */}
       <GoogleSignUpButton
-        text="Continue with Google"
+        text={translations.googleButton}
         onClick={continueWithGoogle}
       />
 
       {/* Switch to Sign Up */}
       <div className="mt-6 text-center">
         <p className="text-gray-600">
-          Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="text-blue-600 hover:text-blue-700">
-            Sign Up
+          {translations.switchToSignUp.text}{" "}
+          <Link
+            href={`/${lang}/sign-up`}
+            className="text-blue-600 hover:text-blue-700"
+          >
+            {translations.switchToSignUp.link}
           </Link>
         </p>
       </div>

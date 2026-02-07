@@ -3,29 +3,35 @@ import CompareCTABanner from "./CompareCTABanner";
 import MajorsAnimatedGrid from "./MajorsAnimatedGrid";
 import MajorAnimatedItem from "./MajorAnimatedItem";
 import { MajorCard } from "./MajorCard";
-import { MajorEN } from "../_lib/types";
+import { Major } from "../_lib/types";
+import { SavedMajorsTranslationTypes } from "../translations/en/savedMajors";
 
 interface SavedMajorsContentProps {
-  savedMajors: MajorEN[];
+  savedMajors: Partial<Major>[];
   savedMajorsIds: string[];
   isUserAuthenticated: boolean;
+  stats: SavedMajorsTranslationTypes["stats"];
+  compareCTA: SavedMajorsTranslationTypes["compareCTA"];
 }
 
 export default function SavedMajorsContent({
   savedMajors,
   savedMajorsIds,
   isUserAuthenticated,
+  stats,
+  compareCTA,
 }: SavedMajorsContentProps) {
   const categoriesCount = new Set(savedMajors.map((m) => m.category)).size;
 
   const averageYears = Math.round(
-    savedMajors.reduce((sum, m) => sum + parseInt(m.duration), 0) /
+    savedMajors.reduce((sum, m) => sum + parseInt(m.duration || ""), 0) /
       savedMajors.length,
   );
 
   return (
     <div>
       <StatsSummary
+        stats={stats}
         totalSaved={savedMajors.length}
         categoriesCount={categoriesCount}
         averageYears={averageYears}
@@ -33,18 +39,21 @@ export default function SavedMajorsContent({
 
       {/* Majors list */}
       <MajorsAnimatedGrid>
-        {savedMajors.map((major) => (
+        {savedMajors.map((major, i) => (
           <MajorAnimatedItem key={major.id}>
             <MajorCard
               major={major}
-              isSaved={savedMajorsIds.includes(major.id) ? true : false}
+              index={i}
+              isSaved={
+                savedMajorsIds.includes(major.id as string) ? true : false
+              }
               isUserAuthenticated={isUserAuthenticated}
             />
           </MajorAnimatedItem>
         ))}
       </MajorsAnimatedGrid>
 
-      <CompareCTABanner />
+      <CompareCTABanner compareCTA={compareCTA} />
     </div>
   );
 }

@@ -1,6 +1,11 @@
 import { AlertCircle } from "lucide-react";
+import { MajorDetailsType } from "@/app/translations/en/majorDetails";
 
-function GPANotice() {
+interface GPANoticeProps {
+  t: MajorDetailsType["gpaNotice"];
+}
+
+function GPANotice({ t }: GPANoticeProps) {
   return (
     <aside
       className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6"
@@ -14,9 +19,7 @@ function GPANotice() {
         />
 
         <p className="text-sm text-yellow-800">
-          <strong id="gpa-notice-title">Note:</strong> The GPA displayed is
-          calculated based on the standards of the University of Baghdad.
-          Requirements may vary by university.
+          <strong id="gpa-notice-title">{t.title}</strong> {t.message}
         </p>
       </div>
     </aside>
