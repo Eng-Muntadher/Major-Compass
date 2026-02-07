@@ -37,7 +37,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
       <form
         action={async (formData) => {
-          const result = await signUpWithEmail(formData);
+          const result = await signUpWithEmail(formData, lang);
           if (result.success) toast.success(result.message);
           else toast.error(result.message);
         }}
@@ -47,6 +47,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
           {translations.ariaLabel}
         </h2>
 
+        {/* Name */}
         <div className="space-y-5">
           <FormInputField
             autoComplete="name"
@@ -59,6 +60,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             required
           />
 
+          {/* Email */}
           <FormInputField
             autoComplete="email"
             id="email"
@@ -70,6 +72,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             required
           />
 
+          {/* Grade */}
           <FormSelectField
             id="grade"
             label={translations.grade.label}
@@ -79,6 +82,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             required
           />
 
+          {/* Password */}
           <FormInputField
             autoComplete="password"
             id="password"
@@ -90,6 +94,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             required
           />
 
+          {/* Confirm Password */}
           <FormInputField
             id="confirm-password"
             label={translations.confirmPassword.label}

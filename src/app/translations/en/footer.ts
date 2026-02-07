@@ -16,7 +16,7 @@ export type FooterTranslations = {
   };
   navigation: {
     title: string;
-    links: { key: string; label: string }[];
+    links: { key: string; label: string; href: string }[];
   };
   features: {
     title: string;
@@ -50,11 +50,11 @@ const footer: FooterTranslations = {
   navigation: {
     title: "Navigation",
     links: [
-      { key: "home", label: "Home" },
-      { key: "majors", label: "All Majors" },
-      { key: "tips", label: "Tips & Advice" },
-      { key: "compare", label: "Compare Majors" },
-      { key: "about", label: "About" },
+      { key: "home", label: "Home", href: "home" },
+      { key: "majors", label: "All Majors", href: "browse" },
+      { key: "tips", label: "Tips & Advice", href: "tips-and-advice" },
+      { key: "compare", label: "Compare Majors", href: "compare-majors" },
+      { key: "about", label: "About", href: "about" },
     ],
   },
 
@@ -75,13 +75,13 @@ const footer: FooterTranslations = {
       {
         label: "LinkedIn",
         iconKey: "linkedin",
-        href: "https://linkedin.com",
+        href: "https://www.linkedin.com/in/montadar-ahmed-4577b6333",
         ariaLabel: "LinkedIn",
       },
       {
         label: "GitHub",
         iconKey: "github",
-        href: "https://github.com",
+        href: "https://github.com/Eng-Muntadher",
         ariaLabel: "GitHub",
       },
       {
@@ -103,6 +103,8 @@ const footer: FooterTranslations = {
     disclaimer:
       "Disclaimer: This app is designed for informational purposes only. Please verify all admission requirements with official universities. The developer is not responsible for decisions made based on this information.",
   },
-} as const;
+};
+
+export type FooterTranslationTypes = typeof footer;
 
 export default footer;

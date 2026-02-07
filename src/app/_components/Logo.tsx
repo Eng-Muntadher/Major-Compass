@@ -3,8 +3,9 @@ import Link from "next/link";
 export function Logo({ lang }: { lang: "en" | "ar" }) {
   return (
     <Link
+      aria-label="Go to home page"
       href="/home"
-      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+      className="flex items-center gap-2 hover:opacity-80 transition-opacity focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent outline-none"
     >
       <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
         <span className="text-2xl" aria-hidden="true">

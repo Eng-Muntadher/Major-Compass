@@ -22,7 +22,7 @@ export function Header({ searchMajors, userName, lang }: HeaderProps) {
   const { isSidebarOpen, toggleSidebar } = useSidebar();
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm shrink-0">
+    <header className="bg-white border-b border-gray-200 shadow-sm shrink-0 overscroll-none">
       <div className="grid grid-cols-2 md:grid-cols-[230px_1fr_230px] items-center px-4 h-16">
         {/* Left: Logo and Menu Toggle */}
         <div className="flex items-center gap-3">

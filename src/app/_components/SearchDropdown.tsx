@@ -19,7 +19,7 @@ export function SearchDropdown({
   return (
     <motion.div
       {...dropdownMenu}
-      className="absolute left-0 top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 max-h-96 overflow-y-auto"
+      className="absolute left-0 top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 max-h-96 overflow-y-auto overscroll-contain"
     >
       {hasResults ? (
         <>

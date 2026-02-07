@@ -30,7 +30,7 @@ export default function SavedMajorsSection({
             className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"
             aria-hidden="true"
           >
-            <Bookmark className="w-8 h-8 text-gray-400" />
+            <Bookmark className="w-8 h-8 text-gray-400" aria-hidden="true" />
           </div>
           <p className="text-gray-600 mb-2 font-medium">
             {translations.noSaved}
@@ -38,11 +38,11 @@ export default function SavedMajorsSection({
           <p className="text-sm text-gray-500">{translations.description}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {savedMajors.map((major) => (
             <MiniMajorCard key={major.id} major={major} />
           ))}
-        </div>
+        </ul>
       )}
     </section>
   );

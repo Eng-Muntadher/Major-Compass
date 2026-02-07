@@ -11,7 +11,9 @@ export default function Hero({ isAuthenticated, hero }: HeroProps) {
   return (
     <div className="text-center mb-16">
       <div className="inline-block p-3 bg-linear-to-br from-blue-600 to-purple-600 rounded-2xl mb-6">
-        <div className="text-6xl">🎓</div>
+        <div className="text-6xl" aria-hidden="true">
+          🎓
+        </div>
       </div>
 
       <h1 className="text-5xl mb-6">{hero.title}</h1>

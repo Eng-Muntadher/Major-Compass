@@ -17,7 +17,7 @@ export default function EmptySavedState({ emptyState }: EmptySavedStateProps) {
         className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6"
         aria-hidden="true"
       >
-        <BookmarkX className="w-12 h-12 text-gray-400" />
+        <BookmarkX className="w-12 h-12 text-gray-400" aria-hidden="true" />
       </div>
 
       <h2 id="empty-state-heading" className="text-2xl font-semibold mb-2">

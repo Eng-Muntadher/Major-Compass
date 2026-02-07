@@ -20,7 +20,8 @@ function TipsList({ sections }: TipsListProps) {
   };
 
   return (
-    <div className="space-y-4">
+    <section className="space-y-4">
+      <h2 className="sr-only">Tips</h2> {/* hidden heading for accessibility*/}
       {sections.map((section) => (
         <TipSection
           key={section.id}
@@ -29,7 +30,7 @@ function TipsList({ sections }: TipsListProps) {
           onToggle={() => HandleToggleSection(section.id)}
         />
       ))}
-    </div>
+    </section>
   );
 }
 

@@ -16,13 +16,15 @@ function AboutFeatureCard({
   borderColor,
 }: FeatureCardProps) {
   return (
-    <div
+    <li
       className={`bg-linear-to-br ${gradientFrom} ${gradientTo} rounded-xl p-6 border ${borderColor}`}
     >
-      <div className="text-3xl mb-3">{emoji}</div>
+      <div className="text-3xl mb-3" aria-hidden="true">
+        {emoji}
+      </div>
       <h3 className="text-lg mb-2">{title}</h3>
       <p className="text-sm text-gray-700">{description}</p>
-    </div>
+    </li>
   );
 }
 

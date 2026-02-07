@@ -9,8 +9,13 @@ interface CTASectionProps {
 
 function CTASection({ isAuthenticated, cta }: CTASectionProps) {
   return (
-    <div className="bg-white rounded-2xl p-12 border border-gray-200 text-center">
-      <h2 className="text-3xl mb-4">{cta.title}</h2>
+    <section
+      aria-labelledby="next-steps-heading"
+      className="bg-white rounded-2xl p-12 border border-gray-200 text-center"
+    >
+      <h2 id="next-steps-heading" className="text-3xl mb-4">
+        {cta.title}
+      </h2>
 
       <p className="text-gray-600 mb-8 max-w-2xl mx-auto">{cta.description}</p>
 
@@ -20,7 +25,7 @@ function CTASection({ isAuthenticated, cta }: CTASectionProps) {
           className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all inline-flex items-center gap-2"
         >
           <span>{cta.takeTest}</span>
-          <ArrowRight className="w-5 h-5" />
+          <ArrowRight className="w-5 h-5" aria-hidden="true" />
         </Link>
       ) : (
         <Link
@@ -28,10 +33,10 @@ function CTASection({ isAuthenticated, cta }: CTASectionProps) {
           className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all inline-flex items-center gap-2"
         >
           <span>{cta.signUp}</span>
-          <ArrowRight className="w-5 h-5" />
+          <ArrowRight className="w-5 h-5" aria-hidden="true" />
         </Link>
       )}
-    </div>
+    </section>
   );
 }
 

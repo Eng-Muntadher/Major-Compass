@@ -28,21 +28,22 @@ export default function RecentlyViewedSection({
         </h2>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {recentlyViewedMajors.map((major) => (
-          <Link
-            href={`/browse/${major.id}`}
-            key={major.id}
-            className="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-left group"
-            aria-label={`View ${major.nameEn}`}
-          >
-            <h3 className="mb-1 group-hover:text-blue-600 transition-colors font-semibold">
-              {major.nameEn}
-            </h3>
-            <p className="text-sm text-gray-500">{major.nameAr}</p>
-          </Link>
+          <li key={major.id}>
+            <Link
+              href={`/browse/${major.id}`}
+              className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-left group"
+              aria-label={`View ${major.nameEn}`}
+            >
+              <h3 className="mb-1 group-hover:text-blue-600 transition-colors font-semibold">
+                {major.nameEn}
+              </h3>
+              <p className="text-sm text-gray-500">{major.nameAr}</p>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

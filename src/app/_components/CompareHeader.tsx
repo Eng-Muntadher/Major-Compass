@@ -13,7 +13,7 @@ export default function CompareHeader({ t }: CompareHeaderProps) {
           className="w-12 h-12 bg-linear-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center"
           aria-hidden="true"
         >
-          <ArrowLeftRight className="w-6 h-6 text-white" />
+          <ArrowLeftRight className="w-6 h-6 text-white" aria-hidden="true" />
         </div>
         <div>
           <h1 className="text-3xl">{t.title}</h1>

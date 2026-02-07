@@ -19,7 +19,7 @@ export function SortDropdown() {
 
   const lang = (routeParams.lang ?? "en") as "en" | "ar";
 
-  // ✅ Reactive value
+  // Reactive value
   const currentSort = (searchParams.get("sortOrder") ??
     "default") as SortOption;
 

@@ -19,6 +19,7 @@ export default async function SignIn({
   return (
     <div className="min-h-screen flex justify-center p-4">
       <div className="w-full max-w-md">
+        {/* Reused the same header from the sign up page */}
         <SignUpHeader title={t.header.title} text={t.header.text} />
         <SignInForm translations={t.form} lang={lang} />
       </div>

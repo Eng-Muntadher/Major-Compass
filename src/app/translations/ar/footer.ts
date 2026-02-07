@@ -1,4 +1,6 @@
-const footer = {
+import { FooterTranslationTypes } from "../en/footer";
+
+const footer: FooterTranslationTypes = {
   tagline: "نساعد الطلبة العراقيين على اختيار التخصص المناسب",
 
   about: {
@@ -12,11 +14,11 @@ const footer = {
   navigation: {
     title: "التنقل",
     links: [
-      { key: "home", label: "الرئيسية" },
-      { key: "majors", label: "جميع التخصصات" },
-      { key: "tips", label: "نصائح وإرشادات" },
-      { key: "compare", label: "مقارنة التخصصات" },
-      { key: "about", label: "حول المنصة" },
+      { key: "home", label: "الرئيسية", href: "home" },
+      { key: "majors", label: "جميع التخصصات", href: "browse" },
+      { key: "tips", label: "نصائح وإرشادات", href: "tips-and-advice" },
+      { key: "compare", label: "مقارنة التخصصات", href: "compare-majors" },
+      { key: "about", label: "حول المنصة", href: "about" },
     ],
   },
 
@@ -37,13 +39,13 @@ const footer = {
       {
         label: "LinkedIn",
         iconKey: "linkedin",
-        href: "https://linkedin.com",
+        href: "https://www.linkedin.com/in/montadar-ahmed-4577b6333",
         ariaLabel: "لينكدإن",
       },
       {
         label: "GitHub",
         iconKey: "github",
-        href: "https://github.com",
+        href: "https://github.com/Eng-Muntadher",
         ariaLabel: "جيت هب",
       },
       {
@@ -65,6 +67,6 @@ const footer = {
     disclaimer:
       "تنبيه: هذا التطبيق لأغراض معلوماتية فقط. يرجى التحقق من متطلبات القبول من الجامعات الرسمية. المطور غير مسؤول عن أي قرارات يتم اتخاذها بناءً على هذه المعلومات.",
   },
-} as const;
+};
 
 export default footer;

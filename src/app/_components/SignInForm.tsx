@@ -19,7 +19,7 @@ function SignInForm({ translations, lang }: SignInFormProps) {
   return (
     <form
       action={async (formData) => {
-        const result = await signInWithEmail(formData);
+        const result = await signInWithEmail(formData, lang);
         if (result.success) toast.success(result.message);
         else toast.error(result.message);
       }}

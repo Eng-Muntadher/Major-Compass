@@ -5,6 +5,7 @@ interface ContactLinkProps {
   icon: LucideIcon;
   text: string;
   isExternal: boolean;
+  ariaLabel: string;
 }
 
 function ContactLink({
@@ -12,15 +13,17 @@ function ContactLink({
   icon: Icon,
   text,
   isExternal = false,
+  ariaLabel,
 }: ContactLinkProps) {
   return (
     <a
       href={href}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
+      aria-label={ariaLabel}
       className="flex items-center gap-3 text-blue-600 hover:text-blue-700 transition-colors"
     >
-      <Icon className="w-5 h-5" />
+      <Icon className="w-5 h-5" aria-hidden="true" />
       <span>{text}</span>
     </a>
   );

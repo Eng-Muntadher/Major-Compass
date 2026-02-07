@@ -7,11 +7,11 @@ interface FeaturesGridProps {
 
 function FeaturesGrid({ features }: FeaturesGridProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
       {features.map((feature, index) => (
         <AboutFeatureCard key={index} {...feature} />
       ))}
-    </div>
+    </ul>
   );
 }
 

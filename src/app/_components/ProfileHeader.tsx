@@ -108,24 +108,28 @@ export default function ProfileHeader({
     : serverProfile.avatarUrl;
 
   return (
-    <header className="bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-8 text-white">
-      <div className="flex items-start justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <div className="relative w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center overflow-hidden">
+    <header className="bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl p-6 sm:p-8 mb-8 text-white">
+      {/* Top section: avatar + username + edit button */}
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-6 mb-6">
+        {/* Avatar + username */}
+        <div className="flex flex-1 items-start sm:items-center gap-4 flex-wrap">
+          {/* Avatar */}
+          <div className="relative w-20 h-20 shrink-0 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm flex items-center justify-center">
             {displayAvatarUrl ? (
               <Image
                 fill
                 src={displayAvatarUrl}
-                alt=""
-                className="w-full h-full rounded-full object-cover"
+                priority
+                alt="user avatar"
+                className="object-cover rounded-full"
               />
             ) : (
               <User className="w-10 h-10" aria-hidden="true" />
             )}
 
             {isEditing && (
-              <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity cursor-pointer z-10">
-                <span className="text-xs font-semibold text-center px-1 leading-tight">
+              <label className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity cursor-pointer z-10 rounded-full text-center">
+                <span className="text-xs font-semibold px-1 leading-tight">
                   {translations.header.changeAvatar}
                 </span>
                 <input
@@ -139,7 +143,8 @@ export default function ProfileHeader({
             )}
           </div>
 
-          <div>
+          {/* Username + grade */}
+          <div className="flex-1 min-w-0">
             {isEditing ? (
               <>
                 <label htmlFor="profile-username" className="sr-only">
@@ -147,39 +152,45 @@ export default function ProfileHeader({
                 </label>
                 <input
                   id="profile-username"
+                  maxLength={30}
                   name="username"
                   type="text"
                   value={draft.username}
                   onChange={(e) =>
                     setDraft((prev) => ({ ...prev, username: e.target.value }))
                   }
-                  className="bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg text-2xl outline-none border-2 border-white/40 focus:border-white"
+                  className="bg-white/20 backdrop-blur-sm px-3 py-2 rounded-lg text-2xl outline-none border-2 border-white/40 focus:border-white w-full truncate"
                   required
                 />
               </>
             ) : (
-              <h1 className="text-3xl mb-1 font-semibold">
+              <h1 className="text-3xl mb-1 font-semibold truncate">
                 {serverProfile.username}
               </h1>
             )}
-            <p className="opacity-90">
+            <p className="opacity-90 truncate">
               {(isEditing ? draft.grade : serverProfile.grade) ||
                 translations.header.gradeNotSet}
             </p>
           </div>
         </div>
 
+        {/* Edit / Save / Cancel buttons */}
         {!isEditing ? (
           <button
             onClick={handleEdit}
-            className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
+            className="shrink-0 px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
             aria-label="Edit profile"
           >
             <Edit2 className="w-4 h-4" aria-hidden="true" />
-            <span>{translations.header.editProfile}</span>
+            <span className="truncate">{translations.header.editProfile}</span>
           </button>
         ) : (
-          <div className="flex gap-2" role="group" aria-label="Edit actions">
+          <div
+            className="flex gap-2 shrink-0 flex-wrap"
+            role="group"
+            aria-label="Edit actions"
+          >
             <button
               onClick={handleCancel}
               disabled={isPending}
@@ -205,6 +216,7 @@ export default function ProfileHeader({
         )}
       </div>
 
+      {/* Profile Info Section */}
       <ProfileInfoSection
         email={email}
         grade={isEditing ? draft.grade : serverProfile.grade}

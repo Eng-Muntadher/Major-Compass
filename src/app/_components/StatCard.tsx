@@ -18,7 +18,7 @@ export default function StatCard({
   iconColor,
 }: StatCardProps) {
   return (
-    <article className="bg-white rounded-xl p-6 border border-gray-200">
+    <li className="bg-white rounded-xl p-6 border border-gray-200">
       <div className="flex items-center gap-3 mb-2">
         <div
           className={`w-10 h-10 ${bgColor} rounded-lg flex items-center justify-center`}
@@ -36,6 +36,6 @@ export default function StatCard({
           <p className="text-sm text-gray-600">{label}</p>
         </div>
       </div>
-    </article>
+    </li>
   );
 }

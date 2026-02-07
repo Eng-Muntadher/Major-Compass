@@ -29,7 +29,7 @@ export function LanguageToggle({
   return (
     <button
       onClick={handleToggle}
-      className="p-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1 cursor-pointer"
+      className="p-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1 cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent outline-none"
       aria-label={
         currentLanguage === "en" ? "Switch to Arabic" : "Switch to English"
       }

@@ -1,6 +1,6 @@
 import { Target } from "lucide-react";
-import InfoSection from "./InfoSection";
 import { aboutTranslation } from "../translations/en/about";
+import InfoSection from "./InfoSection";
 
 interface MissionSectionProps {
   mission: aboutTranslation["mission"];

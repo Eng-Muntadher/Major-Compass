@@ -16,31 +16,30 @@ export default function StatsSummary({
   stats,
 }: StatsSummaryProps) {
   return (
-    <section
-      className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8"
-      aria-label="Saved majors statistics"
-    >
-      <StatCard
-        icon={Bookmark}
-        iconColor="text-blue-600"
-        value={totalSaved}
-        label={stats.total}
-        bgColor="bg-blue-100"
-      />
+    <section aria-label="Saved majors statistics">
+      <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <StatCard
+          icon={Bookmark}
+          iconColor="text-blue-600"
+          value={totalSaved}
+          label={stats.total}
+          bgColor="bg-blue-100"
+        />
 
-      <StatCard
-        emoji="📚"
-        value={categoriesCount}
-        label={stats.categories}
-        bgColor="bg-purple-100"
-      />
+        <StatCard
+          emoji="📚"
+          value={categoriesCount}
+          label={stats.categories}
+          bgColor="bg-purple-100"
+        />
 
-      <StatCard
-        emoji="⏱️"
-        value={averageYears}
-        label={stats.AvgYears}
-        bgColor="bg-green-100"
-      />
+        <StatCard
+          emoji="⏱️"
+          value={averageYears}
+          label={stats.AvgYears}
+          bgColor="bg-green-100"
+        />
+      </ul>
     </section>
   );
 }

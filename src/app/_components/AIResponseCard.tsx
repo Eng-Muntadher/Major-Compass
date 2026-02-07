@@ -55,6 +55,7 @@ export default function AIResponseCard({
             </p>
           </div>
         ) : (
+          // Here I use React Markdown to format the ai response in a nice way before displaying it on the front end
           <div className="whitespace-pre-line max-w-none">
             {<ReactMarkdown>{response}</ReactMarkdown>}
           </div>

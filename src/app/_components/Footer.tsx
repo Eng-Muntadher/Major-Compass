@@ -85,13 +85,13 @@ export function Footer({ lang }: FooterProps) {
                 const Icon = NAV_ICONS[link.key as keyof typeof NAV_ICONS];
                 return (
                   <li key={link.key}>
-                    <button
-                      type="button"
+                    <Link
+                      href={`/${link.href}`}
                       className={`${linkClass} md:justify-start justify-center`}
                     >
                       <Icon className="w-4 h-4" aria-hidden="true" />
                       <span>{link.label}</span>
-                    </button>
+                    </Link>
                   </li>
                 );
               })}
