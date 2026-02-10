@@ -19,7 +19,7 @@ export function SortDropdown() {
 
   const lang = (routeParams.lang ?? "en") as "en" | "ar";
 
-  // Reactive value
+  // Reactive value (handles re-rendering)
   const currentSort = (searchParams.get("sortOrder") ??
     "default") as SortOption;
 
@@ -30,6 +30,7 @@ export function SortDropdown() {
       params.delete("sortOrder");
     } else {
       params.set("sortOrder", value);
+      params.delete("page"); // Reset to page 1 when sort order changes
     }
 
     router.push(`/${lang}/browse?${params.toString()}`);

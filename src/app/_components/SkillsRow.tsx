@@ -10,7 +10,9 @@ export default function SkillsRow({ label, skills1, skills2 }: SkillsRowProps) {
       <div className="p-4 bg-gray-50">
         <p className="text-sm font-medium">{label}</p>
       </div>
-      <div className="p-4 border-l border-gray-200">
+
+      {/* Major 1 */}
+      <div className="p-4 border-l border-gray-200 overflow-auto">
         <div
           className="flex flex-wrap gap-2"
           role="list"
@@ -27,7 +29,9 @@ export default function SkillsRow({ label, skills1, skills2 }: SkillsRowProps) {
           ))}
         </div>
       </div>
-      <div className="p-4 border-l border-gray-200">
+
+      {/* Major 2 */}
+      <div className="p-4 border-l border-gray-200 overflow-auto">
         <div
           className="flex flex-wrap gap-2"
           role="list"

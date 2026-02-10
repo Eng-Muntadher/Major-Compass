@@ -4,7 +4,7 @@ import { Lock, LogIn, Mail } from "lucide-react";
 import Link from "next/link";
 import FormInputField from "./FormInputField";
 import { signInWithEmail } from "@/app/actions/emailAuth";
-import { continueWithGoogle } from "@/app/actions/googleAuth";
+import { signInWithGoogle } from "@/app/actions/googleAuth";
 import toast from "react-hot-toast";
 import SubmitButton from "./SubmitButton";
 import GoogleSignUpButton from "./GoogleSignUpButton";
@@ -74,7 +74,7 @@ function SignInForm({ translations, lang }: SignInFormProps) {
       {/* Google Sign up */}
       <GoogleSignUpButton
         text={translations.googleButton}
-        onClick={continueWithGoogle}
+        onClick={signInWithGoogle}
       />
 
       {/* Switch to Sign Up */}

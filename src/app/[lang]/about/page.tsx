@@ -1,10 +1,10 @@
+import { getTranslations } from "@/app/translations";
+import { getLocaleFromParams } from "@/app/_utils/lang";
 import AboutHeader from "@/app/_components/AboutHeader";
 import ContactSection from "@/app/_components/ContactSeaction";
 import FeaturesGrid from "@/app/_components/FeaturesGrid";
 import MissionSection from "@/app/_components/MissionSection";
 import PurposeSection from "@/app/_components/PurposeSection";
-import { getTranslations } from "@/app/translations";
-import { getLocaleFromParams } from "@/app/_utils/lang";
 
 export const metadata = {
   title: "About Major Compass",
@@ -15,7 +15,10 @@ export default async function About({
 }: {
   params: Promise<{ lang: "en" | "ar" }>;
 }) {
+  // Get the current language from the params
   const { lang } = await params;
+
+  // Validate types and get the translation for this page (Arabic / English)
   const locale = getLocaleFromParams(lang);
   const t = getTranslations(locale).about;
 

@@ -1,8 +1,11 @@
+// This context allows us to use the AI assistant in differetnt parts of the app with the same state
+
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { sendMessage } from "@/app/actions/aiActions";
 
+// AI message structure
 interface Message {
   role: "user" | "assistant";
   content: string;

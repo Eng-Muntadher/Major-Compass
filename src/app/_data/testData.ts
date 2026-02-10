@@ -1,3 +1,6 @@
+// This is the form options used in the student test page
+// (extracted here for better seperation of concerns)
+
 export const iraqiCities = [
   { value: "Baghdad", label: "Baghdad", labelAr: "بغداد" },
   { value: "Basra", label: "Basra", labelAr: "البصرة" },

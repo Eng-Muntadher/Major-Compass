@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   experimental: {
     serverActions: {
-      bodySizeLimit: "5mb", // or '10mb'
+      bodySizeLimit: "10mb",
     },
   },
   images: {

@@ -42,6 +42,7 @@ function MajorDemandBanners({
         {t.heading}
       </h2>
 
+      {/* demand in Iraq section */}
       {demandInIraq && (
         <div
           className={`rounded-xl p-4 border-2 ${demandStyles[demandInIraq].bg} ${demandStyles[demandInIraq].border}`}
@@ -65,6 +66,7 @@ function MajorDemandBanners({
         </div>
       )}
 
+      {/* demand outside Iraq section */}
       {demandOutsideIraq && (
         <div
           className={`rounded-xl p-4 border-2 ${demandStyles[demandOutsideIraq].bg} ${demandStyles[demandOutsideIraq].border}`}

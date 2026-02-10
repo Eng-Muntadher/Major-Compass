@@ -14,7 +14,11 @@ export default function NotFound() {
         <div className="flex justify-center mb-8">
           <div className="relative">
             <div className="w-32 h-32 bg-linear-to-br from-blue-600 to-purple-600 rounded-3xl flex items-center justify-center shadow-2xl shadow-purple-500/30 animate-pulse">
-              <Compass className="w-16 h-16 text-white" strokeWidth={1.5} />
+              <Compass
+                aria-hidden="true"
+                className="w-16 h-16 text-white"
+                strokeWidth={1.5}
+              />
             </div>
             {/* Floating decorative elements */}
             <div className="absolute -top-2 -right-2 w-8 h-8 bg-linear-to-br from-blue-400 to-purple-400 rounded-lg animate-bounce delay-100"></div>
@@ -46,7 +50,10 @@ export default function NotFound() {
             onClick={() => router.back()}
             className="group flex items-center gap-2 px-6 py-3 bg-white border-2 border-gray-200 rounded-xl hover:border-purple-300 hover:shadow-lg transition-all duration-300 text-gray-700 font-medium min-w-45"
           >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
+            <ArrowLeft
+              aria-hidden="true"
+              className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300"
+            />
             Go Back
           </button>
 

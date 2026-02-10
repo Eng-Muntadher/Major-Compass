@@ -3,6 +3,7 @@
 import { Brain } from "lucide-react";
 import { useAIAssistant } from "../_context/AIAssistantContext";
 import { MajorDetailsType } from "@/app/translations/en/majorDetails";
+import { Button } from "./Button";
 
 interface AIAnalyzeButtonProps {
   major: string;
@@ -14,13 +15,13 @@ function AIAnalyzeButton({ major, t }: AIAnalyzeButtonProps) {
 
   return (
     <div className="p-6 bg-linear-to-r from-blue-50 to-purple-50">
-      <button
+      <Button
+        leftIcon={<Brain className="w-5 h-5" aria-hidden="true" />}
         onClick={() => sendMessageToAI(`${t.analyzePrompt} ${major}`)}
-        className="w-full bg-linear-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium cursor-pointer"
+        className="w-full"
       >
-        <Brain className="w-5 h-5" aria-hidden="true" />
         <span>{t.buttonText}</span>
-      </button>
+      </Button>
 
       <p className="text-center text-sm text-gray-600 mt-2">{t.description}</p>
     </div>

@@ -19,6 +19,7 @@ export default function CompareMajorsClientWrapper({
   const [major1Id, setMajor1Id] = useState("");
   const [major2Id, setMajor2Id] = useState("");
 
+  // Majors are already fetched and cached using (ISG), we just have to find and compare them
   const major1 = majors?.find((m) => m.id === major1Id);
   const major2 = majors?.find((m) => m.id === major2Id);
 

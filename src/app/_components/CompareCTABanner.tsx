@@ -25,12 +25,14 @@ export default function CompareCTABanner({
           >
             {compareCTA.title}
           </h2>
+
           <p className="text-sm text-gray-600">{compareCTA.description}</p>
         </div>
+
         <button
           onClick={() => setIsAIOpen(true)}
           aria-label={compareCTA.buttonAria}
-          className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+          className="px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         >
           <span className="text-xl" aria-hidden="true">
             🤖

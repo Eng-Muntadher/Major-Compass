@@ -29,7 +29,7 @@ const SOCIAL_ICONS = {
 };
 
 const linkClass =
-  "flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors";
+  "flex items-center gap-2 text-sm text-indigo-200 hover:text-white transition-colors w-fit";
 
 export function Footer({ lang }: FooterProps) {
   const locale = getLocaleFromParams(lang);

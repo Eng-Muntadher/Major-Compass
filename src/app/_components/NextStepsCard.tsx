@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import Button from "../_components/Button";
+import { Button } from "../_components/Button";
 import Card from "../_components/Card";
 
 interface NextStepsContent {
@@ -41,7 +41,7 @@ export default function NextStepsCard({
         >
           <Button
             onClick={() => router.push("/browse")}
-            className="flex-1 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-6"
+            className="font-semibold w-[50%] max-[640px]:w-full"
           >
             {content.buttons.explore}
           </Button>
@@ -49,7 +49,7 @@ export default function NextStepsCard({
           <Button
             onClick={onRetakeTest}
             variant="outline"
-            className="flex-1 py-6"
+            className="font-semibold w-[50%] max-[640px]:w-full"
           >
             {content.buttons.retake}
           </Button>

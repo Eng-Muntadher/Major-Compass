@@ -7,6 +7,7 @@ import { t, type Lang } from "./actionsTranslation";
 export async function updateProfile(formData: FormData, lang: Lang = "en") {
   const supabase = await createClient();
 
+  // Get current user
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -15,15 +16,14 @@ export async function updateProfile(formData: FormData, lang: Lang = "en") {
     return { error: t(lang, "notAuthenticated") };
   }
 
+  // Get form data to update the current user
   const username = formData.get("username") as string;
   const grade = formData.get("grade") as string;
   const avatarFile = formData.get("avatar");
 
   let avatar_url: string | null = null;
 
-  // Only upload if the user actually picked a new file.
-  // formData.get returns null if the key is missing, or a string if it's
-  // a text field — neither of which is a File.
+  // Only upload the avatar if the user actually picked a new file.
   if (avatarFile instanceof File) {
     const extension = avatarFile.name.split(".").pop();
 
@@ -32,6 +32,7 @@ export async function updateProfile(formData: FormData, lang: Lang = "en") {
       .from("avatars")
       .list(user.id);
 
+    // Return an error with the current user's language for toasts
     if (listError) {
       return { error: `${t(lang, "listAvatarsFailed")}: ${listError.message}` };
     }
@@ -67,8 +68,7 @@ export async function updateProfile(formData: FormData, lang: Lang = "en") {
     avatar_url = `${urlData.publicUrl}?t=${Date.now()}`;
   }
 
-  // Build the update object. Only include avatar_url if a new one was uploaded,
-  // otherwise leave the existing value in the DB untouched.
+  // Build the update object. Only include avatar_url if a new one was uploaded
   const updates: Record<string, string | null> = { username, grade };
   if (avatar_url) {
     updates.avatar_url = avatar_url;

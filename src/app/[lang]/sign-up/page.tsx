@@ -12,7 +12,10 @@ export default async function SignUp({
 }: {
   params: Promise<{ lang: "en" | "ar" }>;
 }) {
+  // Get the current language from the params
   const { lang } = await params;
+
+  // Validate types and get the translation for this page (Arabic / English)
   const locale = getLocaleFromParams(lang);
   const t = getTranslations(locale).signUp;
 

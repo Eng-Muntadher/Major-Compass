@@ -1,3 +1,10 @@
+/**
+ * SUPABASE DATABASE HELPERS:
+ * Provides reusable functions to fetch major data from Supabase.
+ * Handles language-specific fields (Arabic/English) and transforms database
+ * rows into typed Major objects.
+ */
+
 import { SupabaseClient } from "@supabase/supabase-js";
 import {
   EnglishSearchMajors,
@@ -14,13 +21,12 @@ export async function getMajors(
   lang: Lang = "en",
   ids?: string[],
 ): Promise<Partial<Major>[] | null> {
-  // Map the language-dependent fields
+  // Map to language-specific column names
   const fieldMap = {
     description: `description_${lang}` as const,
     jobOpportunities: `job_opportunities_${lang}` as const,
   };
 
-  // Select only the fields we need
   const selectFields = [
     "id",
     "name_ar",
@@ -36,18 +42,22 @@ export async function getMajors(
 
   let query = supabase.from("majors").select(selectFields);
 
-  if (ids?.length) {
+  if (ids !== undefined && ids.length > 0) {
     query = query.in("id", ids);
+  } else if (ids !== undefined && ids.length === 0) {
+    // Empty array means "match nothing" - return early
+    return [];
   }
 
-  // Use your MajorRow type for the Supabase response
   const { data, error } = await query.returns<MajorRow[]>();
 
   if (error || !data) {
     console.error(`Error fetching majors in ${lang}:`, error);
     return null;
   }
+  console.log(data);
 
+  // Transform database rows to typed Major objects
   return data.map((major) => ({
     id: major.id,
     nameEn: major.name_en,
@@ -81,6 +91,7 @@ export async function getMajorsWithFullInfo(
   supabase: SupabaseClient,
   lang: Lang = "en",
 ): Promise<Major[] | null> {
+  // Dynamically build the fetched data based on the current language (fetch only what's needed)
   const fieldMap = {
     category: `category_${lang}` as const,
     description: `description_${lang}` as const,
@@ -135,7 +146,6 @@ export async function getMajorsWithFullInfo(
     const get = <T = unknown>(key: string) => major[key] as T;
 
     return {
-      // static
       id: major.id,
       nameAr: major.name_ar,
       nameEn: major.name_en,
@@ -154,8 +164,6 @@ export async function getMajorsWithFullInfo(
         | "Medium"
         | "Low"
         | null,
-
-      // dynamic
       category: get(fieldMap.category),
       description: get(fieldMap.description),
       skills: get(fieldMap.skills),
@@ -177,7 +185,6 @@ export async function getMajorDetails(
   lang: Lang = "en",
   id: string,
 ): Promise<Major | null> {
-  // Language-dependent fields
   const fieldMap = {
     category: `category_${lang}` as const,
     description: `description_${lang}` as const,
@@ -232,7 +239,6 @@ export async function getMajorDetails(
   const get = <T = unknown>(key: string) => data[key] as T;
 
   return {
-    // static
     id: data.id,
     nameAr: data.name_ar,
     nameEn: data.name_en,
@@ -249,8 +255,6 @@ export async function getMajorDetails(
     demandInIraqLevel:
       (data.demand_in_iraq_level?.toString() as "High" | "Medium" | "Low") ||
       null,
-
-    // dynamic
     category: get(fieldMap.category),
     description: get(fieldMap.description),
     skills: get(fieldMap.skills),
@@ -266,13 +270,15 @@ export async function getMajorDetails(
   };
 }
 
+/**
+ * Get the 2 most recently bookmarked majors for display in profile.
+ */
 export async function getRecentlySavedMajors(
   supabase: SupabaseClient,
   majorIds: string[],
 ): Promise<RecentlySavedMajor[]> {
   if (!majorIds || majorIds.length === 0) return [];
 
-  // Get only the last 2 IDs
   const lastTwoIds = majorIds.slice(-2);
 
   const { data: majors, error } = await supabase
@@ -317,7 +323,10 @@ export async function getRecentlyViwedMajors(
   }));
 }
 
-export async function getEnSearchMajors(
+/**
+ * Get minimal major data (names + categories) for search functionality.
+ */
+export async function getSearchMajors(
   supabase: SupabaseClient,
 ): Promise<EnglishSearchMajors[] | null> {
   const { data, error } = await supabase
@@ -338,7 +347,7 @@ export async function getEnSearchMajors(
   }));
 }
 
-export async function getSimilarMajorsInEnglish(
+export async function getSimilarMajors(
   supabase: SupabaseClient,
   ids: string[],
 ) {

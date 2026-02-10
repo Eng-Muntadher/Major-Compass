@@ -1,3 +1,9 @@
+/* ARABIC TRANSLATIONS INDEX:
+ * Aggregates all Arabic translation files into a single object.
+ * This serves as the central export point for all Arabic content in the app.
+ */
+
+// Import individual translation modules for each page/section
 import home from "./home";
 import about from "./about";
 import tips from "./tips";
@@ -10,6 +16,7 @@ import signIn from "./signIn";
 import signUp from "./signUp";
 import footer from "./footer";
 
+// Combine all translation modules into a single object.
 const ar = {
   home,
   about,

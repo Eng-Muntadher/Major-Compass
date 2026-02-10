@@ -58,7 +58,7 @@ export function UserMenuDropdown({
           </div>
 
           <Link
-            href="/profile"
+            href={`/${lang}/profile`}
             onClick={onNavigate}
             className={`w-full px-4 py-2 hover:bg-gray-50 transition-colors flex items-center gap-2 ${
               isArabic ? "flex-row-reverse" : ""
@@ -91,7 +91,7 @@ export function UserMenuDropdown({
           </div>
 
           <Link
-            href="/sign-in"
+            href={`/${lang}/sign-in`}
             onClick={onNavigate}
             className={`w-full px-4 py-2 hover:bg-gray-50 transition-colors flex items-center gap-2 ${
               isArabic ? "flex-row-reverse" : ""
@@ -102,7 +102,7 @@ export function UserMenuDropdown({
           </Link>
 
           <Link
-            href="/sign-up"
+            href={`/${lang}/sign-up`}
             onClick={onNavigate}
             className={`w-full px-4 py-2 hover:bg-gray-50 transition-colors flex items-center gap-2 ${
               isArabic ? "flex-row-reverse" : ""

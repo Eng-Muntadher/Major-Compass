@@ -17,7 +17,7 @@ const profile: ProfileTranslationTypes = {
   },
   sections: {
     savedMajors: {
-      title: "التخصصات المحفوظة",
+      title: "المحفوظة مؤخراً",
       noSaved: "لا توجد تخصصات محفوظة بعد",
       description: "ابدأ بالاستكشاف واحفظ التخصصات التي تهمك!",
     },

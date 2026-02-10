@@ -1,8 +1,16 @@
+/**
+AI ASSISTANT SERVER ACTIONS:
+ * Purpose: Provides server-side AI functionality using OpenAI's GPT-4 for:
+ * 1. Student major recommendations based on profile
+ * 2. General chat assistance
+ */
+
 "use server";
 
 import OpenAI from "openai";
 import { t, type Lang } from "./actionsTranslation";
 
+// Student profile data structure for AI analysis
 export type StudentAIInput = {
   gpa: number;
   highSchoolField: string;
@@ -13,15 +21,21 @@ export type StudentAIInput = {
   preferredFieldType: string;
 };
 
+// Chat message structure
 interface AIMessage {
   role: "user" | "assistant";
   content: string;
 }
 
+// Initialize OpenAI client with API key from environment variables
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 });
 
+/* Function to get AI-powered major recommendations for a student based on:
+ * 1. Student's academic profile and preferences
+ * 2. Response language ("en" or "ar")
+ */
 export async function askAI(input: StudentAIInput, language: "en" | "ar") {
   const chatLanguage = language == "en" ? "English" : "Arabic";
 
@@ -46,20 +60,23 @@ export async function askAI(input: StudentAIInput, language: "en" | "ar") {
   return completion.choices[0].message.content;
 }
 
+// Function to send a message to the AI assistant (general chat)
 export async function sendMessage(messages: AIMessage[], lang: Lang = "en") {
   try {
+    // Validate input
     if (!messages || !Array.isArray(messages)) {
       throw new Error("Invalid messages format");
     }
 
+    // Send conversation to OpenAI
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: messages.map((msg) => ({
         role: msg.role,
         content: msg.content,
       })),
-      temperature: 0.7,
-      max_tokens: 1000,
+      temperature: 0.7, // Creativity level (0-1)
+      max_tokens: 1000, // Response length limit (use reasonable quota)
     });
 
     return {
@@ -70,7 +87,7 @@ export async function sendMessage(messages: AIMessage[], lang: Lang = "en") {
     console.error("OpenAI API error:", error);
     return {
       success: false,
-      message: t(lang, "aiError"),
+      message: t(lang, "aiError"), // Localized error message
     };
   }
 }

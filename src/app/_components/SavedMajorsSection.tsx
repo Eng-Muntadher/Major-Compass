@@ -12,6 +12,9 @@ export default function SavedMajorsSection({
   savedMajors,
   translations,
 }: SavedMajorsSectionProps) {
+  // Derived from the props to determine the current language
+  const isEnglish = translations.title.startsWith(""); // If the text starts with (R) => current lang = en
+
   return (
     <section
       className="bg-white rounded-xl border border-gray-200 p-6 mb-6"
@@ -40,7 +43,7 @@ export default function SavedMajorsSection({
       ) : (
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {savedMajors.map((major) => (
-            <MiniMajorCard key={major.id} major={major} />
+            <MiniMajorCard key={major.id} major={major} isEnglish={isEnglish} />
           ))}
         </ul>
       )}

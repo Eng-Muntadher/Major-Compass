@@ -19,6 +19,7 @@ export default function MajorSelectionPanel({
   onMajor2Change,
   t,
 }: MajorSelectionPanelProps) {
+  // Determine the current language without the need to read the URL
   const currentLanguage = t.firstMajor.startsWith("S") ? "en" : "ar";
   return (
     <section

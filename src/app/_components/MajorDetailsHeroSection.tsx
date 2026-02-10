@@ -10,11 +10,13 @@ interface HeroDetailsHeroProps {
 }
 
 async function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
+  // Get current signed in user (if there is one)
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // If there is a user => update his RecentlyViewedMajor array in the DB
   if (user) {
     updateRecentlyViewedMajor(major?.id);
   }
@@ -32,6 +34,7 @@ async function MajorDetailsHeroSection({ major }: HeroDetailsHeroProps) {
 
   const savedMajorsIds = profile?.bookmarks;
 
+  // Check if this major has been bookmarked by this user
   const isSaved = savedMajorsIds?.includes(major?.id);
 
   return (

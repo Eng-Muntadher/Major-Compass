@@ -7,6 +7,7 @@ import { updateProfile } from "@/app/actions/profileActions";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { ProfileTranslationTypes } from "../translations/en/profile";
+import { Button } from "./Button";
 
 interface ProfileHeaderProps {
   username: string;
@@ -39,8 +40,10 @@ export default function ProfileHeader({
   const [isEditing, setIsEditing] = useState(false);
   const [isPending, startTransition] = useTransition();
 
+  // Main data from the database (passed as props)
   const serverProfile = { username, grade, avatarUrl };
 
+  // Draft data when the user edits his profile (deleted upon re-edit)
   const [draft, setDraft] = useState<EditableProfile>({
     username,
     grade,
@@ -60,6 +63,8 @@ export default function ProfileHeader({
 
   const handleCancel = () => {
     if (draft.avatarFile && draft.avatarUrl) {
+      // Clean up the temporary blob URL created by URL.createObjectURL()
+      // This prevents memory leaks when the user cancels without saving
       URL.revokeObjectURL(draft.avatarUrl);
     }
     setIsEditing(false);
@@ -103,6 +108,7 @@ export default function ProfileHeader({
     });
   };
 
+  // Based on isEditing, we show the user avatar or a placeholder icon
   const displayAvatarUrl = isEditing
     ? draft.avatarUrl
     : serverProfile.avatarUrl;
@@ -177,29 +183,31 @@ export default function ProfileHeader({
 
         {/* Edit / Save / Cancel buttons */}
         {!isEditing ? (
-          <button
+          <Button
+            variant="glass"
+            className="shrink-0"
+            size="sm"
+            leftIcon={<Edit2 className="w-4 h-4" aria-hidden="true" />}
             onClick={handleEdit}
-            className="shrink-0 px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
             aria-label="Edit profile"
           >
-            <Edit2 className="w-4 h-4" aria-hidden="true" />
             <span className="truncate">{translations.header.editProfile}</span>
-          </button>
+          </Button>
         ) : (
           <div
             className="flex gap-2 shrink-0 flex-wrap"
             role="group"
             aria-label="Edit actions"
           >
-            <button
+            <Button
+              variant="glass"
+              size="sm"
               onClick={handleCancel}
               disabled={isPending}
-              type="button"
-              className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
               aria-label="Cancel editing"
             >
               {translations.header.cancel}
-            </button>
+            </Button>
 
             <button
               onClick={handleSave}

@@ -9,8 +9,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { sidebarLinks } from "../_data/SideBarLinks";
 
 const linksClasses =
-  "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors cursor-pointer";
-
+  "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2";
 interface SidebarProps {
   currentLanguage: "en" | "ar";
 }
@@ -74,6 +73,9 @@ export function Sidebar({ currentLanguage }: SidebarProps) {
                   <Link
                     key={href}
                     href={fullHref}
+                    onClick={() => {
+                      if (isSidebarOpen) toggleSidebar();
+                    }}
                     className={
                       linksClasses +
                       ` ${
@@ -114,6 +116,9 @@ export function Sidebar({ currentLanguage }: SidebarProps) {
                   <Link
                     href={fullLink}
                     key={category.id}
+                    onClick={() => {
+                      if (isSidebarOpen) toggleSidebar();
+                    }}
                     className={
                       linksClasses +
                       ` ${

@@ -34,7 +34,7 @@ function ContactSection({ contact }: ContactSectionProps) {
 
   return (
     <section className="bg-white rounded-xl p-8 border border-gray-200">
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-4 overflow-auto">
         {/* Icon */}
         <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
           <Mail className="w-6 h-6 text-green-600" aria-hidden="true" />

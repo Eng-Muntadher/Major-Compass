@@ -6,11 +6,13 @@ import { ProfileTranslationTypes } from "../translations/en/profile";
 interface RecentlyViewedSectionProps {
   recentlyViewedMajors: RecentlyViewedMajor[];
   translations: ProfileTranslationTypes["sections"]["recentlyViewed"];
+  lang: "en" | "ar";
 }
 
 export default function RecentlyViewedSection({
   recentlyViewedMajors,
   translations,
+  lang,
 }: RecentlyViewedSectionProps) {
   if (recentlyViewedMajors.length === 0) {
     return null;
@@ -32,8 +34,8 @@ export default function RecentlyViewedSection({
         {recentlyViewedMajors.map((major) => (
           <li key={major.id}>
             <Link
-              href={`/browse/${major.id}`}
-              className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-left group"
+              href={`/${lang}/browse/${major.id}`}
+              className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               aria-label={`View ${major.nameEn}`}
             >
               <h3 className="mb-1 group-hover:text-blue-600 transition-colors font-semibold">

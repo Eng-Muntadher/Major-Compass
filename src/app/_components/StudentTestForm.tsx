@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Input from "../_components/Input";
-import Button from "../_components/Button";
+import { Button } from "../_components/Button";
 import FormField from "../_components/FormField";
 import SelectField from "../_components/SelectField";
 import CheckboxGroup from "../_components/CheckBoxGroup";
@@ -167,15 +167,13 @@ export default function StudentTestForm({
       />
 
       {/* Submit Button */}
-      <div className="pt-4">
-        <Button
-          type="submit"
-          className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-6 text-lg transition-colors cursor-pointer"
-        >
-          {formLabels.submitButton.label}
-          <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-        </Button>
-      </div>
+      <Button
+        rightIcon={<ArrowRight className="ml-2 h-5 w-5" />}
+        type="submit"
+        className="w-full font-semibold"
+      >
+        {formLabels.submitButton.label}
+      </Button>
     </form>
   );
 }

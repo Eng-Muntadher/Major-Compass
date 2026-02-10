@@ -15,7 +15,7 @@ const profile = {
   },
   sections: {
     savedMajors: {
-      title: "Saved Majors",
+      title: "Recently Saved",
       noSaved: "No saved majors yet",
       description: "Start exploring and bookmark majors you're interested in!",
     },

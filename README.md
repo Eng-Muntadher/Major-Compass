@@ -7,7 +7,7 @@ Your Guide to Finding the Perfect College Major
 ## Project Links
 
 - [📺 YouTube Walkthrough](soon...)
-- [🌐 Live Demo](soon...)
+- [🌐 Live Demo](https://my-major-compass.vercel.app)
 - [🎨 Figma Design](https://www.figma.com/design/gm8by2LB14qytVDY1FQIbv/College-Major-App-Design?node-id=0-1&p=f&t=FKbNg65qMxZUNmAs-0)
 
 ---
@@ -34,7 +34,7 @@ Although this app is built specifically for Iraqi students with localized data a
 
 - Browse all available college majors with detailed information
 - Dynamic filtering, sorting and search capabilities for majors
-- URL-based filter persistence for easy sharing
+- URL-based filter and pagination state persistence for easy sharing
 - Detailed major pages with complete program information
 
 ### Personalization Features
@@ -53,14 +53,16 @@ Although this app is built specifically for Iraqi students with localized data a
 
 ### Performance & Optimization
 
-- Incremental Static Generation (ISG) with Next.js
+- Incremental Static Generation (ISR) with Next.js
 - Combination of dynamic and static routes for optimal performance
-- Efficient data fetching from Supabase database with optimized queries
+- Server-side pagination for efficient browsing of large datasets
+- Efficient data fetching from Supabase database with optimized queries based on language
 
 ### User Experience
 
 - Smooth animations using Framer Motion
 - Fully responsive design with Tailwind CSS
+- Accessibility support implemented across the app with semantic tags and ARIA labels
 
 ---
 
@@ -81,51 +83,67 @@ Although this app is built specifically for Iraqi students with localized data a
 ### AI & APIs
 
 - OpenAI ChatGPT API - AI-powered recommendations and chatbot
-- OpenAI GPT-4/GPT-3.5-turbo - Language model for intelligent responses
+- OpenAI gpt-4o-mini - Language model for intelligent responses
 
 ### Other Tools
 
-- Lucide Icons
 - Radix UI
+- Context API
 - React Hot Toast (for UI/UX feedback toasts)
 - React Markdown (Markdown rendering for AI responses)
+- Lucide Icons
 
 ---
 
 ## Project Structure
 
+```
 major-compass/
 ├── src/
-│ ├── app/
-│ │ ├── components/  
-│ │ ├── data/  
-│ │ │ ├── categories.ts
-│ │ │ └── SideBarLinks.ts
-│ │ ├── hooks/  
-│ │ ├── lib/  
-│ │ │ ├── supabase.ts
-│ │ │ ├── supabaseHelpers.ts
-│ │ │ └── types.ts
-│ │ ├── styles/  
-│ │ │ ├── animations.ts
-│ │ │ └── globals.css
-│ │ ├── utilities/  
-│ │ ├── [lang]/  
-│ │ │ ├── about/
-│ │ │ ├── home/
-│ │ │ ├── majors/
-│ │ │ ├── test/
-│ │ │ ├── compare/
-│ │ │ ├── saved/
-│ │ │ ├── tips/
-│ │ │ └── ...
-│ │ ├── actions/  
-│ │ ├── auth/  
-│ │ └── translations/  
-│ └── middleware.ts  
+│   ├── app/
+│   │   ├── [lang]/
+│   │   │   ├── about/
+│   │   │   ├── compare/
+│   │   │   ├── home/
+│   │   │   ├── majors/
+│   │   │   ├── saved/
+│   │   │   ├── test/
+│   │   │   ├── tips/
+│   │   │   └── ...
+│   │   ├── actions/
+│   │   ├── auth/
+│   │   │   └── callback/
+│   │   │       └── route.ts
+│   │   ├── components/
+│   │   ├── context/
+│   │   │   ├── AIAssistantContext.tsx
+│   │   │   └── SideBarContext.tsx
+│   │   ├── data/
+│   │   │   ├── categories.ts
+│   │   │   └── SideBarLinks.ts
+│   │   ├── hooks/
+│   │   │   └── useClickOutside.ts
+│   │   ├── lib/
+│   │   │   ├── supabase.ts
+│   │   │   ├── supabaseHelpers.ts
+│   │   │   └── types.ts
+│   │   ├── styles/
+│   │   │   ├── animations.ts
+│   │   │   └── globals.css
+│   │   ├── translations/
+│   │   ├── utilities/
+│   │   │   ├── lang.ts
+│   │   │   ├── search.ts
+│   │   │   └── sort.ts
+│   │   ├── error.tsx
+│   │   ├── layout.tsx
+│   │   └── not-found.tsx
+│   └── middleware.ts
 ├── public/
-│ └── fav icons
+│   ├── favicons/
+│   └── site.webmanifest
 └── ...
+```
 
 ---
 
@@ -214,9 +232,9 @@ npm run dev      # or yarn dev / pnpm dev
 Create a `.env.local` file in the root directory with the following variables:
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-OPENAI_API_KEY=your_openai_api_key
+NEXT_PUBLIC_SUPABASE_URL=supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=supabase_anon_key
+OPENAI_API_KEY=openai_api_key
 ```
 
 > Note: You'll need to set up your own Supabase project and OpenAI API account to use these features locally.

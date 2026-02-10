@@ -21,9 +21,9 @@ function InfoSection({
       {/* Icon */}
       <div className="flex items-start gap-4 mb-4" aria-hidden="true">
         <div
-          className={`w-12 h-12 ${iconBgColor} rounded-lg flex items-center justify-center shrink-0`}
+          className={`w-12 h-12 md:flex hidden ${iconBgColor} rounded-lg items-center justify-center shrink-0`}
         >
-          <Icon className={`w-6 h-6 ${iconColor}`} />
+          <Icon className={`w-6 h-6 ${iconColor}`} aria-hidden="true" />
         </div>
 
         {/* Article Title */}

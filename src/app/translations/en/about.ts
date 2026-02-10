@@ -4,7 +4,7 @@ const about = {
     subtitle: "Helping Students Find Their Perfect Career Path",
   },
   mission: {
-    title: "Our Mission",
+    title: "My Mission",
     paragraphs: [
       "College Guide was created to help students (especially 6th-grade Iraqi students) make informed decisions about their future. I understand that choosing a college major is one of the most important decisions in a young person's life.",
       "My platform provides comprehensive information about different majors, career opportunities, and personalized guidance to help students discover the path that's right for them.",
@@ -49,7 +49,7 @@ const about = {
       emoji: "🌍",
       title: "Bilingual Support",
       description:
-        "Full support for both English and Arabic to serve all Iraqi students",
+        "Full support for both English and Arabic to serve all students",
       gradientFrom: "from-yellow-50",
       gradientTo: "to-orange-50",
       borderColor: "border-yellow-100",

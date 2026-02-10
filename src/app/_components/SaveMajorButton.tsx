@@ -54,7 +54,7 @@ function SaveMajorButton({
   } ${isPending ? "opacity-60 cursor-not-allowed" : "hover:scale-105"}`;
 
   // Styles for card/listing page
-  const cardStyles = `absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm transition-all cursor-pointer ${
+  const cardStyles = `absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
     saved
       ? "bg-blue-600 text-white"
       : "bg-white/90 text-gray-600 hover:bg-white"

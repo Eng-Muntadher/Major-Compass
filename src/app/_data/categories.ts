@@ -6,6 +6,8 @@ export interface MajorCategory {
   link: string;
 }
 
+// This is static data for the categories of majors in the app
+// (Majors come from the DB with proper categories but are categorized statically in the app)
 export const categories: MajorCategory[] = [
   {
     id: "all",

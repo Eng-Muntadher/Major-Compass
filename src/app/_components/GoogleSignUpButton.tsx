@@ -11,7 +11,7 @@ export default function GoogleSignUpButton({
     <button
       type="button"
       onClick={onClick}
-      className="w-full bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-100 hover:border-gray-400 transition-all flex items-center justify-center gap-3 cursor-pointer font-medium"
+      className="w-full bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-100 hover:border-gray-400 transition-all flex items-center justify-center gap-3 cursor-pointer font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
       aria-label="Sign up with Google"
     >
       <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">

@@ -9,6 +9,7 @@ interface MajorCardProps {
   isSaved: boolean;
   index: number;
   isUserAuthenticated: boolean;
+  lang: "en" | "ar";
 }
 
 const difficultyColors = {
@@ -22,17 +23,19 @@ export function MajorCard({
   major,
   isSaved,
   index,
+  lang = "en",
   isUserAuthenticated,
 }: MajorCardProps) {
   return (
     <Link
-      href={`/browse/${major.id}`}
+      href={`/${lang}/browse/${major.id}`}
       aria-labelledby={`major-${major.id}-title`}
       className="
         block bg-white rounded-xl border border-gray-200 overflow-hidden
         transition-all duration-300 ease-out
         hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/60
         hover:border-blue-200
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
         group"
     >
       {/* Image */}
@@ -86,7 +89,7 @@ export function MajorCard({
         <dl className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 text-sm">
           <div className="flex items-center gap-2">
             <Award
-              className="w-4 h-4 text-blue-600 transition-transform duration-300 group-hover:scale-110"
+              className="w-4 h-4 text-blue-600 transition-transform duration-300 group-hover:scale-120"
               aria-hidden="true"
             />
             <dt className="sr-only">Minimum GPA</dt>
@@ -95,7 +98,7 @@ export function MajorCard({
 
           <div className="flex items-center gap-2">
             <Clock
-              className="w-4 h-4 text-purple-600 transition-transform duration-300 group-hover:scale-110"
+              className="w-4 h-4 text-purple-600 transition-transform duration-300 group-hover:scale-120"
               aria-hidden="true"
             />
             <dt className="sr-only">Duration</dt>

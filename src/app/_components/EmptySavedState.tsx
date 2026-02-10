@@ -1,12 +1,16 @@
 import { BookmarkX } from "lucide-react";
-import Link from "next/link";
 import { SavedMajorsTranslationTypes } from "../translations/en/savedMajors";
+import { Button } from "./Button";
 
 interface EmptySavedStateProps {
   emptyState: SavedMajorsTranslationTypes["emptyState"];
+  lang: "en" | "ar";
 }
 
-export default function EmptySavedState({ emptyState }: EmptySavedStateProps) {
+export default function EmptySavedState({
+  emptyState,
+  lang,
+}: EmptySavedStateProps) {
   return (
     <section
       className="text-center py-20"
@@ -32,19 +36,13 @@ export default function EmptySavedState({ emptyState }: EmptySavedStateProps) {
         className="flex flex-col sm:flex-row gap-3 justify-center"
         aria-label="Quick actions"
       >
-        <Link
-          href="/browse"
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
+        <Button href={`/${lang}/browse`} variant="secondary">
           {emptyState.actions.browse}
-        </Link>
+        </Button>
 
-        <Link
-          href="/tips-and-advice"
-          className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-        >
+        <Button href={`/${lang}/tips-and-advice`} variant="outline">
           {emptyState.actions.tips}
-        </Link>
+        </Button>
       </nav>
     </section>
   );

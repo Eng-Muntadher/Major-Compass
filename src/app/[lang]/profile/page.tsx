@@ -1,15 +1,16 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/app/_lib/supabase";
+import { getLocaleFromParams } from "@/app/_utils/lang";
+import { getTranslations } from "@/app/translations";
 import ProfileHeader from "@/app/_components/ProfileHeader";
 import SavedMajorsSection from "@/app/_components/SavedMajorsSection";
 import RecentlyViewedSection from "@/app/_components/RecentlyViewedSection";
-import { getLocaleFromParams } from "@/app/_utils/lang";
-import { getTranslations } from "@/app/translations";
 import {
   getRecentlySavedMajors,
   getRecentlyViwedMajors,
 } from "@/app/_lib/supabaseHelpers";
 
+// Tap title
 export const metadata = {
   title: "Your Profile | Major Compass",
 };
@@ -19,16 +20,21 @@ export default async function UserProfile({
 }: {
   params: Promise<{ lang: "en" | "ar" }>;
 }) {
+  // Get the current language from the params
   const { lang } = await params;
+
+  // Validate types and get the translation for this page (Arabic / English)
   const locale = getLocaleFromParams(lang);
   const t = getTranslations(locale).profile;
 
   const supabase = await createClient();
 
+  // Get the current signed in user
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // This is a protected route so user should be signed in upon access, but this is for extra safety
   if (!user) {
     redirect("/sign-in");
   }
@@ -44,6 +50,7 @@ export default async function UserProfile({
     supabase,
     profile?.bookmarks,
   );
+
   const recentlyViewdMajors = await getRecentlyViwedMajors(
     supabase,
     profile?.recently_viewed,
@@ -77,6 +84,7 @@ export default async function UserProfile({
       />
       <RecentlyViewedSection
         translations={t.sections.recentlyViewed}
+        lang={lang}
         recentlyViewedMajors={recentlyViewdMajors}
       />
     </div>

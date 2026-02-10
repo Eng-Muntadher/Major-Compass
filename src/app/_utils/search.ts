@@ -27,9 +27,7 @@ export function filterMajorsBySearch(
     : null;
 }
 
-/**
- * Filter majors by category
- */
+// Filter majors by category
 export function filterMajorsByCategory(
   majors: Partial<Major>[] | null,
   categoryId: string,

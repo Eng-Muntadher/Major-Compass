@@ -26,6 +26,7 @@ export default function SavedMajorsHeader({
 
             <p className="text-gray-600" aria-live="polite">
               {count}{" "}
+              {/* 1 major saved OR 2 majors saved (the s is conditional)*/}
               {count === 1 ? header.countLabel.one : header.countLabel.other}
             </p>
           </div>

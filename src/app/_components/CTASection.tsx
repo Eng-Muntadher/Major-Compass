@@ -1,40 +1,43 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { HomeTranslationTypes } from "../translations/en/home";
+import { Button } from "./Button";
 
 interface CTASectionProps {
   isAuthenticated: boolean;
   cta: HomeTranslationTypes["cta"];
+  lang: "en" | "ar";
 }
 
-function CTASection({ isAuthenticated, cta }: CTASectionProps) {
+function CTASection({ isAuthenticated, cta, lang }: CTASectionProps) {
   return (
     <section
       aria-labelledby="next-steps-heading"
-      className="bg-white rounded-2xl p-12 border border-gray-200 text-center"
+      className="bg-white rounded-2xl p-6 sm:p-8 md:p-12 border border-gray-200 text-center"
     >
-      <h2 id="next-steps-heading" className="text-3xl mb-4">
+      <h2 id="next-steps-heading" className="text-2xl sm:text-3xl mb-4">
         {cta.title}
       </h2>
 
-      <p className="text-gray-600 mb-8 max-w-2xl mx-auto">{cta.description}</p>
+      <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+        {cta.description}
+      </p>
 
       {isAuthenticated ? (
-        <Link
-          href="/student-test"
-          className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all inline-flex items-center gap-2"
+        <Button
+          href={`/${lang}/student-test`}
+          size="lg"
+          rightIcon={<ArrowRight className="w-5 h-5" />}
         >
           <span>{cta.takeTest}</span>
-          <ArrowRight className="w-5 h-5" aria-hidden="true" />
-        </Link>
+        </Button>
       ) : (
-        <Link
-          href="/sign-up"
-          className="px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all inline-flex items-center gap-2"
+        <Button
+          href={`/${lang}/sign-up`}
+          size="lg"
+          rightIcon={<ArrowRight className="w-5 h-5" />}
         >
           <span>{cta.signUp}</span>
-          <ArrowRight className="w-5 h-5" aria-hidden="true" />
-        </Link>
+        </Button>
       )}
     </section>
   );

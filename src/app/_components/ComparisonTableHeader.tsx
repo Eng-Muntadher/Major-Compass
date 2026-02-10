@@ -18,11 +18,13 @@ export default function ComparisonTableHeader({
           Comparison Criteria
         </h2>
       </div>
-      <div className="p-4 border-l border-gray-200">
+
+      <div className="p-4 border-l border-gray-200 overflow-auto">
         <h3 className="text-lg font-semibold">{major1Name}</h3>
         <p className="text-sm text-gray-600">{major1NameArabic}</p>
       </div>
-      <div className="p-4 border-l border-gray-200">
+
+      <div className="p-4 border-l border-gray-200 overflow-auto">
         <h3 className="text-lg font-semibold">{major2Name}</h3>
         <p className="text-sm text-gray-600">{major2NameArabic}</p>
       </div>

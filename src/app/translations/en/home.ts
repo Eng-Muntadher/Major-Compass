@@ -19,7 +19,7 @@ const home = {
     },
   },
 
-  featuresTitle: "What We Offer",
+  featuresTitle: "What This app Offers",
 
   features: [
     {

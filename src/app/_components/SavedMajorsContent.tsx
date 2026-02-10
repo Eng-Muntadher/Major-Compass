@@ -10,6 +10,7 @@ interface SavedMajorsContentProps {
   savedMajors: Partial<Major>[];
   savedMajorsIds: string[];
   isUserAuthenticated: boolean;
+  lang: "en" | "ar";
   stats: SavedMajorsTranslationTypes["stats"];
   compareCTA: SavedMajorsTranslationTypes["compareCTA"];
 }
@@ -19,6 +20,7 @@ export default function SavedMajorsContent({
   savedMajorsIds,
   isUserAuthenticated,
   stats,
+  lang,
   compareCTA,
 }: SavedMajorsContentProps) {
   const categoriesCount = new Set(savedMajors.map((m) => m.category)).size;
@@ -42,6 +44,7 @@ export default function SavedMajorsContent({
         {savedMajors.map((major, i) => (
           <MajorAnimatedItem key={major.id}>
             <MajorCard
+              lang={lang}
               major={major}
               index={i}
               isSaved={

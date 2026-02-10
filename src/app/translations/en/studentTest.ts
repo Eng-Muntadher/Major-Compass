@@ -2,7 +2,7 @@ const studentTest = {
   header: {
     title: "Student Assessment Test",
     description:
-      "Help us understand your background and preferences to provide personalized major recommendations.",
+      "Input your background and preferences to provide personalized major recommendations.",
   },
 
   form: {

@@ -14,7 +14,9 @@ function TipsCTASection({ cta }: TipsCTASectionProps) {
       <h3 id="questions-heading" className="text-xl mb-2">
         {cta.title}
       </h3>
+
       <p className="text-gray-600 mb-4">{cta.description}</p>
+
       <ul className="flex flex-wrap gap-3 justify-center">
         {cta.badges.map((badge, index) => (
           <InfoBadge key={index} emoji={badge.emoji} text={badge.text} />

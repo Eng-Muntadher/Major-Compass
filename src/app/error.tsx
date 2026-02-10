@@ -12,7 +12,6 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
@@ -26,6 +25,7 @@ export default function Error({
               <AlertTriangle
                 className="w-16 h-16 text-white"
                 strokeWidth={1.5}
+                aria-hidden="true"
               />
             </div>
             {/* Warning pulse effect */}
@@ -57,7 +57,10 @@ export default function Error({
             onClick={reset}
             className="group flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 text-white font-medium min-w-45"
           >
-            <RefreshCw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
+            <RefreshCw
+              aria-hidden="true"
+              className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500"
+            />
             Try Again
           </button>
 
@@ -65,7 +68,10 @@ export default function Error({
             href="/"
             className="group flex items-center gap-2 px-6 py-3 bg-white border-2 border-gray-200 rounded-xl hover:border-purple-300 hover:shadow-lg transition-all duration-300 text-gray-700 font-medium min-w-45"
           >
-            <Home className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+            <Home
+              aria-hidden="true"
+              className="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
+            />
             Back to Home
           </Link>
         </div>

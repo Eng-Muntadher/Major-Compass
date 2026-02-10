@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/app/_lib/supabase";
 import { getTranslations } from "@/app/translations";
 import { getLocaleFromParams } from "@/app/_utils/lang";
+import type { Metadata } from "next";
 import Link from "next/link";
 import MajorDetailsHeroSection from "@/app/_components/MajorDetailsHeroSection";
 import MajorQuickStats from "@/app/_components/MajorQuickStats";
@@ -27,8 +28,7 @@ interface PageProps {
 
 export const revalidate = 60;
 
-import type { Metadata } from "next";
-
+// Tap name control function
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -54,11 +54,14 @@ export async function generateMetadata({
 }
 
 export default async function MajorDetail({ params }: PageProps) {
-  const { majorId, lang } = await params;
+  // Get the current language and major id from the params
+  const { lang, majorId } = await params;
 
+  // Validate types and get the translation for this page (Arabic / English)
   const locale = getLocaleFromParams(lang);
   const t = getTranslations(locale).majorDetails;
 
+  // Fetch the major full data (Arabic OR English)
   const supabase = await createClient();
   const major = await getMajorDetails(supabase, lang, majorId);
 

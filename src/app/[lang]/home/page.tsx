@@ -12,25 +12,28 @@ export default async function HomePage({
 }: {
   params: Promise<{ lang: "en" | "ar" }>;
 }) {
-  const supabase = await createClient();
+  // Get the current language from the params
   const { lang } = await params;
 
+  // Validate types and get the translation for this page (Arabic / English)
   const locale = getLocaleFromParams(lang);
   const t = getTranslations(locale).home;
+
+  const supabase = await createClient();
 
   // Check if user is authenticated
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const isAuthenticated = !!user; // Convert to boolean
+  const isAuthenticated = !!user;
 
   return (
     <div className="max-w-6xl mx-auto">
-      <Hero hero={t.hero} isAuthenticated={isAuthenticated} />
+      <Hero hero={t.hero} isAuthenticated={isAuthenticated} lang={lang} />
       <WhatWeOffer features={t.features} title={t.featuresTitle} />
       <KeyFeatures keyFeatures={t.keyFeatures} title={t.keyFeaturesTitle} />
       <StatsSection stats={t.stats} />
-      <CTASection cta={t.cta} isAuthenticated={isAuthenticated} />
+      <CTASection cta={t.cta} isAuthenticated={isAuthenticated} lang={lang} />
     </div>
   );
 }

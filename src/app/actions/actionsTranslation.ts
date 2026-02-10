@@ -1,4 +1,5 @@
-// Translation system
+// Translation system for actions (toasts, messages, errors) for both Arabic and English
+
 export const translations = {
   en: {
     passwordMismatch: "Please make sure passwords match in both fields!",

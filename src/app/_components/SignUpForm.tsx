@@ -1,7 +1,7 @@
 "use client";
 
 import { signUpWithEmail } from "@/app/actions/emailAuth";
-import { signUpWithGoogle } from "@/app/actions/googleAuth";
+import { signInWithGoogle } from "@/app/actions/googleAuth";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import SubmitButton from "./SubmitButton";
@@ -100,6 +100,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             label={translations.confirmPassword.label}
             type="password"
             name="confirm-password"
+            autoComplete="new-password"
             icon={Lock}
             placeholder={translations.confirmPassword.placeholder}
             required
@@ -123,7 +124,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
       {/* Google Sign up */}
       <GoogleSignUpButton
         text={translations.googleButton}
-        onClick={signUpWithGoogle}
+        onClick={signInWithGoogle}
       />
 
       {/* Sign up footer */}

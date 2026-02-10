@@ -244,7 +244,7 @@ const tips = {
   cta: {
     title: "Still Have Questions?",
     description:
-      "Use our AI Assistant to get personalized guidance for your specific situation",
+      "Use my AI Assistant to get personalized guidance for your specific situation",
     badges: [
       { emoji: "💡", text: "Ask about any major" },
       { emoji: "🎯", text: "Get personalized advice" },

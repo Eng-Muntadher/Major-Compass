@@ -20,7 +20,9 @@ function MajorQuickStats({ major, t }: QuickStatsProps) {
       <h2 id="quick-stats-heading" className="sr-only">
         {t.heading}
       </h2>
+
       <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 border-b border-gray-200">
+        {/* Minimum GPA */}
         <div className="text-center">
           <dt className="sr-only">{t.minGPA.ariaLabel}</dt>
           <Award
@@ -31,6 +33,7 @@ function MajorQuickStats({ major, t }: QuickStatsProps) {
           <dd className="text-lg font-semibold">{major?.minGPA}%</dd>
         </div>
 
+        {/* Duration */}
         <div className="text-center">
           <dt className="sr-only">{t.duration.ariaLabel}</dt>
           <Clock
@@ -39,12 +42,14 @@ function MajorQuickStats({ major, t }: QuickStatsProps) {
           />
           <div className="text-sm text-gray-500 mb-1">{t.duration.label}</div>
           <dd className="text-lg font-semibold">
+            {/* Handle Arabic "سنين" translation */}
             {t.duration.label.startsWith("D")
               ? major?.duration
               : major.duration?.replace("years", "سنين")}
           </dd>
         </div>
 
+        {/* Job Opportunities */}
         <div className="text-center">
           <dt className="sr-only">{t.jobs.ariaLabel}</dt>
           <TrendingUp
@@ -58,6 +63,7 @@ function MajorQuickStats({ major, t }: QuickStatsProps) {
           </dd>
         </div>
 
+        {/* Difficulty Level */}
         <div className="text-center">
           <dt className="sr-only">{t.difficulty.ariaLabel}</dt>
           <BarChart2

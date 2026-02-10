@@ -13,10 +13,10 @@ export default function JobOpportunitiesRow({
 }: JobOpportunitiesRowProps) {
   return (
     <div className="grid grid-cols-3 border-t border-gray-200">
-      <div className="p-4 bg-gray-50">
+      <div className="p-4 bg-gray-50 overflow-auto">
         <p className="text-sm font-medium">{label}</p>
       </div>
-      <div className="p-4 border-l border-gray-200">
+      <div className="p-4 border-l border-gray-200 overflow-auto">
         <ul
           className="space-y-1"
           aria-label="Job opportunities for first major"
@@ -32,7 +32,7 @@ export default function JobOpportunitiesRow({
           ))}
         </ul>
       </div>
-      <div className="p-4 border-l border-gray-200">
+      <div className="p-4 border-l border-gray-200 overflow-auto">
         <ul
           className="space-y-1"
           aria-label="Job opportunities for second major"

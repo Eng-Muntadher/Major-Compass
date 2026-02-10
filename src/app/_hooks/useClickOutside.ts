@@ -1,9 +1,6 @@
 import { useEffect, RefObject } from "react";
 
-/**
- * Hook to detect clicks outside of specified elements
- * Useful for closing dropdowns, modals, etc.
- */
+// Hook to detect clicks outside of specified elements like modals
 export function useClickOutside(
   refs: RefObject<HTMLElement | null>[],
   handler: () => void,

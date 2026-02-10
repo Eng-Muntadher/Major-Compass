@@ -2,6 +2,7 @@ import "@/app/_styles/globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  // Basic Metadata
   title: "Major Compass",
   description:
     "AI-powered platform helping students discover their ideal college major. Get personalized recommendations, compare programs, and make informed decisions about your academic future with intelligent guidance.",
@@ -20,6 +21,8 @@ export const metadata: Metadata = {
     "higher education",
     "career planning",
   ],
+
+  // Author & Publisher Information
   authors: [
     {
       name: "Muntadher Ahmed",
@@ -28,11 +31,15 @@ export const metadata: Metadata = {
   ],
   creator: "Muntadher Ahmed",
   publisher: "Major Compass",
+
+  // Format Detection
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
+
+  // URL Configuration
   metadataBase: new URL("https://my-major-compass.vercel.app"),
   alternates: {
     canonical: "/",
@@ -41,6 +48,8 @@ export const metadata: Metadata = {
       ar: "/ar",
     },
   },
+
+  // Open Graph (Social Media)
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -59,6 +68,8 @@ export const metadata: Metadata = {
       },
     ],
   },
+
+  // Twitter Card
   twitter: {
     card: "summary_large_image",
     title: "Major Compass - Find Your Perfect College Major",
@@ -66,6 +77,8 @@ export const metadata: Metadata = {
       "AI-powered platform helping students discover their ideal college major with personalized recommendations.",
     images: ["/og-image.png"],
   },
+
+  // Search Engine Configuration
   robots: {
     index: true,
     follow: true,
@@ -77,6 +90,8 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+
+  // Icons & Manifest
   icons: {
     icon: [
       { url: "/favicon-16x16.svg", sizes: "16x16", type: "image/svg+xml" },
@@ -93,11 +108,15 @@ export const metadata: Metadata = {
     ],
   },
   manifest: "/site.webmanifest",
+
+  // Apple Web App Configuration
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "Major Compass",
   },
+
+  // Classification
   category: "education",
   classification: "Education, Career Guidance",
 };
@@ -108,8 +127,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
-      <body>{children}</body>
+    <html className="overflow-hidden">
+      <body className="overflow-hidden">{children}</body>
     </html>
   );
 }

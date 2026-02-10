@@ -21,7 +21,7 @@ export default function SubmitButton({
     <button
       type="submit"
       disabled={pending}
-      className={`w-full bg-linear-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer font-medium ${className}`}
+      className={`w-full bg-linear-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg hover:shadow-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${className}`}
       {...props}
     >
       {pending && (

@@ -1,7 +1,7 @@
 import { Award } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "../_lib/supabase";
-import { getSimilarMajorsInEnglish } from "../_lib/supabaseHelpers";
+import { getSimilarMajors } from "../_lib/supabaseHelpers";
 import { MajorDetailsType } from "@/app/translations/en/majorDetails";
 
 interface SimilarMajorsProps {
@@ -16,7 +16,7 @@ async function SimilarMajors({
   lang,
 }: SimilarMajorsProps) {
   const supabase = await createClient();
-  const majors = await getSimilarMajorsInEnglish(supabase, similarMajorsList);
+  const majors = await getSimilarMajors(supabase, similarMajorsList);
 
   if (!majors) return null;
 

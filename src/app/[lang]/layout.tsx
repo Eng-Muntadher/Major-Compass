@@ -7,6 +7,7 @@ import { getLocaleFromParams, Locale, LOCALES } from "../_utils/lang";
 import AnimatedMain from "@/app/_components/AnimateMain";
 import AIAssistant from "@/app/_components/AIAssistant";
 import HeaderServerWrapper from "@/app/_components/HeaderServerWrapper";
+import { ScrollRestoration } from "../_components/ScrollRestoration";
 
 interface LangLayoutProps {
   children: React.ReactNode;
@@ -24,10 +25,14 @@ export default async function LangLayout({
     <div
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className={`flex flex-col h-screen bg-gray-50 ${
+      className={`flex flex-col h-screen overflow-hidden bg-gray-50 ${
         locale === "ar" ? "rtl" : "ltr"
       }`}
     >
+      {/* Since my app has multi-language support,
+       I had very hard aligment issues with the page. This scroll component helps solves them! */}
+      <ScrollRestoration />
+
       <SidebarProvider>
         <AIAssistantProvider>
           <HeaderServerWrapper lang={lang} />
@@ -37,7 +42,7 @@ export default async function LangLayout({
             className="flex-1 overflow-y-auto overscroll-contain"
           >
             {/* Sidebar + main content row */}
-            <div className="flex">
+            <div className="flex min-w-0">
               <Sidebar currentLanguage={locale} />
               <AnimatedMain>{children}</AnimatedMain>
             </div>
@@ -54,6 +59,7 @@ export default async function LangLayout({
   );
 }
 
+// Make the layout static server rendered
 export async function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
 }

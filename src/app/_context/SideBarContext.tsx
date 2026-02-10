@@ -1,3 +1,5 @@
+// This context allows us to toggle the sidebar from the burger menu button inside the header
+
 "use client";
 
 import { createContext, useContext, useState } from "react";

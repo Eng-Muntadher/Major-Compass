@@ -5,6 +5,7 @@ import { createClient } from "@/app/_lib/supabase";
 export async function toggleBookmarkAction(majorId: string) {
   const supabase = await createClient();
 
+  // Get current user
   const {
     data: { user },
     error: authError,
@@ -30,10 +31,12 @@ export async function toggleBookmarkAction(majorId: string) {
 
   const isBookmarked = bookmarks.includes(majorId);
 
+  // Add or remove the boomarked major
   const updatedBookmarks = isBookmarked
     ? bookmarks.filter((id) => id !== majorId)
     : [...bookmarks, majorId];
 
+  // Update the current user's bookmarks
   const { error: updateError } = await supabase
     .from("profiles")
     .update({ bookmarks: updatedBookmarks })
@@ -55,14 +58,14 @@ export async function updateRecentlyViewedMajor(majorId: string | undefined) {
 
   const supabase = await createClient();
 
-  // Get authenticated user
+  // Get current user
   const {
     data: { user },
     error: authError,
   } = await supabase.auth.getUser();
 
   if (authError || !user) {
-    // Not logged in → silently ignore
+    // Not logged in => silently ignore
     return;
   }
 

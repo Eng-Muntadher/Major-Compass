@@ -1,6 +1,4 @@
-/* This file has types for the data when it comes from the supabase (raw)
- and when the data is mapped on (converted from snake case to camel case)
- because in this project I used snake_case for the database and camelCase for the code here */
+// This file has types to describe the data coming from the supabase database
 
 export type EnglishSearchMajors = {
   id: string;
