@@ -1,5 +1,5 @@
-import { aboutTranslation } from "../translations/en/about";
-import AboutFeatureCard from "./AboutFeatureCard";
+import { aboutTranslation } from "@/app/translations/en/about";
+import AboutFeatureCard from "@/app/_components/AboutFeatureCard";
 
 interface FeaturesGridProps {
   features: aboutTranslation["features"];

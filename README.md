@@ -95,7 +95,7 @@ Although this app is built specifically for Iraqi students with localized data a
 
 ---
 
-## Project Structure
+## Project Structure (simplified)
 
 ```
 major-compass/
@@ -196,6 +196,24 @@ major-compass/
 ### AI Chatbot
 
 ![AIBot](./.github/ai-bot.png)
+
+---
+
+## Pages
+
+- **Home (`/[lang]/home`)**: Statically server-rendered for fast load and SEO.
+- **About (`/[lang]/about`)**: Statically server-rendered for consistent content delivery.
+- **Tips & Advice (`/[lang]/tips-and-advice`)**: Statically server-rendered.
+- **Sign In / Sign Up (`/[lang]/sign-in`, `/[lang]/sign-up`)**: Statically server-rendered.
+- **Student Test (`/[lang]/student-test`)**: Statically server-rendered, with client-side AI responsive interactions.
+
+- **Compare Majors (`/[lang]/compare-majors`)**: Uses ISR with 1-minute revalidation to keep comparison data fresh.
+
+- **Browse Majors (`/[lang]/browse`)**: Dynamically server-side rendered for personalized browsing data.
+- **Major Details (`/[lang]/browse/[majorId]`)**: Dynamically server-side rendered to handle many majors.
+- **Profile (`/[lang]/profile`)**: Dynamically server-side rendered with auth for user-specific data privacy.
+- **Saved Majors (`/[lang]/saved-majors`)**: Dynamically server-side rendered with auth to display user’s saved majors.
+- **Auth Callback (`/auth/callback`)**: Server-side only; handles OAuth redirect and user session creation.
 
 ---
 

@@ -1,14 +1,19 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { HomeTranslationTypes } from "../translations/en/home";
 import { Button } from "./Button";
+import { useAuth } from "@/app/_hooks/useAuth";
 
 interface HeroProps {
-  isAuthenticated: boolean;
   hero: HomeTranslationTypes["hero"];
   lang: "en" | "ar";
 }
 
-export default function Hero({ isAuthenticated, hero, lang }: HeroProps) {
+export default function Hero({ hero, lang }: HeroProps) {
+  // Auth is checked on the client via cookies to avoid making the homepage dynamically rendered
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="text-center mb-16">
       {/* Logo */}

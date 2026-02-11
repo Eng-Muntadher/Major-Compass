@@ -1,6 +1,6 @@
 import { Github, Globe, Mail } from "lucide-react";
-import ContactLink from "./ContactLink";
-import { aboutTranslation } from "../translations/en/about";
+import ContactLink from "@/app/_components/ContactLink";
+import { aboutTranslation } from "@/app/translations/en/about";
 
 interface ContactSectionProps {
   contact: aboutTranslation["contact"];

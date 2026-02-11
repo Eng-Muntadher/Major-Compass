@@ -13,7 +13,6 @@ export function filterMajorsBySearch(
   }
 
   const lowerQuery = query.toLowerCase();
-  console.log(majors);
 
   return majors
     ? majors?.filter((major) => {

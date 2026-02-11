@@ -6,8 +6,9 @@ import { AIAssistantProvider } from "@/app/_context/AIAssistantContext";
 import { getLocaleFromParams, Locale, LOCALES } from "../_utils/lang";
 import AnimatedMain from "@/app/_components/AnimateMain";
 import AIAssistant from "@/app/_components/AIAssistant";
-import HeaderServerWrapper from "@/app/_components/HeaderServerWrapper";
+import Header from "@/app/_components/Header";
 import { ScrollRestoration } from "../_components/ScrollRestoration";
+import { Suspense } from "react";
 
 interface LangLayoutProps {
   children: React.ReactNode;
@@ -31,19 +32,27 @@ export default async function LangLayout({
     >
       {/* Since my app has multi-language support,
        I had very hard aligment issues with the page. This scroll component helps solves them! */}
-      <ScrollRestoration />
+      <Suspense fallback={<div className="w-10"></div>}>
+        <ScrollRestoration />
+      </Suspense>
 
       <SidebarProvider>
         <AIAssistantProvider>
-          <HeaderServerWrapper lang={lang} />
+          {/* Header */}
+          <Header lang={lang as "en" | "ar"} />
 
+          {/* Main + SideBar */}
           <div
             id="main-scroll"
             className="flex-1 overflow-y-auto overscroll-contain"
           >
             {/* Sidebar + main content row */}
             <div className="flex min-w-0">
-              <Sidebar currentLanguage={locale} />
+              <Suspense
+                fallback={<div className="h-dvh w-40 fixed left-0"></div>}
+              >
+                <Sidebar currentLanguage={locale} />
+              </Suspense>
               <AnimatedMain>{children}</AnimatedMain>
             </div>
 
@@ -51,6 +60,7 @@ export default async function LangLayout({
             <Footer lang={locale} />
           </div>
 
+          {/* AI Floating Button + Toast Provider */}
           <AIAssistant />
           <ToastProvider />
         </AIAssistantProvider>

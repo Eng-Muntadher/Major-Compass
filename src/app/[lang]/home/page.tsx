@@ -1,5 +1,4 @@
 import { getTranslations } from "@/app/translations";
-import { createClient } from "@/app/_lib/supabase";
 import { getLocaleFromParams } from "@/app/_utils/lang";
 import Hero from "@/app/_components/Hero";
 import CTASection from "@/app/_components/CTASection";
@@ -19,21 +18,13 @@ export default async function HomePage({
   const locale = getLocaleFromParams(lang);
   const t = getTranslations(locale).home;
 
-  const supabase = await createClient();
-
-  // Check if user is authenticated
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  const isAuthenticated = !!user;
-
   return (
     <div className="max-w-6xl mx-auto">
-      <Hero hero={t.hero} isAuthenticated={isAuthenticated} lang={lang} />
+      <Hero hero={t.hero} lang={lang} />
       <WhatWeOffer features={t.features} title={t.featuresTitle} />
       <KeyFeatures keyFeatures={t.keyFeatures} title={t.keyFeaturesTitle} />
       <StatsSection stats={t.stats} />
-      <CTASection cta={t.cta} isAuthenticated={isAuthenticated} lang={lang} />
+      <CTASection cta={t.cta} lang={lang} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { Users } from "lucide-react";
-import InfoSection from "./InfoSection";
-import { aboutTranslation } from "../translations/en/about";
+import InfoSection from "@/app/_components/InfoSection";
+import { aboutTranslation } from "@/app/translations/en/about";
 
 interface PurposeSectionProps {
   purpose: aboutTranslation["purpose"];

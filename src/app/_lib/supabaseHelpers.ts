@@ -55,7 +55,6 @@ export async function getMajors(
     console.error(`Error fetching majors in ${lang}:`, error);
     return null;
   }
-  console.log(data);
 
   // Transform database rows to typed Major objects
   return data.map((major) => ({

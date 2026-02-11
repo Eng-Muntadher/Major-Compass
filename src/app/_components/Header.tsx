@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MobileSearchToggle } from "./MobileSearchToggle";
 import { MobileMenuButton } from "./MobileMenuButton";
 import { LanguageToggle } from "./LanguageToggle";
@@ -10,16 +10,41 @@ import { UserMenu } from "./UserMenu";
 import { Logo } from "./Logo";
 import { useSidebar } from "../_context/SideBarContext";
 import { EnglishSearchMajors } from "../_lib/types";
+import { useAuth } from "../_hooks/useAuth";
+import { createClient } from "../_lib/client";
+import { getSearchMajors } from "../_lib/supabaseHelpers";
 
 interface HeaderProps {
-  searchMajors: EnglishSearchMajors[] | null;
-  userName: string | null;
   lang: "en" | "ar";
 }
 
-export function Header({ searchMajors, userName, lang }: HeaderProps) {
+function Header({ lang }: HeaderProps) {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [searchMajors, setSearchMajors] = useState<
+    EnglishSearchMajors[] | null
+  >(null);
   const { isSidebarOpen, toggleSidebar } = useSidebar();
+
+  /* Auth is checked on the client via cookies to avoid making all pages dynamically
+   rendered (since header is on every page) */
+  const { userName } = useAuth();
+
+  // Fetch search majors once on mount
+  useEffect(() => {
+    async function fetchSearchMajors() {
+      try {
+        const supabase = createClient();
+        const data = await getSearchMajors(supabase);
+
+        setSearchMajors(data);
+      } catch (error) {
+        console.error("Error fetching search majors:", error);
+        setSearchMajors([]); // Fallback to empty array
+      }
+    }
+
+    fetchSearchMajors();
+  }, []); // Empty array = fetch once on mount, never re-fetch
 
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm shrink-0 overscroll-none">
@@ -61,3 +86,5 @@ export function Header({ searchMajors, userName, lang }: HeaderProps) {
     </header>
   );
 }
+
+export default Header;

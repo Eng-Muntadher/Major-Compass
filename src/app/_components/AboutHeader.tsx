@@ -1,5 +1,5 @@
 import { Heart } from "lucide-react";
-import { aboutTranslation } from "../translations/en/about";
+import { aboutTranslation } from "@/app/translations/en/about";
 
 interface AboutHeaderProps {
   header: aboutTranslation["header"];

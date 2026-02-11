@@ -1,14 +1,19 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { HomeTranslationTypes } from "../translations/en/home";
 import { Button } from "./Button";
+import { useAuth } from "../_hooks/useAuth";
 
 interface CTASectionProps {
-  isAuthenticated: boolean;
   cta: HomeTranslationTypes["cta"];
   lang: "en" | "ar";
 }
 
-function CTASection({ isAuthenticated, cta, lang }: CTASectionProps) {
+function CTASection({ cta, lang }: CTASectionProps) {
+  // Auth is checked on the client via cookies to avoid making the homepage dynamically rendered
+  const { isAuthenticated } = useAuth();
+
   return (
     <section
       aria-labelledby="next-steps-heading"
