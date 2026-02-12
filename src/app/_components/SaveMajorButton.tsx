@@ -1,7 +1,7 @@
 "use client";
 
 import { BookmarkIcon } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { toggleBookmarkAction } from "@/app/_lib/supabaseHelpers";
 
@@ -20,6 +20,10 @@ function SaveMajorButton({
 }: SaveMajorButtonProps) {
   const [saved, setSaved] = useState(isSaved);
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setSaved(isSaved);
+  }, [isSaved]);
 
   const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!majorId) return;

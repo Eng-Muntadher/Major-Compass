@@ -2,6 +2,7 @@ import { getLocaleFromParams } from "@/app/_utils/lang";
 import { getTranslations } from "@/app/translations";
 import SignInForm from "@/app/_components/SignInForm";
 import SignUpHeader from "@/app/_components/SignUpHeader";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Sign In | Major Compass",
@@ -24,7 +25,12 @@ export default async function SignIn({
       <div className="w-full max-w-md">
         {/* I reused the same header from the sign up page */}
         <SignUpHeader title={t.header.title} text={t.header.text} />
-        <SignInForm translations={t.form} lang={lang} />
+        {/* We use suspense because we have a useSearchParams here */}
+        <Suspense
+          fallback={<div className="text-center py-10">Loading...</div>}
+        >
+          <SignInForm translations={t.form} lang={lang} />
+        </Suspense>
       </div>
     </div>
   );

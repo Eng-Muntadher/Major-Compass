@@ -40,9 +40,12 @@ export default async function SavedMajors({ params, searchParams }: PageProps) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // This route is protected, so the user should not be here if not authenticated, but this is for extra safety
+  // This route is protected, so the user must be authenticated to access it
+  // Upon redirecting, we also pass a query param to show a toast message on the sign in page about why they were redirected
   if (!user) {
-    redirect("/sign-in");
+    redirect(
+      `/sign-in?error=saved-majors-access-denied&redirect=/saved-majors`,
+    );
   }
 
   // Get user's profile data

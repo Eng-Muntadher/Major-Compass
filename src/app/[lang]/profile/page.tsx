@@ -34,9 +34,10 @@ export default async function UserProfile({
     data: { user },
   } = await supabase.auth.getUser();
 
-  // This is a protected route so user should be signed in upon access, but this is for extra safety
+  // This is a protected route so user must be signed in upon access
+  // Upon redirecting, we also pass a query param to show a toast message on the sign in page about why they were redirected
   if (!user) {
-    redirect("/sign-in");
+    redirect(`/sign-in?error=profile-access-denied&redirect=/profile`);
   }
 
   // Get user's profile data

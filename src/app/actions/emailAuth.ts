@@ -104,80 +104,57 @@ export async function signUpWithEmail(formData: FormData, lang: Lang = "en") {
 }
 
 // This function handles email sign in and catches edge cases (like email not confirmed)
-export async function signInWithEmail(formData: FormData, lang: Lang = "en") {
-  // Get form data
+export async function signInWithEmail(
+  formData: FormData,
+  lang: Lang = "en",
+  redirectUrl: string = "/",
+) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
-  // Validation 1: Check if fields are filled
   if (!email || !password) {
-    return {
-      success: false,
-      message: t(lang, "fillAllFields"),
-    };
+    return { success: false, message: t(lang, "fillAllFields") };
   }
 
-  // Validation 2: Check if email is valid format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return {
-      success: false,
-      message: t(lang, "invalidEmail"),
-    };
+    return { success: false, message: t(lang, "invalidEmail") };
   }
 
-  // Validation 3: Check password length
   if (password.length < 6) {
-    return {
-      success: false,
-      message: t(lang, "passwordTooShort"),
-    };
+    return { success: false, message: t(lang, "passwordTooShort") };
   }
 
   const supabase = await createClient();
 
-  // Attempt to sign in
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
 
-  // Handle authentication errors
   if (error) {
     console.error("Sign in error:", error);
 
-    // Provide user-friendly error messages (toasts)
     if (error.message.includes("Invalid login credentials")) {
-      return {
-        success: false,
-        message: t(lang, "invalidCredentials"),
-      };
+      return { success: false, message: t(lang, "invalidCredentials") };
     }
 
     if (error.message.includes("Email not confirmed")) {
-      return {
-        success: false,
-        message: t(lang, "emailNotConfirmed"),
-      };
+      return { success: false, message: t(lang, "emailNotConfirmed") };
     }
 
-    // Generic error fallback
     return {
       success: false,
       message: error.message || t(lang, "errorOccurred"),
     };
   }
 
-  // Check if user exists
   if (!data.user) {
-    return {
-      success: false,
-      message: t(lang, "signInFailed"),
-    };
+    return { success: false, message: t(lang, "signInFailed") };
   }
 
-  // Success - redirect to home
-  redirect("/");
+  // Success - redirect to provided redirectUrl
+  redirect(redirectUrl);
 }
 
 // sign out and redirect function

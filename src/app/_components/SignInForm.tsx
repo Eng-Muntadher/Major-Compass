@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import SubmitButton from "./SubmitButton";
 import GoogleSignUpButton from "./GoogleSignUpButton";
 import { SignInTranslationTypes } from "../translations/en/signIn";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 interface SignInFormProps {
   translations: SignInTranslationTypes["form"];
@@ -16,10 +18,27 @@ interface SignInFormProps {
 }
 
 function SignInForm({ translations, lang }: SignInFormProps) {
+  const searchParams = useSearchParams();
+  // The redirect is set by protected routes (like /profile or /saved-majors) when they redirect unauthenticated users.
+  const redirectUrl = searchParams.get("redirect") || "/";
+
+  // Show toast if redirected due to auth
+  useEffect(() => {
+    // Dismess any existing toasts to avoid stacking
+    toast.dismiss();
+    if (searchParams.get("error") === "profile-access-denied") {
+      // Profile error if user tried to access profile page without being signed in
+      toast.error("Please sign in to access your profile");
+    } else {
+      // Saved majors error if user tried to access saved majors page without being signed in
+      toast.error("Please sign in to access your saved majors");
+    }
+  }, [searchParams]);
+
   return (
     <form
       action={async (formData) => {
-        const result = await signInWithEmail(formData, lang);
+        const result = await signInWithEmail(formData, lang, redirectUrl);
         if (result.success) toast.success(result.message);
         else toast.error(result.message);
       }}

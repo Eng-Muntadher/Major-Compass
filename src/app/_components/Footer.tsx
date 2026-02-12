@@ -86,7 +86,7 @@ export function Footer({ lang }: FooterProps) {
                 return (
                   <li key={link.key}>
                     <Link
-                      href={`/${link.href}`}
+                      href={`/${lang}/${link.href}`}
                       className={`${linkClass} md:justify-start justify-center`}
                     >
                       <Icon className="w-4 h-4" aria-hidden="true" />
@@ -131,7 +131,7 @@ export function Footer({ lang }: FooterProps) {
                 return (
                   <li key={link.label}>
                     <Link
-                      href={link.href}
+                      href={`/${lang}/${link.href}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={link.ariaLabel}
