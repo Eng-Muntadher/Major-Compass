@@ -53,6 +53,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             autoComplete="name"
             id="full-name"
             name="username"
+            maxLength={30}
             label={translations.fullName.label}
             type="text"
             icon={UserIcon}
@@ -67,6 +68,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             label={translations.email.label}
             name="email"
             type="email"
+            maxLength={20}
             icon={Mail}
             placeholder={translations.email.placeholder}
             required
@@ -89,6 +91,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             label={translations.password.label}
             type="password"
             name="password"
+            maxLength={15}
             icon={Lock}
             placeholder={translations.password.placeholder}
             required
@@ -100,6 +103,7 @@ export default function SignUpForm({ translations, lang }: SignUpFormProps) {
             label={translations.confirmPassword.label}
             type="password"
             name="confirm-password"
+            maxLength={15}
             autoComplete="new-password"
             icon={Lock}
             placeholder={translations.confirmPassword.placeholder}

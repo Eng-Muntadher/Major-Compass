@@ -55,6 +55,7 @@ function SignInForm({ translations, lang }: SignInFormProps) {
         <FormInputField
           id="email"
           autoComplete="email"
+          maxLength={30}
           name="email"
           label={translations.email.label}
           type="email"
@@ -68,6 +69,7 @@ function SignInForm({ translations, lang }: SignInFormProps) {
           <FormInputField
             autoComplete="password"
             id="password"
+            maxLength={15}
             name="password"
             label={translations.password.label}
             type="password"

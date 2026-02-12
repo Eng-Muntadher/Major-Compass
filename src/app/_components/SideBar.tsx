@@ -40,7 +40,7 @@ export function Sidebar({ currentLanguage }: SidebarProps) {
         {isSidebarOpen && (
           <motion.div
             {...fadeIn}
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
             onClick={toggleSidebar}
           />
         )}
@@ -49,16 +49,14 @@ export function Sidebar({ currentLanguage }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:sticky top-0 left-0 h-screen bg-white border-r border-gray-200
-          w-64 shrink-0 z-50 overflow-y-auto
+          fixed lg:sticky top-16 lg:top-0 h-[calc(100vh-4rem)] lg:h-screen bg-white border-r border-gray-200
+          w-64 shrink-0 z-40 overflow-y-auto
           overscroll-contain
           transition-transform duration-300 ease-in-out
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
         <div className="flex flex-col h-full overflow-y-auto sidebar-scroll">
-          <div className="h-16 lg:h-0" />
-
           {/* Main Navigation */}
           <div className="p-4 border-b border-gray-200">
             <h2 className="text-xs uppercase tracking-wider text-gray-500 mb-3 px-2">

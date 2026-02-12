@@ -11,6 +11,7 @@ interface FormInputFieldProps {
   placeholder?: string;
   required?: boolean;
   autoComplete?: string;
+  maxLength?: number;
 }
 
 export default function FormInputField({
@@ -24,6 +25,7 @@ export default function FormInputField({
   placeholder,
   required = false,
   autoComplete,
+  maxLength,
 }: FormInputFieldProps) {
   return (
     <div>
@@ -45,6 +47,7 @@ export default function FormInputField({
           id={id}
           type={type}
           value={value}
+          maxLength={maxLength}
           autoComplete={autoComplete}
           name={name}
           onChange={(e) => (onChange ? onChange(e.target.value) : () => {})}
