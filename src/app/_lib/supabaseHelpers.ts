@@ -5,6 +5,7 @@
  * rows into typed Major objects.
  */
 
+import { createClient } from "@/app/_lib/client";
 import { SupabaseClient } from "@supabase/supabase-js";
 import {
   EnglishSearchMajors,
@@ -368,4 +369,55 @@ export async function getSimilarMajors(
     nameAr: major.name_ar,
     minGPA: major.min_gpa,
   }));
+}
+
+export async function toggleBookmarkAction(majorId: string) {
+  const supabase = await createClient();
+
+  // Get current user
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (!user || authError) {
+    return { ok: false, error: "NOT_AUTHENTICATED" };
+  }
+
+  // Get current bookmarks
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("bookmarks")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) {
+    console.error(profileError);
+    return { ok: false, error: "PROFILE_FETCH_FAILED" };
+  }
+
+  const bookmarks: string[] = profile.bookmarks ?? [];
+
+  const isBookmarked = bookmarks.includes(majorId);
+
+  // Add or remove the boomarked major
+  const updatedBookmarks = isBookmarked
+    ? bookmarks.filter((id) => id !== majorId)
+    : [...bookmarks, majorId];
+
+  // Update the current user's bookmarks
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ bookmarks: updatedBookmarks })
+    .eq("id", user.id);
+
+  if (updateError) {
+    console.error(updateError);
+    return { ok: false, error: "UPDATE_FAILED" };
+  }
+
+  return {
+    ok: true,
+    bookmarked: !isBookmarked,
+  };
 }

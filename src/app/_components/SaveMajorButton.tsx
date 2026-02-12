@@ -3,7 +3,7 @@
 import { BookmarkIcon } from "lucide-react";
 import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
-import { toggleBookmarkAction } from "@/app/actions/majorsActions";
+import { toggleBookmarkAction } from "@/app/_lib/supabaseHelpers";
 
 interface SaveMajorButtonProps {
   majorId: string | undefined;

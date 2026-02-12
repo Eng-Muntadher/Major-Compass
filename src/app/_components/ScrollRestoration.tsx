@@ -15,7 +15,7 @@ export function ScrollRestoration() {
 
     // 2. Reset ALL possible scroll positions on mount
     const resetAllScrolls = () => {
-      // Reset window/document scroll (the 65px bug!)
+      // Reset window/document scroll
       window.scrollTo(0, 0);
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
