@@ -29,7 +29,7 @@ function SignInForm({ translations, lang }: SignInFormProps) {
     if (searchParams.get("error") === "profile-access-denied") {
       // Profile error if user tried to access profile page without being signed in
       toast.error("Please sign in to access your profile");
-    } else {
+    } else if (searchParams.get("error") === "saved-majors-access-denied") {
       // Saved majors error if user tried to access saved majors page without being signed in
       toast.error("Please sign in to access your saved majors");
     }
