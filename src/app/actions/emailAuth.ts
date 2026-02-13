@@ -38,6 +38,13 @@ export async function signUpWithEmail(formData: FormData, lang: Lang = "en") {
     .eq("email", email)
     .maybeSingle();
 
+  if (existingProfile) {
+    return {
+      success: false,
+      message: t(lang, "emailExists"),
+    };
+  }
+
   if (checkError && checkError.code !== "PGRST116") {
     // PGRST116 is "no rows returned" which is fine
     console.error("Error checking email:", checkError);
@@ -45,13 +52,6 @@ export async function signUpWithEmail(formData: FormData, lang: Lang = "en") {
     return {
       success: false,
       message: t(lang, "errorOccurred"),
-    };
-  }
-
-  if (existingProfile) {
-    return {
-      success: false,
-      message: t(lang, "emailExists"),
     };
   }
 
