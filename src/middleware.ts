@@ -95,7 +95,7 @@ export async function middleware(request: NextRequest) {
   const pathnameHasLocale = LOCALES.some((locale) =>
     pathname.startsWith(`/${locale}/`),
   );
-
+  // about/en
   if (pathnameHasLocale) {
     return response;
   }

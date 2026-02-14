@@ -6,7 +6,7 @@ Your Guide to Finding the Perfect College Major
 
 ## Project Links
 
-- [📺 YouTube Walkthrough](soon...)
+- [📺 YouTube Walkthrough](https://youtu.be/9_FGSfCyxHw)
 - [🌐 Live Demo](https://my-major-compass.vercel.app)
 - [🎨 Figma Design](https://www.figma.com/design/gm8by2LB14qytVDY1FQIbv/College-Major-App-Design?node-id=0-1&p=f&t=FKbNg65qMxZUNmAs-0)
 

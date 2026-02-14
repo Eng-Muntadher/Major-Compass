@@ -131,7 +131,7 @@ export function Footer({ lang }: FooterProps) {
                 return (
                   <li key={link.label}>
                     <Link
-                      href={`/${lang}/${link.href}`}
+                      href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={link.ariaLabel}

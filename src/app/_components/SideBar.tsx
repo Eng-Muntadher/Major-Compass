@@ -21,6 +21,8 @@ export function Sidebar({ currentLanguage }: SidebarProps) {
   const searchParams = useSearchParams();
   const categoryURL = searchParams.get("category");
 
+  const isRTL = currentLanguage === "ar";
+
   // Texts for i18n
   const texts = {
     navigation: currentLanguage === "en" ? "Navigation" : "التنقل",
@@ -49,11 +51,19 @@ export function Sidebar({ currentLanguage }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:sticky top-16 lg:top-0 h-[calc(100vh-4rem)] lg:h-screen bg-white border-r border-gray-200
-          w-64 shrink-0 z-40 overflow-y-auto
+          fixed lg:sticky top-16 lg:top-0 h-[calc(100vh-4rem)] lg:h-screen bg-white
+          ${isRTL ? "border-l lg:border-r lg:border-l-0" : "border-r"}
+          border-gray-200 w-64 shrink-0 z-40 overflow-y-auto
           overscroll-contain
           transition-transform duration-300 ease-in-out
-          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+          ${isRTL ? "right-0 lg:right-auto" : "left-0 lg:left-auto"}
+          ${
+            isSidebarOpen
+              ? "translate-x-0"
+              : isRTL
+                ? "translate-x-full lg:translate-x-0"
+                : "-translate-x-full lg:translate-x-0"
+          }
         `}
       >
         <div className="flex flex-col h-full overflow-y-auto sidebar-scroll">
